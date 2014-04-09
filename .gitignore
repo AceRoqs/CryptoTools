@@ -1,0 +1,8 @@
+*.sdf
+*.suo
+*.user
+*.opensdf
+Debug/*
+Release/*
+CrappyCrypto/Debug/*
+CrappyCrypto/Release/*
