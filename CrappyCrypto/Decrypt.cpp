@@ -1,12 +1,14 @@
 #include "skipjack.h"
 #include <stdio.h>
+#include <cstdlib>
 
-unsigned char keyvector[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+static unsigned char keyvector[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
-unsigned char testvector[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
-unsigned char testvector2[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+static unsigned char testvector[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+static unsigned char testvector2[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
-int main(int argc, char** argv)
+//int main(int argc, char** argv)
+int Decrypt_main(int argc, char** argv)
 {
     int i, j, k;
     FILE* pInfile;
