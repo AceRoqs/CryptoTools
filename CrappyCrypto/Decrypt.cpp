@@ -20,7 +20,7 @@ int Decrypt_main(int argc, char** argv)
         exit(0);
     }
 
-    /* Build key */
+    // Build key.
     i = 0;
     while(argv[3][i] != 0)
     {
@@ -28,14 +28,14 @@ int Decrypt_main(int argc, char** argv)
         i++;
     }
 
-    /* Open input file */
+    // Open input file.
     if((pInfile = fopen(argv[1], "rb")) == 0)
     {
         fprintf(stderr, "%s: error opening %s\n", argv[0], argv[1]);
         exit(1);
     }
 
-    /* Open output file */
+    // Open output file.
     if((pOutfile = fopen(argv[2], "wb")) == 0)
     {
         fclose(pInfile);
@@ -43,7 +43,7 @@ int Decrypt_main(int argc, char** argv)
         exit(1);
     }
 
-    /* Decrypt file */
+    // Decrypt file.
     i = fread(testvector, 1, BLOCKLENGTH, pInfile);
     j = 0;
     while(!feof(pInfile))
@@ -60,8 +60,9 @@ int Decrypt_main(int argc, char** argv)
             }
         }
         else
-            fwrite(testvector, 1,
-            (dword)*(dword *)testvector2 - (j - BLOCKLENGTH), pOutfile);
+        {
+            fwrite(testvector, 1, (uint32_t)*(uint32_t *)testvector2 - (j - BLOCKLENGTH), pOutfile);
+        }
     }
 
     fclose(pInfile);

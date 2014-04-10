@@ -1,6 +1,9 @@
 #include "skipjack.h"
 #include "endian.h"
 
+#define ROUNDS 32
+#define NUM_FEISTELS 4
+
 static const unsigned char Ftable[] =
 {
     0xa3, 0xd7, 0x09, 0x83, 0xf8, 0x48, 0xf6, 0xf4,
@@ -43,19 +46,19 @@ void SJ_Encrypt(unsigned char* text, const unsigned char* key)
 
     for(counter = 1; counter <= ITER_PER_FUNC * 1; ++counter)
     {
-        RuleA((word *)text, key, counter);
+        RuleA((uint16_t *)text, key, counter);
     }
     for(; counter <= ITER_PER_FUNC * 2; ++counter)
     {
-        RuleB((word *)text, key, counter);
+        RuleB((uint16_t *)text, key, counter);
     }
     for(; counter <= ITER_PER_FUNC * 3; ++counter)
     {
-        RuleA((word *)text, key, counter);
+        RuleA((uint16_t *)text, key, counter);
     }
     for(; counter <= ITER_PER_FUNC * 4; ++counter)
     {
-        RuleB((word *)text, key, counter);
+        RuleB((uint16_t *)text, key, counter);
     }
 }
 
@@ -65,25 +68,25 @@ void SJ_Decrypt(unsigned char* text, const unsigned char* key)
 
     for(counter = ROUNDS; counter > ITER_PER_FUNC * 3; --counter)
     {
-        RuleB_1((word *)text, key, counter);
+        RuleB_1((uint16_t *)text, key, counter);
     }
     for(; counter > ITER_PER_FUNC * 2; --counter)
     {
-        RuleA_1((word *)text, key, counter);
+        RuleA_1((uint16_t *)text, key, counter);
     }
     for(; counter > ITER_PER_FUNC * 1; --counter)
     {
-        RuleB_1((word *)text, key, counter);
+        RuleB_1((uint16_t *)text, key, counter);
     }
     for(; counter > ITER_PER_FUNC * 0; --counter)
     {
-        RuleA_1((word *)text, key, counter);
+        RuleA_1((uint16_t *)text, key, counter);
     }
 }
 
-void RuleA(word* w, const unsigned char* key, word counter)
+void RuleA(uint16_t* w, const unsigned char* key, uint16_t counter)
 {
-    word temp;
+    uint16_t temp;
 
     temp = G(w[0], key, counter - 1);
     w[0] = temp ^ w[3] ^ lswap16(counter);
@@ -92,9 +95,9 @@ void RuleA(word* w, const unsigned char* key, word counter)
     w[1] = temp;
 }
 
-void RuleB(word* w, const unsigned char* key, word counter)
+void RuleB(uint16_t* w, const unsigned char* key, uint16_t counter)
 {
-    word temp;
+    uint16_t temp;
 
     temp = w[2];
     w[2] = w[0] ^ w[1] ^ lswap16(counter);
@@ -103,9 +106,9 @@ void RuleB(word* w, const unsigned char* key, word counter)
     w[3] = temp;
 }
 
-void RuleA_1(word* w, const unsigned char* key, word counter)
+void RuleA_1(uint16_t* w, const unsigned char* key, uint16_t counter)
 {
-    word temp;
+    uint16_t temp;
 
     temp = w[0] ^ w[1] ^ lswap16(counter);
     w[0] = G_1(w[1], key, counter - 1);
@@ -114,9 +117,9 @@ void RuleA_1(word* w, const unsigned char* key, word counter)
     w[3] = temp;
 }
 
-void RuleB_1(word* w, const unsigned char* key, word counter)
+void RuleB_1(uint16_t* w, const unsigned char* key, uint16_t counter)
 {
-    word temp;
+    uint16_t temp;
 
     temp = G_1(w[1], key, counter - 1);
     w[1] = temp ^ w[2] ^ lswap16(counter);
@@ -125,8 +128,8 @@ void RuleB_1(word* w, const unsigned char* key, word counter)
     w[0] = temp;
 }
 
-/* G Permutation */
-word G(word g, const unsigned char* key, int step)
+// G Permutation.
+uint16_t G(uint16_t g, const unsigned char* key, int step)
 {
     unsigned char g1, g2, g3, g4;
 
@@ -137,11 +140,11 @@ word G(word g, const unsigned char* key, int step)
     g4 = (g2 ^ Ftable[(g3 ^ key[(step + 1) % KEYLENGTH])]);
     g1 = (g3 ^ Ftable[(g4 ^ key[(step + 2) % KEYLENGTH])]);
     g2 = (g4 ^ Ftable[(g1 ^ key[(step + 3) % KEYLENGTH])]);
-    return lswap16(((word)g1 << 8) + g2);
+    return lswap16(((uint16_t)g1 << 8) + g2);
 }
 
-/* G^(-1) Permutation */
-word G_1(word g, const unsigned char* key, int step)
+// G^(-1) Permutation.
+uint16_t G_1(uint16_t g, const unsigned char* key, int step)
 {
     unsigned char g1, g2, g3, g4;
 
@@ -152,6 +155,6 @@ word G_1(word g, const unsigned char* key, int step)
     g4 = (g1 ^ Ftable[(g3 ^ key[(step + 2) % KEYLENGTH])]);
     g2 = (g3 ^ Ftable[(g4 ^ key[(step + 1) % KEYLENGTH])]);
     g1 = (g4 ^ Ftable[(g2 ^ key[step % KEYLENGTH])]);
-    return lswap16(((word)g1 << 8) + g2);
+    return lswap16(((uint16_t)g1 << 8) + g2);
 }
 

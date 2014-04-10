@@ -19,7 +19,7 @@ int Encrypt_main(int argc, char** argv)
         exit(0);
     }
 
-    /* Build key */
+    // Build key.
     i = 0;
     while(argv[3][i] != 0)
     {
@@ -27,14 +27,14 @@ int Encrypt_main(int argc, char** argv)
         i++;
     }
 
-    /* Open input file */
+    // Open input file.
     if((pInfile = fopen(argv[1], "rb")) == 0)
     {
         fprintf(stderr, "%s: error opening %s\n", argv[0], argv[1]);
         exit(1);
     }
 
-    /* Open output file */
+    // Open output file.
     if((pOutfile = fopen(argv[2], "wb")) == 0)
     {
         fclose(pInfile);
@@ -42,7 +42,7 @@ int Encrypt_main(int argc, char** argv)
         exit(1);
     }
 
-    /* Encrypt file */
+    // Encrypt file.
     j = 0;
     while(!feof(pInfile))
     {
@@ -52,13 +52,13 @@ int Encrypt_main(int argc, char** argv)
         j += i;
     }
 
-    /* The next line is not portable across endian architectures.  The
-    problem is that j might be in a register, and thus not the same
-    endian as in memory.  The next line is portable across machines
-    whose registers are big-endian (i.e. x86). */
-    (dword)*(dword *)(testvector) = (dword)j;
+    // The next line is not portable across endian architectures.  The
+    // problem is that j might be in a register, and thus not the same
+    // endian as in memory.  The next line is portable across machines
+    // whose registers are big-endian (i.e. x86).
+    (uint32_t)*(uint32_t *)(testvector) = (uint32_t)j;
 
-    fwrite(testvector, 1, sizeof(dword), pOutfile);
+    fwrite(testvector, 1, sizeof(uint32_t), pOutfile);
 
     fclose(pInfile);
     fclose(pOutfile);

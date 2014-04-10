@@ -1,14 +1,14 @@
-#ifndef __PLATFORM_H
-#define __PLATFORM_H
+#ifndef PLATFORM_H
+#define PLATFORM_H
 
-/*** Boolean definition ***/
+// Boolean definition.
 #ifndef __cplusplus
   typedef int bool;
 # define false 0
 # define true  1
 #endif
 
-/*** NULL definition ***/
+// NULL definition.
 #ifdef USE_NULL
 # ifdef __cplusplus
     const int NULL = 0;
@@ -17,58 +17,10 @@
 # endif
 #endif
 
-/*** HANDLE definition ***/
-#ifdef __cplusplus
-  typedef char **HANDLE;        /* pointer to pointer (no void* in C++) */
-#else
-  typedef void **HANDLE;
-#endif
-
-/*** Turbo C++ 3.0 definitions ***/
-#ifdef __TCPLUSPLUS__
-# define FOUND_TARGET
-  enum bool {false, true};
-# define pack
-  typedef unsigned char BYTE;   /* 8 bits */
-  typedef unsigned short WORD;  /* 16 bits */
-  typedef unsigned long DWORD;  /* 32 bits */
-#endif
-
-
-/*** GNU C++ (DJGPP) definitions ***/
-#ifdef __GNUC__
-# define FOUND_TARGET
-# define pack __attribute__ ((packed))  /* Pack structures */
-  typedef unsigned char BYTE;   /* 8 bits */
-  typedef unsigned short WORD;  /* 16 bits */
-  typedef unsigned long DWORD;  /* 32 bits */
-#endif
-
-/*** Generic compiler ***/
-#ifndef FOUND_TARGET
-# define FOUND_TARGET
-# define pack
-  typedef unsigned char BYTE;   /* 8 bits */
-  typedef unsigned short WORD;  /* 16 bits */
-  typedef unsigned long DWORD;  /* 32 bits */
-#endif
-
-#include <assert.h>
-
-/*** Platform definitions ***/
-#define INTEL 0
-#define ALPHA 1
-
-#ifndef PLATFORM
-# define PLATFORM INTEL
-#endif
-
-/*** Cleanup ***/
-typedef BYTE byte;              /* same as above */
-typedef WORD word;
-typedef DWORD dword;
+#include <cassert>
+#include <cstdint>
 
 #undef FOUND_TARGET
 
-#endif /* __PLATFORM_H */
+#endif
 

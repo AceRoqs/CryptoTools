@@ -32,22 +32,22 @@ int main()
     DispVectorAndCount(0);
     for(counter = 1; counter <= ITER_PER_FUNC * 1; ++counter)
     {
-        RuleA((word *)testvector, keyvector, counter);
+        RuleA((uint16_t *)testvector, keyvector, counter);
         DispVectorAndCount(counter);
     }
     for(; counter <= ITER_PER_FUNC * 2; ++counter)
     {
-        RuleB((word *)testvector, keyvector, counter);
+        RuleB((uint16_t *)testvector, keyvector, counter);
         DispVectorAndCount(counter);
     }
     for(; counter <= ITER_PER_FUNC * 3; ++counter)
     {
-        RuleA((word *)testvector, keyvector, counter);
+        RuleA((uint16_t *)testvector, keyvector, counter);
         DispVectorAndCount(counter);
     }
     for(; counter <= ITER_PER_FUNC * 4; ++counter)
     {
-        RuleB((word *)testvector, keyvector, counter);
+        RuleB((uint16_t *)testvector, keyvector, counter);
         DispVectorAndCount(counter);
     }
 
