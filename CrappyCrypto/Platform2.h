@@ -53,15 +53,6 @@
   typedef unsigned long DWORD;  /* 32 bits */
 #endif
 
-/*** Debugging definitions ***/
-#ifndef DEBUG
-# define DEBUG false
-#endif
-
-#if DEBUG == false
-# define NDEBUG
-#endif
-
 #include <assert.h>
 
 /*** Platform definitions ***/
