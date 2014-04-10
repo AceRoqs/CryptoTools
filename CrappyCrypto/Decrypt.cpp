@@ -1,6 +1,5 @@
+#include "PreCompile.h"
 #include "skipjack.h"
-#include <stdio.h>
-#include <cstdlib>
 
 static unsigned char keyvector[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 

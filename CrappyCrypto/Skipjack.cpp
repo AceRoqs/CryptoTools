@@ -1,3 +1,4 @@
+#include "PreCompile.h"
 #include "skipjack.h"
 #include "endian.h"
 

@@ -17,9 +17,6 @@
 # endif
 #endif
 
-#include <cassert>
-#include <cstdint>
-
 #undef FOUND_TARGET
 
 #endif
