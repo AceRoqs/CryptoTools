@@ -22,7 +22,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Endian.h" />
-    <ClInclude Include="Platform.h" />
     <ClInclude Include="PreCompile.h" />
     <ClInclude Include="Skipjack.h" />
   </ItemGroup>

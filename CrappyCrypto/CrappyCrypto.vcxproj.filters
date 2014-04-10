@@ -35,9 +35,6 @@
     <ClInclude Include="Skipjack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Platform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Endian.h">
       <Filter>Header Files</Filter>
     </ClInclude>

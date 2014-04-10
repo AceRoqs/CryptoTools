@@ -1,8 +1,6 @@
 #ifndef SKIPJACK_H
 #define SKIPJACK_H
 
-#include "platform.h"
-
 #define KEYLENGTH 10
 #define BLOCKLENGTH 8
 #define ITER_PER_FUNC 8
