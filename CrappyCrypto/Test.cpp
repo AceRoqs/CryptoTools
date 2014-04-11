@@ -32,30 +32,30 @@ int main()
     DispVectorAndCount(0);
     for(counter = 1; counter <= ITER_PER_FUNC * 1; ++counter)
     {
-        RuleA((uint16_t *)testvector, keyvector, counter);
+        CrappyCrypto::RuleA((uint16_t *)testvector, keyvector, counter);
         DispVectorAndCount(counter);
     }
     for(; counter <= ITER_PER_FUNC * 2; ++counter)
     {
-        RuleB((uint16_t *)testvector, keyvector, counter);
+        CrappyCrypto::RuleB((uint16_t *)testvector, keyvector, counter);
         DispVectorAndCount(counter);
     }
     for(; counter <= ITER_PER_FUNC * 3; ++counter)
     {
-        RuleA((uint16_t *)testvector, keyvector, counter);
+        CrappyCrypto::RuleA((uint16_t *)testvector, keyvector, counter);
         DispVectorAndCount(counter);
     }
     for(; counter <= ITER_PER_FUNC * 4; ++counter)
     {
-        RuleB((uint16_t *)testvector, keyvector, counter);
+        CrappyCrypto::RuleB((uint16_t *)testvector, keyvector, counter);
         DispVectorAndCount(counter);
     }
 
-    SJ_Encrypt(testvector2, keyvector);
+    CrappyCrypto::SJ_Encrypt(testvector2, keyvector);
     printf("\nCiphertext output: ");
     DispVector(testvector2);
 
-    SJ_Decrypt(testvector2, keyvector);
+    CrappyCrypto::SJ_Decrypt(testvector2, keyvector);
     printf("\nPlaintext reverse: ");
     DispVector(testvector2);
 

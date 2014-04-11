@@ -47,7 +47,7 @@ int Decrypt_main(int argc, char** argv)
     j = 0;
     while(!feof(pInfile))
     {
-        SJ_Decrypt(testvector, keyvector);
+        CrappyCrypto::SJ_Decrypt(testvector, keyvector);
         j += i;
         i = fread(testvector2, 1, BLOCKLENGTH, pInfile);
         if(i == BLOCKLENGTH)

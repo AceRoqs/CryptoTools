@@ -1,6 +1,9 @@
 #ifndef SKIPJACK_H
 #define SKIPJACK_H
 
+namespace CrappyCrypto
+{
+
 #define KEYLENGTH 10
 #define BLOCKLENGTH 8
 #define ITER_PER_FUNC 8
@@ -20,4 +23,6 @@
     _EXTERN uint16_t G_1(uint16_t g, const unsigned char* key, int step);
 
 #endif
+
+}
 

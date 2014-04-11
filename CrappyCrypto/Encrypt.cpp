@@ -46,7 +46,7 @@ int Encrypt_main(int argc, char** argv)
     while(!feof(pInfile))
     {
         i = fread(testvector, 1, BLOCKLENGTH, pInfile);
-        SJ_Encrypt(testvector, keyvector);
+        CrappyCrypto::SJ_Encrypt(testvector, keyvector);
         fwrite(testvector, 1, BLOCKLENGTH, pOutfile);
         j += i;
     }
