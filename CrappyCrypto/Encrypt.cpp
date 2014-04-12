@@ -1,9 +1,15 @@
 #include "PreCompile.h"
-#include "skipjack.h"
+#include "Skipjack.h"
 
-static unsigned char keyvector[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+static unsigned char keyvector[] =
+{
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+};
 
-static unsigned char testvector[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+static unsigned char testvector[] =
+{
+    0, 0, 0, 0, 0, 0, 0, 0
+};
 
 //int main(int argc, char** argv)
 int Encrypt_main(int argc, char** argv)

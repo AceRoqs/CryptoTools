@@ -1,5 +1,5 @@
 #include "PreCompile.h"
-#include "skipjack.h"
+#include "Skipjack.h"
 #include "endian.h"
 
 namespace CrappyCrypto

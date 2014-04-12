@@ -1,17 +1,43 @@
 #include "PreCompile.h"
-#include "skipjack.h"
+#include "Skipjack.h"
 
-static const unsigned char keyvector[] = {
-0x00, 0x99, 0x88, 0x77, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11 };
+static const unsigned char keyvector[] =
+{
+    0x00, 0x99, 0x88, 0x77, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11
+};
 
-static unsigned char testvector[] = {
-0x33, 0x22, 0x11, 0x00, 0xdd, 0xcc, 0xbb, 0xaa };
+static unsigned char testvector[] =
+{
+    0x33, 0x22, 0x11, 0x00, 0xdd, 0xcc, 0xbb, 0xaa
+};
 
-static unsigned char testvector2[] = {
-0x33, 0x22, 0x11, 0x00, 0xdd, 0xcc, 0xbb, 0xaa };
+static unsigned char testvector2[] =
+{
+    0x33, 0x22, 0x11, 0x00, 0xdd, 0xcc, 0xbb, 0xaa
+};
 
-void DispVector(unsigned char*);
-void DispVectorAndCount(int);
+static void DispVector(unsigned char* vector)
+{
+    int i;
+
+    for(i = 0; i < BLOCKLENGTH; ++i)
+    {
+        printf("%02x ", vector[i]);
+    }
+    printf("\n");
+}
+
+static void DispVectorAndCount(int counter)
+{
+    int i;
+
+    printf("%d\t", counter);
+    for(i = 0; i < BLOCKLENGTH; ++i)
+    {
+        printf("%02x ", testvector[i]);
+    }
+    printf("\n");
+}
 
 int main()
 {
@@ -60,28 +86,5 @@ int main()
     DispVector(testvector2);
 
     return 0;
-}
-
-void DispVector(unsigned char* vector)
-{
-    int i;
-
-    for(i = 0; i < BLOCKLENGTH; ++i)
-    {
-        printf("%02x ", vector[i]);
-    }
-    printf("\n");
-}
-
-void DispVectorAndCount(int counter)
-{
-    int i;
-
-    printf("%d\t", counter);
-    for(i = 0; i < BLOCKLENGTH; ++i)
-    {
-        printf("%02x ", testvector[i]);
-    }
-    printf("\n");
 }
 
