@@ -12,7 +12,7 @@ static unsigned char testvector[] =
 };
 
 //int main(int argc, char** argv)
-int Encrypt_main(int argc, char** argv)
+int encrypt_main(int argc, char** argv)
 {
     int i, j;
     FILE* pInfile;

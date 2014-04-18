@@ -16,7 +16,7 @@ static unsigned char testvector2[] =
     0x33, 0x22, 0x11, 0x00, 0xdd, 0xcc, 0xbb, 0xaa
 };
 
-static void DispVector(unsigned char* vector)
+static void display_vector(unsigned char* vector)
 {
     int i;
 
@@ -27,7 +27,7 @@ static void DispVector(unsigned char* vector)
     printf("\n");
 }
 
-static void DispVectorAndCount(int counter)
+static void display_vector_and_count(int counter)
 {
     int i;
 
@@ -46,7 +46,7 @@ int main()
     printf("Skipjack test vectors\n\n");
 
     printf("plaintext\t");
-    DispVector(testvector);
+    display_vector(testvector);
 
     printf("key      \t");
     for(i = 0; i < KEYLENGTH; ++i)
@@ -55,35 +55,35 @@ int main()
     }
     printf("\n\n");
 
-    DispVectorAndCount(0);
+    display_vector_and_count(0);
     for(counter = 1; counter <= ITER_PER_FUNC * 1; ++counter)
     {
         CrappyCrypto::RuleA((uint16_t *)testvector, keyvector, counter);
-        DispVectorAndCount(counter);
+        display_vector_and_count(counter);
     }
     for(; counter <= ITER_PER_FUNC * 2; ++counter)
     {
         CrappyCrypto::RuleB((uint16_t *)testvector, keyvector, counter);
-        DispVectorAndCount(counter);
+        display_vector_and_count(counter);
     }
     for(; counter <= ITER_PER_FUNC * 3; ++counter)
     {
         CrappyCrypto::RuleA((uint16_t *)testvector, keyvector, counter);
-        DispVectorAndCount(counter);
+        display_vector_and_count(counter);
     }
     for(; counter <= ITER_PER_FUNC * 4; ++counter)
     {
         CrappyCrypto::RuleB((uint16_t *)testvector, keyvector, counter);
-        DispVectorAndCount(counter);
+        display_vector_and_count(counter);
     }
 
     CrappyCrypto::SJ_Encrypt(testvector2, keyvector);
     printf("\nCiphertext output: ");
-    DispVector(testvector2);
+    display_vector(testvector2);
 
     CrappyCrypto::SJ_Decrypt(testvector2, keyvector);
     printf("\nPlaintext reverse: ");
-    DispVector(testvector2);
+    display_vector(testvector2);
 
     return 0;
 }
