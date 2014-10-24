@@ -51,7 +51,9 @@ int encrypt_main(int argc, char** argv)
     j = 0;
     while(!feof(pInfile))
     {
-        i = fread(testvector, 1, BLOCKLENGTH, pInfile);
+        // TODO: 2014: This loop is problematic, as j can overflow, and the last block encrypted may
+        // contain bytes from the previous block, as testvector is not zeroed or seeded.
+        i = (int)fread(testvector, 1, BLOCKLENGTH, pInfile);
         CrappyCrypto::SJ_Encrypt(testvector, keyvector);
         fwrite(testvector, 1, BLOCKLENGTH, pOutfile);
         j += i;
@@ -61,7 +63,7 @@ int encrypt_main(int argc, char** argv)
     // problem is that j might be in a register, and thus not the same
     // endian as in memory.  The next line is portable across machines
     // whose registers are big-endian (i.e. x86).
-    (uint32_t)*(uint32_t *)(testvector) = (uint32_t)j;
+    *(uint32_t *)(testvector) = (uint32_t)j;
 
     fwrite(testvector, 1, sizeof(uint32_t), pOutfile);
 
