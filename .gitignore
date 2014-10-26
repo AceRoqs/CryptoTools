@@ -6,3 +6,5 @@ Debug/*
 Release/*
 CrappyCrypto/Debug/*
 CrappyCrypto/Release/*
+CrappyCrypto/ipch/*
+CrappyCrypto/x64/*
