@@ -4,6 +4,7 @@
 *.opensdf
 Debug/*
 Release/*
+CrappyCrypto/ARM/*
 CrappyCrypto/Debug/*
 CrappyCrypto/Release/*
 CrappyCrypto/ipch/*
