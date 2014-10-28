@@ -46,7 +46,7 @@ static const unsigned char Ftable[] =
 
 void SJ_Encrypt(unsigned char* text, const unsigned char* key)
 {
-    int counter;
+    uint16_t counter;
 
     for(counter = 1; counter <= ITER_PER_FUNC * 1; ++counter)
     {
@@ -68,7 +68,7 @@ void SJ_Encrypt(unsigned char* text, const unsigned char* key)
 
 void SJ_Decrypt(unsigned char* text, const unsigned char* key)
 {
-    int counter;
+    uint16_t counter;
 
     for(counter = ROUNDS; counter > ITER_PER_FUNC * 3; --counter)
     {

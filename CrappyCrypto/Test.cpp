@@ -41,7 +41,7 @@ static void display_vector_and_count(int counter)
 
 int main()
 {
-    int i, counter;
+    uint16_t i, counter;
 
     printf("Skipjack test vectors\n\n");
 
