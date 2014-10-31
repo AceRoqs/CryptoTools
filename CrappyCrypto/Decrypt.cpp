@@ -18,7 +18,7 @@ static unsigned char testvector2[] =
 //int main(int argc, char** argv)
 int decrypt_main(int argc, char** argv)
 {
-    int i, j, k;
+    int i, j;
     FILE* pInfile;
     FILE* pOutfile;
 
@@ -52,25 +52,28 @@ int decrypt_main(int argc, char** argv)
     }
 
     // Decrypt file.
-    i = (int)fread(testvector, 1, BLOCKLENGTH, pInfile);
-    j = 0;
-    while(!feof(pInfile))
+    i = (int)fread(testvector2, 1, BLOCKLENGTH, pInfile);
+    if(i == BLOCKLENGTH)
     {
-        // TODO: 2014: This loop is problematic, as j can overflow.
-        CrappyCrypto::SJ_Decrypt(testvector, keyvector);
-        j += i;
-        i = (int)fread(testvector2, 1, BLOCKLENGTH, pInfile);
-        if(i == BLOCKLENGTH)
+        memcpy(testvector, testvector2, BLOCKLENGTH);
+        j = (int)fread(testvector2, 1, BLOCKLENGTH, pInfile);
+
+        while((i > 0) && !ferror(pInfile) && !ferror(pOutfile))
         {
-            fwrite(testvector, 1, BLOCKLENGTH, pOutfile);
-            for(k = 0; k < BLOCKLENGTH; ++k)
+            CrappyCrypto::SJ_Decrypt(testvector, keyvector);
+            if(j == BLOCKLENGTH)
             {
-                testvector[k] = testvector2[k];
+                fwrite(testvector, 1, BLOCKLENGTH, pOutfile);
+
+                i = j;
+                memcpy(testvector, testvector2, BLOCKLENGTH);
+                j = (int)fread(testvector2, 1, BLOCKLENGTH, pInfile);
             }
-        }
-        else
-        {
-            fwrite(testvector, 1, *(uint32_t *)testvector2 - (j - BLOCKLENGTH), pOutfile);
+            else
+            {
+                fwrite(testvector, 1, testvector2[0] <= BLOCKLENGTH ? testvector2[0] : 0, pOutfile);
+                break;
+            }
         }
     }
 
