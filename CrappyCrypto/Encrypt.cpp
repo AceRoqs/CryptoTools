@@ -14,7 +14,7 @@ static unsigned char testvector[] =
 //int main(int argc, char** argv)
 int encrypt_main(int argc, char** argv)
 {
-    int i, j;
+    int i;
     FILE* pInfile;
     FILE* pOutfile;
 
@@ -48,24 +48,26 @@ int encrypt_main(int argc, char** argv)
     }
 
     // Encrypt file.
-    j = 0;
-    while(!feof(pInfile))
+    while(!feof(pInfile) && !ferror(pInfile) && !ferror(pOutfile))
     {
-        // TODO: 2014: This loop is problematic, as j can overflow, and the last block encrypted may
-        // contain bytes from the previous block, as testvector is not zeroed or seeded.
         i = (int)fread(testvector, 1, BLOCKLENGTH, pInfile);
-        CrappyCrypto::SJ_Encrypt(testvector, keyvector);
-        fwrite(testvector, 1, BLOCKLENGTH, pOutfile);
-        j += i;
+        if(i > 0)
+        {
+            memset(testvector + i, 0, BLOCKLENGTH - i);
+            CrappyCrypto::SJ_Encrypt(testvector, keyvector);
+            fwrite(testvector, 1, BLOCKLENGTH, pOutfile);
+        }
     }
 
-    // The next line is not portable across endian architectures.  The
-    // problem is that j might be in a register, and thus not the same
-    // endian as in memory.  The next line is portable across machines
-    // whose registers are big-endian (i.e. x86).
-    *(uint32_t *)(testvector) = (uint32_t)j;
-
-    fwrite(testvector, 1, sizeof(uint32_t), pOutfile);
+    if(!ferror(pInfile) && !ferror(pOutfile))
+    {
+        uint8_t final_count = (uint8_t)(i > 0 ? i : BLOCKLENGTH );
+        fwrite(&final_count, 1, sizeof(final_count), pOutfile);
+    }
+    else
+    {
+        perror(nullptr);
+    }
 
     fclose(pInfile);
     fclose(pOutfile);
