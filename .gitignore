@@ -4,3 +4,4 @@
 *.opensdf
 Debug.*
 Release.*
+ipch/*
