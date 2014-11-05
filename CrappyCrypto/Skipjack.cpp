@@ -5,6 +5,9 @@
 namespace CrappyCrypto
 {
 
+namespace Skipjack
+{
+
 #define ROUNDS 32
 #define NUM_FEISTELS 4
 
@@ -160,6 +163,8 @@ uint16_t G_1(uint16_t g, const unsigned char* key, int step)
     g2 = (g3 ^ Ftable[(g4 ^ key[(step + 1) % KEYLENGTH])]);
     g1 = (g4 ^ Ftable[(g2 ^ key[step % KEYLENGTH])]);
     return lswap16(((uint16_t)g1 << 8) + g2);
+}
+
 }
 
 }

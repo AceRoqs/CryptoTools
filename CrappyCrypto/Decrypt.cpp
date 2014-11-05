@@ -1,6 +1,12 @@
 #include "PreCompile.h"
 #include "Skipjack.h"
 
+namespace CrappyCrypto
+{
+
+namespace Skipjack
+{
+
 static unsigned char keyvector[] =
 {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0
@@ -60,7 +66,7 @@ int decrypt_main(int argc, char** argv)
 
         while((i > 0) && !ferror(pInfile) && !ferror(pOutfile))
         {
-            CrappyCrypto::SJ_Decrypt(testvector, keyvector);
+            SJ_Decrypt(testvector, keyvector);
             if(j == BLOCKLENGTH)
             {
                 fwrite(testvector, 1, BLOCKLENGTH, pOutfile);
@@ -81,5 +87,9 @@ int decrypt_main(int argc, char** argv)
     fclose(pOutfile);
 
     return 0;
+}
+
+}
+
 }
 

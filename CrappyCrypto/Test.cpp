@@ -1,6 +1,12 @@
 #include "PreCompile.h"
 #include "Skipjack.h"
 
+namespace CrappyCrypto
+{
+
+namespace Skipjack
+{
+
 static const unsigned char keyvector[] =
 {
     0x00, 0x99, 0x88, 0x77, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11
@@ -58,33 +64,37 @@ int main()
     display_vector_and_count(0);
     for(counter = 1; counter <= ITER_PER_FUNC * 1; ++counter)
     {
-        CrappyCrypto::RuleA((uint16_t *)testvector, keyvector, counter);
+        RuleA((uint16_t *)testvector, keyvector, counter);
         display_vector_and_count(counter);
     }
     for(; counter <= ITER_PER_FUNC * 2; ++counter)
     {
-        CrappyCrypto::RuleB((uint16_t *)testvector, keyvector, counter);
+        RuleB((uint16_t *)testvector, keyvector, counter);
         display_vector_and_count(counter);
     }
     for(; counter <= ITER_PER_FUNC * 3; ++counter)
     {
-        CrappyCrypto::RuleA((uint16_t *)testvector, keyvector, counter);
+        RuleA((uint16_t *)testvector, keyvector, counter);
         display_vector_and_count(counter);
     }
     for(; counter <= ITER_PER_FUNC * 4; ++counter)
     {
-        CrappyCrypto::RuleB((uint16_t *)testvector, keyvector, counter);
+        RuleB((uint16_t *)testvector, keyvector, counter);
         display_vector_and_count(counter);
     }
 
-    CrappyCrypto::SJ_Encrypt(testvector2, keyvector);
+    SJ_Encrypt(testvector2, keyvector);
     printf("\nCiphertext output: ");
     display_vector(testvector2);
 
-    CrappyCrypto::SJ_Decrypt(testvector2, keyvector);
+    SJ_Decrypt(testvector2, keyvector);
     printf("\nPlaintext reverse: ");
     display_vector(testvector2);
 
     return 0;
+}
+
+}
+
 }
 
