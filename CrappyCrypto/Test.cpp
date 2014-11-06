@@ -26,7 +26,7 @@ static void display_vector(unsigned char* vector)
 {
     int i;
 
-    for(i = 0; i < BLOCKLENGTH; ++i)
+    for(i = 0; i < block_length; ++i)
     {
         printf("%02x ", vector[i]);
     }
@@ -38,7 +38,7 @@ static void display_vector_and_count(int counter)
     int i;
 
     printf("%d\t", counter);
-    for(i = 0; i < BLOCKLENGTH; ++i)
+    for(i = 0; i < block_length; ++i)
     {
         printf("%02x ", testvector[i]);
     }
@@ -55,29 +55,29 @@ int main()
     display_vector(testvector);
 
     printf("key      \t");
-    for(i = 0; i < KEYLENGTH; ++i)
+    for(i = 0; i < key_length; ++i)
     {
         printf("%02x ", keyvector[i]);
     }
     printf("\n\n");
 
     display_vector_and_count(0);
-    for(counter = 1; counter <= ITER_PER_FUNC * 1; ++counter)
+    for(counter = 1; counter <= iter_per_func * 1; ++counter)
     {
         RuleA((uint16_t *)testvector, keyvector, counter);
         display_vector_and_count(counter);
     }
-    for(; counter <= ITER_PER_FUNC * 2; ++counter)
+    for(; counter <= iter_per_func * 2; ++counter)
     {
         RuleB((uint16_t *)testvector, keyvector, counter);
         display_vector_and_count(counter);
     }
-    for(; counter <= ITER_PER_FUNC * 3; ++counter)
+    for(; counter <= iter_per_func * 3; ++counter)
     {
         RuleA((uint16_t *)testvector, keyvector, counter);
         display_vector_and_count(counter);
     }
-    for(; counter <= ITER_PER_FUNC * 4; ++counter)
+    for(; counter <= iter_per_func * 4; ++counter)
     {
         RuleB((uint16_t *)testvector, keyvector, counter);
         display_vector_and_count(counter);

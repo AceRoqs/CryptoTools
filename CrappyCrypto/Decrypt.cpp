@@ -38,7 +38,7 @@ int decrypt_main(int argc, char** argv)
     i = 0;
     while(argv[3][i] != 0)
     {
-        keyvector[i % KEYLENGTH] ^= argv[3][i];
+        keyvector[i % key_length] ^= argv[3][i];
         i++;
     }
 
@@ -58,26 +58,26 @@ int decrypt_main(int argc, char** argv)
     }
 
     // Decrypt file.
-    i = (int)fread(testvector2, 1, BLOCKLENGTH, pInfile);
-    if(i == BLOCKLENGTH)
+    i = (int)fread(testvector2, 1, block_length, pInfile);
+    if(i == block_length)
     {
-        memcpy(testvector, testvector2, BLOCKLENGTH);
-        j = (int)fread(testvector2, 1, BLOCKLENGTH, pInfile);
+        memcpy(testvector, testvector2, block_length);
+        j = (int)fread(testvector2, 1, block_length, pInfile);
 
         while((i > 0) && !ferror(pInfile) && !ferror(pOutfile))
         {
             SJ_Decrypt(testvector, keyvector);
-            if(j == BLOCKLENGTH)
+            if(j == block_length)
             {
-                fwrite(testvector, 1, BLOCKLENGTH, pOutfile);
+                fwrite(testvector, 1, block_length, pOutfile);
 
                 i = j;
-                memcpy(testvector, testvector2, BLOCKLENGTH);
-                j = (int)fread(testvector2, 1, BLOCKLENGTH, pInfile);
+                memcpy(testvector, testvector2, block_length);
+                j = (int)fread(testvector2, 1, block_length, pInfile);
             }
             else
             {
-                fwrite(testvector, 1, testvector2[0] <= BLOCKLENGTH ? testvector2[0] : 0, pOutfile);
+                fwrite(testvector, 1, testvector2[0] <= block_length ? testvector2[0] : 0, pOutfile);
                 break;
             }
         }

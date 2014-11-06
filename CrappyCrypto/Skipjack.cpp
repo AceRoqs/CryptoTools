@@ -8,8 +8,8 @@ namespace CrappyCrypto
 namespace Skipjack
 {
 
-#define ROUNDS 32
-#define NUM_FEISTELS 4
+const int num_rounds = 32;
+const int num_feistels = 4;
 
 static const unsigned char Ftable[] =
 {
@@ -51,19 +51,19 @@ void SJ_Encrypt(unsigned char* text, const unsigned char* key)
 {
     uint16_t counter;
 
-    for(counter = 1; counter <= ITER_PER_FUNC * 1; ++counter)
+    for(counter = 1; counter <= iter_per_func * 1; ++counter)
     {
         RuleA((uint16_t *)text, key, counter);
     }
-    for(; counter <= ITER_PER_FUNC * 2; ++counter)
+    for(; counter <= iter_per_func * 2; ++counter)
     {
         RuleB((uint16_t *)text, key, counter);
     }
-    for(; counter <= ITER_PER_FUNC * 3; ++counter)
+    for(; counter <= iter_per_func * 3; ++counter)
     {
         RuleA((uint16_t *)text, key, counter);
     }
-    for(; counter <= ITER_PER_FUNC * 4; ++counter)
+    for(; counter <= iter_per_func * 4; ++counter)
     {
         RuleB((uint16_t *)text, key, counter);
     }
@@ -73,19 +73,19 @@ void SJ_Decrypt(unsigned char* text, const unsigned char* key)
 {
     uint16_t counter;
 
-    for(counter = ROUNDS; counter > ITER_PER_FUNC * 3; --counter)
+    for(counter = num_rounds; counter > iter_per_func * 3; --counter)
     {
         RuleB_1((uint16_t *)text, key, counter);
     }
-    for(; counter > ITER_PER_FUNC * 2; --counter)
+    for(; counter > iter_per_func * 2; --counter)
     {
         RuleA_1((uint16_t *)text, key, counter);
     }
-    for(; counter > ITER_PER_FUNC * 1; --counter)
+    for(; counter > iter_per_func * 1; --counter)
     {
         RuleB_1((uint16_t *)text, key, counter);
     }
-    for(; counter > ITER_PER_FUNC * 0; --counter)
+    for(; counter > iter_per_func * 0; --counter)
     {
         RuleA_1((uint16_t *)text, key, counter);
     }
@@ -140,13 +140,13 @@ uint16_t G(uint16_t g, const unsigned char* key, int step)
 {
     unsigned char g1, g2, g3, g4;
 
-    step <<= (NUM_FEISTELS >> 1);
+    step <<= (num_feistels >> 1);
     g1 = (lswap16(g) >> 8) & 0xff;
     g2 = lswap16(g) & 0xff;
-    g3 = (g1 ^ Ftable[(g2 ^ key[step % KEYLENGTH])]);
-    g4 = (g2 ^ Ftable[(g3 ^ key[(step + 1) % KEYLENGTH])]);
-    g1 = (g3 ^ Ftable[(g4 ^ key[(step + 2) % KEYLENGTH])]);
-    g2 = (g4 ^ Ftable[(g1 ^ key[(step + 3) % KEYLENGTH])]);
+    g3 = (g1 ^ Ftable[(g2 ^ key[step % key_length])]);
+    g4 = (g2 ^ Ftable[(g3 ^ key[(step + 1) % key_length])]);
+    g1 = (g3 ^ Ftable[(g4 ^ key[(step + 2) % key_length])]);
+    g2 = (g4 ^ Ftable[(g1 ^ key[(step + 3) % key_length])]);
     return lswap16(((uint16_t)g1 << 8) + g2);
 }
 
@@ -155,13 +155,13 @@ uint16_t G_1(uint16_t g, const unsigned char* key, int step)
 {
     unsigned char g1, g2, g3, g4;
 
-    step <<= (NUM_FEISTELS >> 1);
+    step <<= (num_feistels >> 1);
     g1 = (lswap16(g) >> 8) & 0xff;
     g2 = lswap16(g) & 0xff;
-    g3 = (g2 ^ Ftable[(g1 ^ key[(step + 3) % KEYLENGTH])]);
-    g4 = (g1 ^ Ftable[(g3 ^ key[(step + 2) % KEYLENGTH])]);
-    g2 = (g3 ^ Ftable[(g4 ^ key[(step + 1) % KEYLENGTH])]);
-    g1 = (g4 ^ Ftable[(g2 ^ key[step % KEYLENGTH])]);
+    g3 = (g2 ^ Ftable[(g1 ^ key[(step + 3) % key_length])]);
+    g4 = (g1 ^ Ftable[(g3 ^ key[(step + 2) % key_length])]);
+    g2 = (g3 ^ Ftable[(g4 ^ key[(step + 1) % key_length])]);
+    g1 = (g4 ^ Ftable[(g2 ^ key[step % key_length])]);
     return lswap16(((uint16_t)g1 << 8) + g2);
 }
 

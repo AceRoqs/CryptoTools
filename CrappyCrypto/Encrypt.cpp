@@ -34,7 +34,7 @@ int encrypt_main(int argc, char** argv)
     i = 0;
     while(argv[3][i] != 0)
     {
-        keyvector[i % KEYLENGTH] ^= argv[3][i];
+        keyvector[i % key_length] ^= argv[3][i];
         i++;
     }
 
@@ -56,18 +56,18 @@ int encrypt_main(int argc, char** argv)
     // Encrypt file.
     while(!feof(pInfile) && !ferror(pInfile) && !ferror(pOutfile))
     {
-        i = (int)fread(testvector, 1, BLOCKLENGTH, pInfile);
+        i = (int)fread(testvector, 1, block_length, pInfile);
         if(i > 0)
         {
-            memset(testvector + i, 0, BLOCKLENGTH - i);
+            memset(testvector + i, 0, block_length - i);
             SJ_Encrypt(testvector, keyvector);
-            fwrite(testvector, 1, BLOCKLENGTH, pOutfile);
+            fwrite(testvector, 1, block_length, pOutfile);
         }
     }
 
     if(!ferror(pInfile) && !ferror(pOutfile))
     {
-        uint8_t final_count = (uint8_t)(i > 0 ? i : BLOCKLENGTH );
+        uint8_t final_count = (uint8_t)(i > 0 ? i : block_length );
         fwrite(&final_count, 1, sizeof(final_count), pOutfile);
     }
     else

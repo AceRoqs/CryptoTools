@@ -7,9 +7,9 @@ namespace CrappyCrypto
 namespace Skipjack
 {
 
-#define KEYLENGTH 10
-#define BLOCKLENGTH 8
-#define ITER_PER_FUNC 8
+const int key_length = 10;
+const int block_length = 8;
+const int iter_per_func = 8;
 
 void SJ_Encrypt(unsigned char* text, const unsigned char* key);
 void SJ_Decrypt(unsigned char* text, const unsigned char* key);
