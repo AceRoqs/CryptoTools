@@ -7,21 +7,6 @@ namespace CrappyCrypto
 namespace Skipjack
 {
 
-static const unsigned char keyvector[] =
-{
-    0x00, 0x99, 0x88, 0x77, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11
-};
-
-static unsigned char testvector[] =
-{
-    0x33, 0x22, 0x11, 0x00, 0xdd, 0xcc, 0xbb, 0xaa
-};
-
-static unsigned char testvector2[] =
-{
-    0x33, 0x22, 0x11, 0x00, 0xdd, 0xcc, 0xbb, 0xaa
-};
-
 static void display_vector(unsigned char* vector)
 {
     int i;
@@ -33,20 +18,35 @@ static void display_vector(unsigned char* vector)
     printf("\n");
 }
 
-static void display_vector_and_count(int counter)
+static void display_vector_and_count(unsigned char* vector, int counter)
 {
     int i;
 
     printf("%d\t", counter);
     for(i = 0; i < block_length; ++i)
     {
-        printf("%02x ", testvector[i]);
+        printf("%02x ", vector[i]);
     }
     printf("\n");
 }
 
 int main()
 {
+    const unsigned char keyvector[] =
+    {
+        0x00, 0x99, 0x88, 0x77, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11
+    };
+
+    unsigned char testvector[] =
+    {
+        0x33, 0x22, 0x11, 0x00, 0xdd, 0xcc, 0xbb, 0xaa
+    };
+
+    unsigned char testvector2[] =
+    {
+        0x33, 0x22, 0x11, 0x00, 0xdd, 0xcc, 0xbb, 0xaa
+    };
+
     uint16_t i, counter;
 
     printf("Skipjack test vectors\n\n");
@@ -61,26 +61,26 @@ int main()
     }
     printf("\n\n");
 
-    display_vector_and_count(0);
+    display_vector_and_count(testvector, 0);
     for(counter = 1; counter <= iter_per_func * 1; ++counter)
     {
         RuleA((uint16_t *)testvector, keyvector, counter);
-        display_vector_and_count(counter);
+        display_vector_and_count(testvector, counter);
     }
     for(; counter <= iter_per_func * 2; ++counter)
     {
         RuleB((uint16_t *)testvector, keyvector, counter);
-        display_vector_and_count(counter);
+        display_vector_and_count(testvector, counter);
     }
     for(; counter <= iter_per_func * 3; ++counter)
     {
         RuleA((uint16_t *)testvector, keyvector, counter);
-        display_vector_and_count(counter);
+        display_vector_and_count(testvector, counter);
     }
     for(; counter <= iter_per_func * 4; ++counter)
     {
         RuleB((uint16_t *)testvector, keyvector, counter);
-        display_vector_and_count(counter);
+        display_vector_and_count(testvector, counter);
     }
 
     SJ_Encrypt(testvector2, keyvector);

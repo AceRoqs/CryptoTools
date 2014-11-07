@@ -7,19 +7,12 @@ namespace CrappyCrypto
 namespace Skipjack
 {
 
-static unsigned char keyvector[] =
-{
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-};
-
-static unsigned char testvector[] =
-{
-    0, 0, 0, 0, 0, 0, 0, 0
-};
-
 //int main(int argc, char** argv)
 int encrypt_main(int argc, char** argv)
 {
+    unsigned char keyvector[key_length] = {};
+    unsigned char testvector[block_length] = {};
+
     int i;
     FILE* pInfile;
     FILE* pOutfile;
