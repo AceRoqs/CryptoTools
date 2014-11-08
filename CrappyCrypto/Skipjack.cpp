@@ -96,7 +96,7 @@ void RuleA(uint16_t* w, const unsigned char* key, uint16_t counter)
     uint16_t temp;
 
     temp = G(w[0], key, counter - 1);
-    w[0] = temp ^ w[3] ^ lswap16(counter);
+    w[0] = temp ^ w[3] ^ PortableRuntime::lswap16(counter);
     w[3] = w[2];
     w[2] = w[1];
     w[1] = temp;
@@ -107,7 +107,7 @@ void RuleB(uint16_t* w, const unsigned char* key, uint16_t counter)
     uint16_t temp;
 
     temp = w[2];
-    w[2] = w[0] ^ w[1] ^ lswap16(counter);
+    w[2] = w[0] ^ w[1] ^ PortableRuntime::lswap16(counter);
     w[1] = G(w[0], key, counter - 1);
     w[0] = w[3];
     w[3] = temp;
@@ -117,7 +117,7 @@ void RuleA_1(uint16_t* w, const unsigned char* key, uint16_t counter)
 {
     uint16_t temp;
 
-    temp = w[0] ^ w[1] ^ lswap16(counter);
+    temp = w[0] ^ w[1] ^ PortableRuntime::lswap16(counter);
     w[0] = G_1(w[1], key, counter - 1);
     w[1] = w[2];
     w[2] = w[3];
@@ -129,7 +129,7 @@ void RuleB_1(uint16_t* w, const unsigned char* key, uint16_t counter)
     uint16_t temp;
 
     temp = G_1(w[1], key, counter - 1);
-    w[1] = temp ^ w[2] ^ lswap16(counter);
+    w[1] = temp ^ w[2] ^ PortableRuntime::lswap16(counter);
     w[2] = w[3];
     w[3] = w[0];
     w[0] = temp;
@@ -141,13 +141,13 @@ uint16_t G(uint16_t g, const unsigned char* key, int step)
     unsigned char g1, g2, g3, g4;
 
     step <<= (num_feistels >> 1);
-    g1 = (lswap16(g) >> 8) & 0xff;
-    g2 = lswap16(g) & 0xff;
+    g1 = (PortableRuntime::lswap16(g) >> 8) & 0xff;
+    g2 = PortableRuntime::lswap16(g) & 0xff;
     g3 = (g1 ^ Ftable[(g2 ^ key[step % key_length])]);
     g4 = (g2 ^ Ftable[(g3 ^ key[(step + 1) % key_length])]);
     g1 = (g3 ^ Ftable[(g4 ^ key[(step + 2) % key_length])]);
     g2 = (g4 ^ Ftable[(g1 ^ key[(step + 3) % key_length])]);
-    return lswap16(((uint16_t)g1 << 8) + g2);
+    return PortableRuntime::lswap16(((uint16_t)g1 << 8) + g2);
 }
 
 // G^(-1) Permutation.
@@ -156,13 +156,13 @@ uint16_t G_1(uint16_t g, const unsigned char* key, int step)
     unsigned char g1, g2, g3, g4;
 
     step <<= (num_feistels >> 1);
-    g1 = (lswap16(g) >> 8) & 0xff;
-    g2 = lswap16(g) & 0xff;
+    g1 = (PortableRuntime::lswap16(g) >> 8) & 0xff;
+    g2 = PortableRuntime::lswap16(g) & 0xff;
     g3 = (g2 ^ Ftable[(g1 ^ key[(step + 3) % key_length])]);
     g4 = (g1 ^ Ftable[(g3 ^ key[(step + 2) % key_length])]);
     g2 = (g3 ^ Ftable[(g4 ^ key[(step + 1) % key_length])]);
     g1 = (g4 ^ Ftable[(g2 ^ key[step % key_length])]);
-    return lswap16(((uint16_t)g1 << 8) + g2);
+    return PortableRuntime::lswap16(((uint16_t)g1 << 8) + g2);
 }
 
 }
