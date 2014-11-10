@@ -1,5 +1,4 @@
-#ifndef SKIPJACK_H
-#define SKIPJACK_H
+#pragma once
 
 namespace CrappyCrypto
 {
@@ -23,6 +22,4 @@ uint16_t g_permutation_inverse(uint16_t g, const unsigned char* key, int step);
 }
 
 }
-
-#endif
 

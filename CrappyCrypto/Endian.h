@@ -1,5 +1,4 @@
-#ifndef ENDIAN_H
-#define ENDIAN_H
+#pragma once
 
 namespace PortableRuntime
 {
@@ -10,6 +9,4 @@ uint32_t lswap32(uint32_t value);
 uint32_t bswap32(uint32_t value);
 
 }
-
-#endif
 
