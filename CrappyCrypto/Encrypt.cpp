@@ -53,7 +53,7 @@ int encrypt_main(int argc, char** argv)
         if(i > 0)
         {
             memset(testvector + i, 0, block_length - i);
-            SJ_Encrypt(testvector, keyvector);
+            encrypt(testvector, keyvector);
             fwrite(testvector, 1, block_length, pOutfile);
         }
     }

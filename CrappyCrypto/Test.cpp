@@ -30,8 +30,12 @@ static void display_vector_and_count(unsigned char* vector, int counter)
     printf("\n");
 }
 
-int main()
+int test_main(int argc, char** argv)
 {
+    // Unreferenced parameters.
+    (argc);
+    (argv);
+
     const unsigned char keyvector[] =
     {
         0x00, 0x99, 0x88, 0x77, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11
@@ -64,30 +68,30 @@ int main()
     display_vector_and_count(testvector, 0);
     for(counter = 1; counter <= iter_per_func * 1; ++counter)
     {
-        RuleA((uint16_t *)testvector, keyvector, counter);
+        rule_a((uint16_t *)testvector, keyvector, counter);
         display_vector_and_count(testvector, counter);
     }
     for(; counter <= iter_per_func * 2; ++counter)
     {
-        RuleB((uint16_t *)testvector, keyvector, counter);
+        rule_b((uint16_t *)testvector, keyvector, counter);
         display_vector_and_count(testvector, counter);
     }
     for(; counter <= iter_per_func * 3; ++counter)
     {
-        RuleA((uint16_t *)testvector, keyvector, counter);
+        rule_a((uint16_t *)testvector, keyvector, counter);
         display_vector_and_count(testvector, counter);
     }
     for(; counter <= iter_per_func * 4; ++counter)
     {
-        RuleB((uint16_t *)testvector, keyvector, counter);
+        rule_b((uint16_t *)testvector, keyvector, counter);
         display_vector_and_count(testvector, counter);
     }
 
-    SJ_Encrypt(testvector2, keyvector);
+    encrypt(testvector2, keyvector);
     printf("\nCiphertext output: ");
     display_vector(testvector2);
 
-    SJ_Decrypt(testvector2, keyvector);
+    decrypt(testvector2, keyvector);
     printf("\nPlaintext reverse: ");
     display_vector(testvector2);
 

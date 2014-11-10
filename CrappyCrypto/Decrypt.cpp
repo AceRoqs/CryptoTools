@@ -7,7 +7,6 @@ namespace CrappyCrypto
 namespace Skipjack
 {
 
-//int main(int argc, char** argv)
 int decrypt_main(int argc, char** argv)
 {
     unsigned char keyvector[key_length] = {};
@@ -56,7 +55,7 @@ int decrypt_main(int argc, char** argv)
 
         while((i > 0) && !ferror(pInfile) && !ferror(pOutfile))
         {
-            SJ_Decrypt(testvector, keyvector);
+            decrypt(testvector, keyvector);
             if(j == block_length)
             {
                 fwrite(testvector, 1, block_length, pOutfile);
