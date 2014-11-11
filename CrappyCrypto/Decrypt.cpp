@@ -9,9 +9,9 @@ namespace Skipjack
 
 int decrypt_main(int argc, char** argv)
 {
-    unsigned char keyvector[key_length] = {};
-    unsigned char testvector[block_length] = {};
-    unsigned char testvector2[block_length] = {};
+    uint8_t keyvector[key_length] = {};
+    uint8_t testvector[block_length] = {};
+    uint8_t testvector2[block_length] = {};
 
     int i, j;
     FILE* pInfile;

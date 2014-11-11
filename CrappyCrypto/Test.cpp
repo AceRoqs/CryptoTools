@@ -36,17 +36,17 @@ int test_main(int argc, char** argv)
     (argc);
     (argv);
 
-    const unsigned char keyvector[] =
+    const uint8_t keyvector[] =
     {
         0x00, 0x99, 0x88, 0x77, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11
     };
 
-    unsigned char testvector[] =
+    uint8_t testvector[] =
     {
         0x33, 0x22, 0x11, 0x00, 0xdd, 0xcc, 0xbb, 0xaa
     };
 
-    unsigned char testvector2[] =
+    uint8_t testvector2[] =
     {
         0x33, 0x22, 0x11, 0x00, 0xdd, 0xcc, 0xbb, 0xaa
     };
@@ -68,22 +68,22 @@ int test_main(int argc, char** argv)
     display_vector_and_count(testvector, 0);
     for(counter = 1; counter <= iter_per_func * 1; ++counter)
     {
-        rule_a((uint16_t *)testvector, keyvector, counter);
+        rule_a(testvector, keyvector, counter);
         display_vector_and_count(testvector, counter);
     }
     for(; counter <= iter_per_func * 2; ++counter)
     {
-        rule_b((uint16_t *)testvector, keyvector, counter);
+        rule_b(testvector, keyvector, counter);
         display_vector_and_count(testvector, counter);
     }
     for(; counter <= iter_per_func * 3; ++counter)
     {
-        rule_a((uint16_t *)testvector, keyvector, counter);
+        rule_a(testvector, keyvector, counter);
         display_vector_and_count(testvector, counter);
     }
     for(; counter <= iter_per_func * 4; ++counter)
     {
-        rule_b((uint16_t *)testvector, keyvector, counter);
+        rule_b(testvector, keyvector, counter);
         display_vector_and_count(testvector, counter);
     }
 
