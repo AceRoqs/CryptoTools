@@ -7,69 +7,65 @@ namespace CrappyCrypto
 namespace Skipjack
 {
 
-//int main(int argc, char** argv)
 int encrypt_main(int argc, char** argv)
 {
-    uint8_t keyvector[key_length] = {};
-    uint8_t testvector[block_length] = {};
-
-    int i;
-    FILE* pInfile;
-    FILE* pOutfile;
-
     if(argc != 4)
     {
         fprintf(stderr, "Usage: %s infile outfile key", argv[0]);
         exit(0);
     }
 
-    // Build key.
-    i = 0;
-    while(argv[3][i] != 0)
-    {
-        keyvector[i % key_length] ^= argv[3][i];
-        i++;
-    }
-
     // Open input file.
-    if((pInfile = fopen(argv[1], "rb")) == 0)
+    FILE* input_file = fopen(argv[1], "rb");
+    if(input_file == nullptr)
     {
         fprintf(stderr, "%s: error opening %s\n", argv[0], argv[1]);
         exit(1);
     }
 
     // Open output file.
-    if((pOutfile = fopen(argv[2], "wb")) == 0)
+    FILE* output_file = fopen(argv[2], "wb");
+    if(output_file == nullptr)
     {
-        fclose(pInfile);
+        fclose(input_file);
         fprintf(stderr, "%s: error opening %s\n", argv[0], argv[2]);
         exit(1);
     }
 
-    // Encrypt file.
-    while(!feof(pInfile) && !ferror(pInfile) && !ferror(pOutfile))
+    // Build key.
+    // NOTE: Since the input is ASCII, most bits have no chance at being set, which limits the range of keys.
+    uint8_t keyvector[key_length] = {};
+    for(size_t ix = 0; argv[3][ix] != '\0'; ++ix)
     {
-        i = (int)fread(testvector, 1, block_length, pInfile);
-        if(i > 0)
+        keyvector[ix % key_length] ^= argv[3][ix];
+    }
+
+    // Encrypt file.
+    size_t count = 0;
+    while(!feof(input_file) && !ferror(input_file) && !ferror(output_file))
+    {
+        uint8_t block[block_length];
+        count = fread(block, 1, block_length, input_file);
+        if(count > 0)
         {
-            memset(testvector + i, 0, block_length - i);
-            encrypt(testvector, keyvector);
-            fwrite(testvector, 1, block_length, pOutfile);
+            memset(block + count, 0, block_length - count);
+            encrypt(block, keyvector);
+            fwrite(block, 1, block_length, output_file);
         }
     }
 
-    if(!ferror(pInfile) && !ferror(pOutfile))
+    if(!ferror(input_file) && !ferror(output_file))
     {
-        uint8_t final_count = (uint8_t)(i > 0 ? i : block_length );
-        fwrite(&final_count, 1, sizeof(final_count), pOutfile);
+        uint8_t final_count = static_cast<uint8_t>(count > 0 ? count : block_length );
+        fwrite(&final_count, 1, sizeof(final_count), output_file);
     }
     else
     {
         perror(nullptr);
     }
 
-    fclose(pInfile);
-    fclose(pOutfile);
+    fclose(input_file);
+    fclose(output_file);
 
     return 0;
 }
