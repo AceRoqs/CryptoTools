@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "Skipjack.h"
+#include "Keys.h"
 
 namespace CrappyCrypto
 {
@@ -33,14 +34,8 @@ int decrypt_main(int argc, char** argv)
     }
 
     // Build key.
-    // This needs to match the code in Encrypt.cpp.
-    // TODO: Share this code.
-    // NOTE: Since the input is ASCII, most bits have no chance at being set, which limits the range of keys.
-    uint8_t keyvector[key_length] = {};
-    for(size_t ix = 0; argv[3][ix] != '\0'; ++ix)
-    {
-        keyvector[ix % key_length] ^= argv[3][ix];
-    }
+    uint8_t key_vector[key_length];
+    key_vector_from_string(key_vector, sizeof(key_vector), argv[3]);
 
     // Decrypt file.
     uint8_t current_block[block_length];
@@ -53,7 +48,7 @@ int decrypt_main(int argc, char** argv)
 
         while((current_block_length > 0) && !ferror(input_file) && !ferror(output_file))
         {
-            decrypt(current_block, keyvector);
+            decrypt(current_block, key_vector);
             if(next_block_length == block_length)
             {
                 fwrite(current_block, 1, block_length, output_file);

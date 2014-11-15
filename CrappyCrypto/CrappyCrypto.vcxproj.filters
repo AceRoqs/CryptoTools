@@ -24,6 +24,9 @@
     <ClInclude Include="Skipjack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Keys.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Decrypt.cpp">
@@ -42,6 +45,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Endian.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Keys.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

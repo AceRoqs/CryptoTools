@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "Skipjack.h"
+#include "Keys.h"
 
 namespace CrappyCrypto
 {
@@ -33,12 +34,8 @@ int encrypt_main(int argc, char** argv)
     }
 
     // Build key.
-    // NOTE: Since the input is ASCII, most bits have no chance at being set, which limits the range of keys.
-    uint8_t keyvector[key_length] = {};
-    for(size_t ix = 0; argv[3][ix] != '\0'; ++ix)
-    {
-        keyvector[ix % key_length] ^= argv[3][ix];
-    }
+    uint8_t key_vector[key_length];
+    key_vector_from_string(key_vector, sizeof(key_vector), argv[3]);
 
     // Encrypt file.
     size_t count = 0;
@@ -49,7 +46,7 @@ int encrypt_main(int argc, char** argv)
         if(count > 0)
         {
             memset(block + count, 0, block_length - count);
-            encrypt(block, keyvector);
+            encrypt(block, key_vector);
             fwrite(block, 1, block_length, output_file);
         }
     }
