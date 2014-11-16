@@ -7,27 +7,19 @@ namespace CrappyCrypto
 namespace Skipjack
 {
 
-static void display_vector(unsigned char* vector)
+static void display_vector(const uint8_t* vector, size_t length)
 {
-    int i;
-
-    for(i = 0; i < block_length; ++i)
+    for(size_t ix = 0; ix < length; ++ix)
     {
-        printf("%02x ", vector[i]);
+        printf("%02x ", vector[ix]);
     }
     printf("\n");
 }
 
-static void display_vector_and_count(unsigned char* vector, int counter)
+static void display_count_and_vector(unsigned int counter, const uint8_t* vector, size_t length)
 {
-    int i;
-
-    printf("%d\t", counter);
-    for(i = 0; i < block_length; ++i)
-    {
-        printf("%02x ", vector[i]);
-    }
-    printf("\n");
+    printf("%u: ", counter);
+    display_vector(vector, length);
 }
 
 int test_main(int argc, char** argv)
@@ -36,64 +28,57 @@ int test_main(int argc, char** argv)
     (argc);
     (argv);
 
-    const uint8_t keyvector[] =
+    const uint8_t key_vector[] =
     {
         0x00, 0x99, 0x88, 0x77, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11
     };
 
-    uint8_t testvector[] =
+    uint8_t test_vector[] =
     {
         0x33, 0x22, 0x11, 0x00, 0xdd, 0xcc, 0xbb, 0xaa
     };
-
-    uint8_t testvector2[] =
-    {
-        0x33, 0x22, 0x11, 0x00, 0xdd, 0xcc, 0xbb, 0xaa
-    };
-
-    uint16_t i, counter;
+    uint8_t test_vector_copy[sizeof(test_vector)];
+    memcpy(test_vector_copy, test_vector, sizeof(test_vector));
 
     printf("Skipjack test vectors\n\n");
 
-    printf("plaintext\t");
-    display_vector(testvector);
+    printf("plaintext: ");
+    display_vector(test_vector, sizeof(test_vector));
 
-    printf("key      \t");
-    for(i = 0; i < key_length; ++i)
-    {
-        printf("%02x ", keyvector[i]);
-    }
-    printf("\n\n");
+    printf("key:       ");
+    display_vector(key_vector, sizeof(key_vector));
+    printf("\n");
 
-    display_vector_and_count(testvector, 0);
-    for(counter = 1; counter <= iter_per_func * 1; ++counter)
+    display_count_and_vector(0, test_vector, sizeof(test_vector));
+    uint16_t counter;
+    for(counter = 1; counter <= iterations_per_rule * 1; ++counter)
     {
-        rule_a(testvector, keyvector, counter);
-        display_vector_and_count(testvector, counter);
+        rule_a(test_vector, key_vector, counter);
+        display_count_and_vector(counter, test_vector, sizeof(test_vector));
     }
-    for(; counter <= iter_per_func * 2; ++counter)
+    for(; counter <= iterations_per_rule * 2; ++counter)
     {
-        rule_b(testvector, keyvector, counter);
-        display_vector_and_count(testvector, counter);
+        rule_b(test_vector, key_vector, counter);
+        display_count_and_vector(counter, test_vector, sizeof(test_vector));
     }
-    for(; counter <= iter_per_func * 3; ++counter)
+    for(; counter <= iterations_per_rule * 3; ++counter)
     {
-        rule_a(testvector, keyvector, counter);
-        display_vector_and_count(testvector, counter);
+        rule_a(test_vector, key_vector, counter);
+        display_count_and_vector(counter, test_vector, sizeof(test_vector));
     }
-    for(; counter <= iter_per_func * 4; ++counter)
+    for(; counter <= iterations_per_rule * 4; ++counter)
     {
-        rule_b(testvector, keyvector, counter);
-        display_vector_and_count(testvector, counter);
+        rule_b(test_vector, key_vector, counter);
+        display_count_and_vector(counter, test_vector, sizeof(test_vector));
     }
 
-    encrypt(testvector2, keyvector);
+    encrypt(test_vector_copy, key_vector);
     printf("\nCiphertext output: ");
-    display_vector(testvector2);
+    display_vector(test_vector_copy, sizeof(test_vector_copy));
 
-    decrypt(testvector2, keyvector);
+    decrypt(test_vector_copy, key_vector);
     printf("\nPlaintext reverse: ");
-    display_vector(testvector2);
+    display_vector(test_vector_copy, sizeof(test_vector_copy));
 
     return 0;
 }

@@ -51,19 +51,19 @@ void encrypt(uint8_t* block, const uint8_t* key)
 {
     uint16_t counter = 1;
 
-    for(; counter <= iter_per_func * 1; ++counter)
+    for(; counter <= iterations_per_rule * 1; ++counter)
     {
         rule_a(block, key, counter);
     }
-    for(; counter <= iter_per_func * 2; ++counter)
+    for(; counter <= iterations_per_rule * 2; ++counter)
     {
         rule_b(block, key, counter);
     }
-    for(; counter <= iter_per_func * 3; ++counter)
+    for(; counter <= iterations_per_rule * 3; ++counter)
     {
         rule_a(block, key, counter);
     }
-    for(; counter <= iter_per_func * 4; ++counter)
+    for(; counter <= iterations_per_rule * 4; ++counter)
     {
         rule_b(block, key, counter);
     }
@@ -73,19 +73,19 @@ void decrypt(uint8_t* block, const uint8_t* key)
 {
     uint16_t counter = num_rounds;
 
-    for(; counter > iter_per_func * 3; --counter)
+    for(; counter > iterations_per_rule * 3; --counter)
     {
         rule_b_inverse(block, key, counter);
     }
-    for(; counter > iter_per_func * 2; --counter)
+    for(; counter > iterations_per_rule * 2; --counter)
     {
         rule_a_inverse(block, key, counter);
     }
-    for(; counter > iter_per_func * 1; --counter)
+    for(; counter > iterations_per_rule * 1; --counter)
     {
         rule_b_inverse(block, key, counter);
     }
-    for(; counter > iter_per_func * 0; --counter)
+    for(; counter > iterations_per_rule * 0; --counter)
     {
         rule_a_inverse(block, key, counter);
     }
