@@ -9,7 +9,7 @@ namespace Skipjack
 {
 
 const int num_rounds = 32;
-const int num_feistels = 4;
+const int num_feistel_rounds = 4;
 
 static const unsigned char f_table[] =
 {
@@ -140,33 +140,33 @@ void rule_b_inverse(uint8_t* block, const uint8_t* key, uint16_t counter)
 }
 
 // G Permutation.
-uint16_t g_permutation(uint16_t w_block, const uint8_t* key, int step)
+uint16_t g_permutation(uint16_t w_block, const uint8_t* key, uint16_t step)
 {
-    unsigned char g1, g2, g3, g4;
+    uint8_t g1, g2, g3, g4;
 
-    step <<= (num_feistels >> 1);
+    step *= num_feistel_rounds;
     g1 = (PortableRuntime::lswap16(w_block) >> 8) & 0xff;
     g2 = PortableRuntime::lswap16(w_block) & 0xff;
     g3 = (g1 ^ f_table[(g2 ^ key[step % key_length])]);
     g4 = (g2 ^ f_table[(g3 ^ key[(step + 1) % key_length])]);
     g1 = (g3 ^ f_table[(g4 ^ key[(step + 2) % key_length])]);
     g2 = (g4 ^ f_table[(g1 ^ key[(step + 3) % key_length])]);
-    return PortableRuntime::lswap16(((uint16_t)g1 << 8) + g2);
+    return PortableRuntime::lswap16((static_cast<uint16_t>(g1) << 8) + g2);
 }
 
 // G^(-1) Permutation.
-uint16_t g_permutation_inverse(uint16_t w_block, const uint8_t* key, int step)
+uint16_t g_permutation_inverse(uint16_t w_block, const uint8_t* key, uint16_t step)
 {
-    unsigned char g1, g2, g3, g4;
+    uint8_t g1, g2, g3, g4;
 
-    step <<= (num_feistels >> 1);
+    step *= num_feistel_rounds;
     g1 = (PortableRuntime::lswap16(w_block) >> 8) & 0xff;
     g2 = PortableRuntime::lswap16(w_block) & 0xff;
     g3 = (g2 ^ f_table[(g1 ^ key[(step + 3) % key_length])]);
     g4 = (g1 ^ f_table[(g3 ^ key[(step + 2) % key_length])]);
     g2 = (g3 ^ f_table[(g4 ^ key[(step + 1) % key_length])]);
     g1 = (g4 ^ f_table[(g2 ^ key[step % key_length])]);
-    return PortableRuntime::lswap16(((uint16_t)g1 << 8) + g2);
+    return PortableRuntime::lswap16((static_cast<uint16_t>(g1) << 8) + g2);
 }
 
 }
