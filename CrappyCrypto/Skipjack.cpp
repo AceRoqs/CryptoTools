@@ -1,5 +1,5 @@
 #include "PreCompile.h"
-#include "Skipjack.h"
+#include "Skipjack.h"       // Pick up forward declarations to ensure correctness.
 #include "endian.h"
 
 namespace CrappyCrypto
