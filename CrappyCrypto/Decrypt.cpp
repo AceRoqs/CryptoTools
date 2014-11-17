@@ -38,11 +38,11 @@ int decrypt_main(int argc, char** argv)
     key_vector_from_string(key_vector, sizeof(key_vector), argv[3]);
 
     // Decrypt file.
-    uint8_t current_block[block_length];
     uint8_t next_block[block_length];
     size_t current_block_length = fread(next_block, 1, block_length, input_file);
     if(current_block_length == block_length)
     {
+        uint8_t current_block[block_length];
         memcpy(current_block, next_block, block_length);
         size_t next_block_length = fread(next_block, 1, block_length, input_file);
 

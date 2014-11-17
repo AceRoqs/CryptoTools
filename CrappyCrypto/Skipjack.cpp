@@ -93,10 +93,9 @@ void decrypt(uint8_t* block, const uint8_t* key)
 
 void rule_a(uint8_t* block, const uint8_t* key, uint16_t counter)
 {
-    uint16_t temp;
     uint16_t* w_block = reinterpret_cast<uint16_t*>(block);
 
-    temp = g_permutation(w_block[0], key, counter - 1);
+    uint16_t temp = g_permutation(w_block[0], key, counter - 1);
     w_block[0] = temp ^ w_block[3] ^ PortableRuntime::lswap16(counter);
     w_block[3] = w_block[2];
     w_block[2] = w_block[1];
@@ -105,10 +104,9 @@ void rule_a(uint8_t* block, const uint8_t* key, uint16_t counter)
 
 void rule_b(uint8_t* block, const uint8_t* key, uint16_t counter)
 {
-    uint16_t temp;
     uint16_t* w_block = reinterpret_cast<uint16_t*>(block);
 
-    temp = w_block[2];
+    uint16_t temp = w_block[2];
     w_block[2] = w_block[0] ^ w_block[1] ^ PortableRuntime::lswap16(counter);
     w_block[1] = g_permutation(w_block[0], key, counter - 1);
     w_block[0] = w_block[3];
@@ -117,10 +115,9 @@ void rule_b(uint8_t* block, const uint8_t* key, uint16_t counter)
 
 void rule_a_inverse(uint8_t* block, const uint8_t* key, uint16_t counter)
 {
-    uint16_t temp;
     uint16_t* w_block = reinterpret_cast<uint16_t*>(block);
 
-    temp = w_block[0] ^ w_block[1] ^ PortableRuntime::lswap16(counter);
+    uint16_t temp = w_block[0] ^ w_block[1] ^ PortableRuntime::lswap16(counter);
     w_block[0] = g_permutation_inverse(w_block[1], key, counter - 1);
     w_block[1] = w_block[2];
     w_block[2] = w_block[3];
@@ -129,10 +126,9 @@ void rule_a_inverse(uint8_t* block, const uint8_t* key, uint16_t counter)
 
 void rule_b_inverse(uint8_t* block, const uint8_t* key, uint16_t counter)
 {
-    uint16_t temp;
     uint16_t* w_block = reinterpret_cast<uint16_t*>(block);
 
-    temp = g_permutation_inverse(w_block[1], key, counter - 1);
+    uint16_t temp = g_permutation_inverse(w_block[1], key, counter - 1);
     w_block[1] = temp ^ w_block[2] ^ PortableRuntime::lswap16(counter);
     w_block[2] = w_block[3];
     w_block[3] = w_block[0];
@@ -142,13 +138,11 @@ void rule_b_inverse(uint8_t* block, const uint8_t* key, uint16_t counter)
 // G Permutation.
 uint16_t g_permutation(uint16_t w_block, const uint8_t* key, uint16_t step)
 {
-    uint8_t g1, g2, g3, g4;
-
     step *= num_feistel_rounds;
-    g1 = (PortableRuntime::lswap16(w_block) >> 8) & 0xff;
-    g2 = PortableRuntime::lswap16(w_block) & 0xff;
-    g3 = (g1 ^ f_table[(g2 ^ key[step % key_length])]);
-    g4 = (g2 ^ f_table[(g3 ^ key[(step + 1) % key_length])]);
+    uint8_t g1 = (PortableRuntime::lswap16(w_block) >> 8) & 0xff;
+    uint8_t g2 = PortableRuntime::lswap16(w_block) & 0xff;
+    uint8_t g3 = (g1 ^ f_table[(g2 ^ key[step % key_length])]);
+    uint8_t g4 = (g2 ^ f_table[(g3 ^ key[(step + 1) % key_length])]);
     g1 = (g3 ^ f_table[(g4 ^ key[(step + 2) % key_length])]);
     g2 = (g4 ^ f_table[(g1 ^ key[(step + 3) % key_length])]);
     return PortableRuntime::lswap16((static_cast<uint16_t>(g1) << 8) + g2);
@@ -157,13 +151,11 @@ uint16_t g_permutation(uint16_t w_block, const uint8_t* key, uint16_t step)
 // G^(-1) Permutation.
 uint16_t g_permutation_inverse(uint16_t w_block, const uint8_t* key, uint16_t step)
 {
-    uint8_t g1, g2, g3, g4;
-
     step *= num_feistel_rounds;
-    g1 = (PortableRuntime::lswap16(w_block) >> 8) & 0xff;
-    g2 = PortableRuntime::lswap16(w_block) & 0xff;
-    g3 = (g2 ^ f_table[(g1 ^ key[(step + 3) % key_length])]);
-    g4 = (g1 ^ f_table[(g3 ^ key[(step + 2) % key_length])]);
+    uint8_t g1 = (PortableRuntime::lswap16(w_block) >> 8) & 0xff;
+    uint8_t g2 = PortableRuntime::lswap16(w_block) & 0xff;
+    uint8_t g3 = (g2 ^ f_table[(g1 ^ key[(step + 3) % key_length])]);
+    uint8_t g4 = (g1 ^ f_table[(g3 ^ key[(step + 2) % key_length])]);
     g2 = (g3 ^ f_table[(g4 ^ key[(step + 1) % key_length])]);
     g1 = (g4 ^ f_table[(g2 ^ key[step % key_length])]);
     return PortableRuntime::lswap16((static_cast<uint16_t>(g1) << 8) + g2);
