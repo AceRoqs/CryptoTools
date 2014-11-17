@@ -8,7 +8,7 @@ namespace CrappyCrypto
 namespace Skipjack
 {
 
-int encrypt_main(int argc, char** argv)
+int encrypt_main(int argc, _In_count_(argc) char** argv)
 {
     if(argc != 4)
     {
@@ -41,11 +41,10 @@ int encrypt_main(int argc, char** argv)
     size_t count = 0;
     while(!feof(input_file) && !ferror(input_file) && !ferror(output_file))
     {
-        uint8_t block[block_length];
+        uint8_t block[block_length] = {};
         count = fread(block, 1, block_length, input_file);
         if(count > 0)
         {
-            memset(block + count, 0, block_length - count);
             encrypt(block, key_vector);
             fwrite(block, 1, block_length, output_file);
         }

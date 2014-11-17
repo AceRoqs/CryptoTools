@@ -8,7 +8,7 @@ namespace CrappyCrypto
 namespace Skipjack
 {
 
-int decrypt_main(int argc, char** argv)
+int decrypt_main(int argc, _In_count_(argc) char** argv)
 {
     if(argc != 4)
     {

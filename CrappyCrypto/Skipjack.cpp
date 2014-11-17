@@ -47,7 +47,7 @@ static const unsigned char f_table[] =
     0xbd, 0xa8, 0x3a, 0x01, 0x05, 0x59, 0x2a, 0x46
 };
 
-void encrypt(uint8_t* block, const uint8_t* key)
+void encrypt(_Inout_count_(block_length) uint8_t* block, _In_count_(key_length) const uint8_t* key)
 {
     uint16_t counter = 1;
 
@@ -69,7 +69,7 @@ void encrypt(uint8_t* block, const uint8_t* key)
     }
 }
 
-void decrypt(uint8_t* block, const uint8_t* key)
+void decrypt(_Inout_count_(block_length) uint8_t* block, _In_count_(key_length) const uint8_t* key)
 {
     uint16_t counter = num_rounds;
 
@@ -91,7 +91,7 @@ void decrypt(uint8_t* block, const uint8_t* key)
     }
 }
 
-void rule_a(uint8_t* block, const uint8_t* key, uint16_t counter)
+void rule_a(_Inout_count_(block_length) uint8_t* block, _In_count_(key_length) const uint8_t* key, uint16_t counter)
 {
     uint16_t* w_block = reinterpret_cast<uint16_t*>(block);
 
@@ -102,7 +102,7 @@ void rule_a(uint8_t* block, const uint8_t* key, uint16_t counter)
     w_block[1] = temp;
 }
 
-void rule_b(uint8_t* block, const uint8_t* key, uint16_t counter)
+void rule_b(_Inout_count_(block_length) uint8_t* block, _In_count_(key_length) const uint8_t* key, uint16_t counter)
 {
     uint16_t* w_block = reinterpret_cast<uint16_t*>(block);
 
@@ -113,7 +113,7 @@ void rule_b(uint8_t* block, const uint8_t* key, uint16_t counter)
     w_block[3] = temp;
 }
 
-void rule_a_inverse(uint8_t* block, const uint8_t* key, uint16_t counter)
+void rule_a_inverse(_Inout_count_(block_length) uint8_t* block, _In_count_(key_length) const uint8_t* key, uint16_t counter)
 {
     uint16_t* w_block = reinterpret_cast<uint16_t*>(block);
 
@@ -124,7 +124,7 @@ void rule_a_inverse(uint8_t* block, const uint8_t* key, uint16_t counter)
     w_block[3] = temp;
 }
 
-void rule_b_inverse(uint8_t* block, const uint8_t* key, uint16_t counter)
+void rule_b_inverse(_Inout_count_(block_length) uint8_t* block, _In_count_(key_length) const uint8_t* key, uint16_t counter)
 {
     uint16_t* w_block = reinterpret_cast<uint16_t*>(block);
 
@@ -136,7 +136,7 @@ void rule_b_inverse(uint8_t* block, const uint8_t* key, uint16_t counter)
 }
 
 // G Permutation.
-uint16_t g_permutation(uint16_t w_block, const uint8_t* key, uint16_t step)
+uint16_t g_permutation(uint16_t w_block, _In_count_(key_length) const uint8_t* key, uint16_t step)
 {
     step *= num_feistel_rounds;
     uint8_t g1 = (PortableRuntime::lswap16(w_block) >> 8) & 0xff;
@@ -149,7 +149,7 @@ uint16_t g_permutation(uint16_t w_block, const uint8_t* key, uint16_t step)
 }
 
 // G^(-1) Permutation.
-uint16_t g_permutation_inverse(uint16_t w_block, const uint8_t* key, uint16_t step)
+uint16_t g_permutation_inverse(uint16_t w_block, _In_count_(key_length) const uint8_t* key, uint16_t step)
 {
     step *= num_feistel_rounds;
     uint8_t g1 = (PortableRuntime::lswap16(w_block) >> 8) & 0xff;
