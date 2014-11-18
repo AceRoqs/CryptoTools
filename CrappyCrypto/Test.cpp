@@ -1,4 +1,5 @@
 #include "PreCompile.h"
+#include "Test.h"           // Pick up forward declarations to ensure correctness.
 #include "Skipjack.h"
 
 namespace CrappyCrypto

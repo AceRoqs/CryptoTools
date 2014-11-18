@@ -97,6 +97,7 @@
     <ClInclude Include="Keys.h" />
     <ClInclude Include="PreCompile.h" />
     <ClInclude Include="Skipjack.h" />
+    <ClInclude Include="Test.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Decrypt.cpp" />
