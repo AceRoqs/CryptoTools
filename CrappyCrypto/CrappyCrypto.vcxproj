@@ -56,8 +56,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <OutDir>$(SolutionDir)$(Configuration).$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)$(Configuration).obj.$(Platform)\</IntDir>
+    <OutDir>$(SolutionDir)$(Configuration).$(Platform).binaries\</OutDir>
+    <IntDir>$(SolutionDir)$(Configuration).$(Platform).objects\$(ProjectName)\</IntDir>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemDefinitionGroup>
