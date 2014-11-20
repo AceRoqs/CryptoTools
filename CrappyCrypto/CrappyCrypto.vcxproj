@@ -58,6 +58,7 @@
   <PropertyGroup>
     <OutDir>$(SolutionDir)$(Configuration).$(Platform).binaries\</OutDir>
     <IntDir>$(SolutionDir)$(Configuration).$(Platform).objects\$(ProjectName)\</IntDir>
+    <GeneratedFilesDir>$(IntDir)</GeneratedFilesDir>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemDefinitionGroup>
