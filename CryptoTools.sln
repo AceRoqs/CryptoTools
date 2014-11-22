@@ -5,6 +5,11 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CrappyCrypto", "CrappyCrypto\CrappyCrypto.vcxproj", "{FDFC995E-C13A-406C-890C-028085AE3088}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkipjackTest", "SkipjackTest\SkipjackTest.vcxproj", "{1E16586F-27FF-4E12-9FF0-2BB38ED610EA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FDFC995E-C13A-406C-890C-028085AE3088} = {FDFC995E-C13A-406C-890C-028085AE3088}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -27,6 +32,14 @@ Global
 		{FDFC995E-C13A-406C-890C-028085AE3088}.Release|Win32.Build.0 = Release|Win32
 		{FDFC995E-C13A-406C-890C-028085AE3088}.Release|x64.ActiveCfg = Release|x64
 		{FDFC995E-C13A-406C-890C-028085AE3088}.Release|x64.Build.0 = Release|x64
+		{1E16586F-27FF-4E12-9FF0-2BB38ED610EA}.Debug|ARM.ActiveCfg = Debug|Win32
+		{1E16586F-27FF-4E12-9FF0-2BB38ED610EA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1E16586F-27FF-4E12-9FF0-2BB38ED610EA}.Debug|Win32.Build.0 = Debug|Win32
+		{1E16586F-27FF-4E12-9FF0-2BB38ED610EA}.Debug|x64.ActiveCfg = Debug|Win32
+		{1E16586F-27FF-4E12-9FF0-2BB38ED610EA}.Release|ARM.ActiveCfg = Release|Win32
+		{1E16586F-27FF-4E12-9FF0-2BB38ED610EA}.Release|Win32.ActiveCfg = Release|Win32
+		{1E16586F-27FF-4E12-9FF0-2BB38ED610EA}.Release|Win32.Build.0 = Release|Win32
+		{1E16586F-27FF-4E12-9FF0-2BB38ED610EA}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
