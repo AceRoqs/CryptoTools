@@ -10,6 +10,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkipjackTest", "SkipjackTes
 		{FDFC995E-C13A-406C-890C-028085AE3088} = {FDFC995E-C13A-406C-890C-028085AE3088}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkipjackEncrypt", "SkipjackEncrypt\SkipjackEncrypt.vcxproj", "{7294FE2A-FAAE-4A1C-8BA5-61290DA97EFF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FDFC995E-C13A-406C-890C-028085AE3088} = {FDFC995E-C13A-406C-890C-028085AE3088}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -42,6 +47,16 @@ Global
 		{1E16586F-27FF-4E12-9FF0-2BB38ED610EA}.Release|Win32.Build.0 = Release|Win32
 		{1E16586F-27FF-4E12-9FF0-2BB38ED610EA}.Release|x64.ActiveCfg = Release|x64
 		{1E16586F-27FF-4E12-9FF0-2BB38ED610EA}.Release|x64.Build.0 = Release|x64
+		{7294FE2A-FAAE-4A1C-8BA5-61290DA97EFF}.Debug|ARM.ActiveCfg = Debug|Win32
+		{7294FE2A-FAAE-4A1C-8BA5-61290DA97EFF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7294FE2A-FAAE-4A1C-8BA5-61290DA97EFF}.Debug|Win32.Build.0 = Debug|Win32
+		{7294FE2A-FAAE-4A1C-8BA5-61290DA97EFF}.Debug|x64.ActiveCfg = Debug|x64
+		{7294FE2A-FAAE-4A1C-8BA5-61290DA97EFF}.Debug|x64.Build.0 = Debug|x64
+		{7294FE2A-FAAE-4A1C-8BA5-61290DA97EFF}.Release|ARM.ActiveCfg = Release|Win32
+		{7294FE2A-FAAE-4A1C-8BA5-61290DA97EFF}.Release|Win32.ActiveCfg = Release|Win32
+		{7294FE2A-FAAE-4A1C-8BA5-61290DA97EFF}.Release|Win32.Build.0 = Release|Win32
+		{7294FE2A-FAAE-4A1C-8BA5-61290DA97EFF}.Release|x64.ActiveCfg = Release|x64
+		{7294FE2A-FAAE-4A1C-8BA5-61290DA97EFF}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
