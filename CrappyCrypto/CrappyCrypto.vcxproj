@@ -94,6 +94,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Encrypt.h" />
     <ClInclude Include="Endian.h" />
     <ClInclude Include="Keys.h" />
     <ClInclude Include="PreCompile.h" />
