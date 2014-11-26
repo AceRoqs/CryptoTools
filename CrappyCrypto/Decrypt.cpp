@@ -1,4 +1,5 @@
 #include "PreCompile.h"
+#include "Decrypt.h"        // Pick up forward declarations to ensure correctness.
 #include "Skipjack.h"
 #include "Keys.h"
 
