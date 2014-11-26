@@ -1,5 +1,5 @@
 #include "PreCompile.h"
-#include "Endian.h"
+#include "Endian.h"         // Pick up forward declarations to ensure correctness.
 
 namespace PortableRuntime
 {
