@@ -46,7 +46,7 @@ int decrypt_main(int argc, _In_count_(argc) char** argv)
     uint8_t key_vector[key_length];
     key_vector_from_string(key_vector, sizeof(key_vector), argv[3]);
 
-    // Decrypt file.
+    // Decrypt file in electronic codebook (ECB) mode.
     uint8_t next_block[block_length];
     size_t current_block_length = fread(next_block, 1, block_length, input_file.get());
     if(current_block_length == block_length)

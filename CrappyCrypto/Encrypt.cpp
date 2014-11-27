@@ -46,10 +46,11 @@ int encrypt_main(int argc, _In_count_(argc) char** argv)
     uint8_t key_vector[key_length];
     key_vector_from_string(key_vector, sizeof(key_vector), argv[3]);
 
-    // Encrypt file.
+    // Encrypt file in electronic codebook (ECB) mode.
     size_t count = 0;
     while(!feof(input_file.get()) && !ferror(input_file.get()) && !ferror(output_file.get()))
     {
+        // NOTE: Blocks are zero padded, which possibly leaks information.
         uint8_t block[block_length] = {};
         count = fread(block, 1, block_length, input_file.get());
         if(count > 0)

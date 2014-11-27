@@ -29,6 +29,8 @@ int test_main(int argc, _In_count_(argc) char** argv)
     (argc);
     (argv);
 
+    // Test vectors taken from the Skipjack specification at:
+    // http://csrc.nist.gov/groups/ST/toolkit/documents/skipjack/skipjack.pdf
     const uint8_t key_vector[] =
     {
         0x00, 0x99, 0x88, 0x77, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11
