@@ -14,24 +14,32 @@ int decrypt_main(int argc, _In_count_(argc) char** argv)
     if(argc != 4)
     {
         fprintf(stderr, "Usage: %s infile outfile key", argv[0]);
-        exit(0);
+        return 0;
     }
 
+    const auto file_close = [](_In_ FILE* open_file)
+    {
+        if(open_file != nullptr)
+        {
+            fclose(open_file);
+        }
+    };
+
     // Open input file.
-    FILE* input_file = fopen(argv[1], "rb");
+    typedef std::unique_ptr<FILE, std::function<void (_In_ FILE* open_file)>> File;
+    const File input_file(fopen(argv[1], "rb"), file_close);
     if(input_file == nullptr)
     {
         fprintf(stderr, "%s: error opening %s\n", argv[0], argv[1]);
-        exit(1);
+        return 1;
     }
 
     // Open output file.
-    FILE* output_file = fopen(argv[2], "wb");
+    const File output_file(fopen(argv[2], "wb"), file_close);
     if(output_file == nullptr)
     {
-        fclose(input_file);
         fprintf(stderr, "%s: error opening %s\n", argv[0], argv[2]);
-        exit(1);
+        return 1;
     }
 
     // Build key.
@@ -40,37 +48,34 @@ int decrypt_main(int argc, _In_count_(argc) char** argv)
 
     // Decrypt file.
     uint8_t next_block[block_length];
-    size_t current_block_length = fread(next_block, 1, block_length, input_file);
+    size_t current_block_length = fread(next_block, 1, block_length, input_file.get());
     if(current_block_length == block_length)
     {
         uint8_t current_block[block_length];
         memcpy(current_block, next_block, block_length);
-        size_t next_block_length = fread(next_block, 1, block_length, input_file);
+        size_t next_block_length = fread(next_block, 1, block_length, input_file.get());
 
-        while((current_block_length > 0) && !ferror(input_file) && !ferror(output_file))
+        while((current_block_length > 0) && !ferror(input_file.get()) && !ferror(output_file.get()))
         {
             decrypt(current_block, key_vector);
             if(next_block_length == block_length)
             {
-                fwrite(current_block, 1, block_length, output_file);
+                fwrite(current_block, 1, block_length, output_file.get());
 
                 current_block_length = next_block_length;
                 memcpy(current_block, next_block, block_length);
-                next_block_length = fread(next_block, 1, block_length, input_file);
+                next_block_length = fread(next_block, 1, block_length, input_file.get());
             }
             else
             {
                 if(next_block_length > 0)
                 {
-                    fwrite(current_block, 1, next_block[0] <= block_length ? next_block[0] : 0, output_file);
+                    fwrite(current_block, 1, next_block[0] <= block_length ? next_block[0] : 0, output_file.get());
                 }
                 break;
             }
         }
     }
-
-    fclose(input_file);
-    fclose(output_file);
 
     return 0;
 }
