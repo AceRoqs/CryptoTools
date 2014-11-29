@@ -17,26 +17,17 @@ int decrypt_main(int argc, _In_count_(argc) char** argv)
         return 0;
     }
 
-    const auto file_close = [](_In_ FILE* open_file)
-    {
-        if(open_file != nullptr)
-        {
-            fclose(open_file);
-        }
-    };
-
     // Open input file.
-    typedef std::unique_ptr<FILE, std::function<void (_In_ FILE* open_file)>> File;
-    const File input_file(fopen(argv[1], "rb"), file_close);
-    if(input_file == nullptr)
+    std::basic_ifstream<uint8_t> input_file(argv[1], std::ios::binary);
+    if(!input_file.good())
     {
         fprintf(stderr, "%s: error opening %s\n", argv[0], argv[1]);
         return 1;
     }
 
     // Open output file.
-    const File output_file(fopen(argv[2], "wb"), file_close);
-    if(output_file == nullptr)
+    std::basic_ofstream<uint8_t> output_file(argv[2], std::ios::binary);
+    if(!output_file.good())
     {
         fprintf(stderr, "%s: error opening %s\n", argv[0], argv[2]);
         return 1;
@@ -48,29 +39,32 @@ int decrypt_main(int argc, _In_count_(argc) char** argv)
 
     // Decrypt file in electronic codebook (ECB) mode.
     uint8_t next_block[block_length];
-    size_t current_block_length = fread(next_block, 1, block_length, input_file.get());
+    input_file.read(next_block, block_length);
+    auto current_block_length = static_cast<size_t>(input_file.gcount());
     if(current_block_length == block_length)
     {
         uint8_t current_block[block_length];
         memcpy(current_block, next_block, block_length);
-        size_t next_block_length = fread(next_block, 1, block_length, input_file.get());
+        input_file.read(next_block, block_length);
+        auto next_block_length = static_cast<size_t>(input_file.gcount());
 
-        while((current_block_length > 0) && !ferror(input_file.get()) && !ferror(output_file.get()))
+        while((current_block_length > 0) && !input_file.bad() && !output_file.bad())
         {
             decrypt(current_block, key_vector);
             if(next_block_length == block_length)
             {
-                fwrite(current_block, 1, block_length, output_file.get());
+                output_file.write(current_block, block_length);
 
                 current_block_length = next_block_length;
                 memcpy(current_block, next_block, block_length);
-                next_block_length = fread(next_block, 1, block_length, input_file.get());
+                input_file.read(next_block, block_length);
+                next_block_length = static_cast<size_t>(input_file.gcount());
             }
             else
             {
                 if(next_block_length > 0)
                 {
-                    fwrite(current_block, 1, next_block[0] <= block_length ? next_block[0] : 0, output_file.get());
+                    output_file.write(current_block, next_block[0] <= block_length ? next_block[0] : 0);
                 }
                 break;
             }
