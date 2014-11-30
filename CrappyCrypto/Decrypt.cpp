@@ -9,33 +9,27 @@ namespace CrappyCrypto
 namespace Skipjack
 {
 
-int decrypt_main(int argc, _In_count_(argc) char** argv)
+static int decrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_file_name, _In_z_ const char* key_string)
 {
-    if(argc != 4)
-    {
-        fprintf(stderr, "Usage: %s infile outfile key", argv[0]);
-        return 0;
-    }
-
     // Open input file.
-    std::basic_ifstream<uint8_t> input_file(argv[1], std::ios::binary);
+    std::basic_ifstream<uint8_t> input_file(input_file_name, std::ios::binary);
     if(!input_file.good())
     {
-        fprintf(stderr, "%s: error opening %s\n", argv[0], argv[1]);
+        fprintf(stderr, "Error opening %s\n", input_file_name);
         return 1;
     }
 
     // Open output file.
-    std::basic_ofstream<uint8_t> output_file(argv[2], std::ios::binary);
+    std::basic_ofstream<uint8_t> output_file(output_file_name, std::ios::binary);
     if(!output_file.good())
     {
-        fprintf(stderr, "%s: error opening %s\n", argv[0], argv[2]);
+        fprintf(stderr, "Error opening %s\n", output_file_name);
         return 1;
     }
 
     // Build key.
     uint8_t key_vector[key_length];
-    key_vector_from_string(key_vector, sizeof(key_vector), argv[3]);
+    key_vector_from_string(key_vector, sizeof(key_vector), key_string);
 
     // Decrypt file in electronic codebook (ECB) mode.
     uint8_t next_block[block_length];
@@ -72,6 +66,17 @@ int decrypt_main(int argc, _In_count_(argc) char** argv)
     }
 
     return 0;
+}
+
+int decrypt_main(int argc, _In_count_(argc) char** argv)
+{
+    if(argc != 4)
+    {
+        fprintf(stderr, "Usage: %s infile outfile key", argv[0]);
+        return 0;
+    }
+
+    return decrypt_file(argv[1], argv[2], argv[3]);
 }
 
 }
