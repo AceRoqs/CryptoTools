@@ -69,11 +69,11 @@ Noexcept added where it makes sense.
         uint8_t block[block_length];
         input_file.read(block, block_length);
 
-        auto count = static_cast<size_t>(input_file.gcount());
-        if(count != block_length)
+        auto read_length = static_cast<size_t>(input_file.gcount());
+        if(read_length != block_length)
         {
             // Pad blocks per Schneier.
-            std::fill(block + count, block + block_length, static_cast<uint8_t>(block_length - count));
+            std::fill(block + read_length, block + block_length, static_cast<uint8_t>(block_length - read_length));
         }
 
         encrypt(block, key_vector);
