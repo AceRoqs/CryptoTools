@@ -51,11 +51,10 @@ static int encrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* o
 #if 0
 TODO:
 Take pointers instead of files.
-Fix decrypt error handling.
-Change padding to remove leaky last byte.
+Fix decrypt error handling and error reporting across the board.
 decrypt.cpp/encrypt.cpp : extract function
 Move out of lib into driver functions? - Depends on how the final version looks.
-Remove readme/makefile.
+Remove readme/makefile.  Update readme.md.
 Noexcept added where it makes sense.
 #endif
 
@@ -65,30 +64,23 @@ Noexcept added where it makes sense.
     key_vector_from_string(key_vector, sizeof(key_vector), key_string);
 
     // Encrypt file in electronic codebook (ECB) mode.
-    size_t count = 0;
     while(input_file.good() && output_file.good())
     {
-        // NOTE: Blocks are zero padded, which possibly leaks information.
-        uint8_t block[block_length] = {};
+        uint8_t block[block_length];
         input_file.read(block, block_length);
-        count = static_cast<size_t>(input_file.gcount());
-        if(count > 0)
+
+        auto count = static_cast<size_t>(input_file.gcount());
+        if(count != block_length)
         {
-            encrypt(block, key_vector);
-            output_file.write(block, block_length);
+            // Pad blocks per Schneier.
+            std::fill(block + count, block + block_length, static_cast<uint8_t>(block_length - count));
         }
+
+        encrypt(block, key_vector);
+        output_file.write(block, block_length);
     }
 
-    if(input_file.eof() && output_file.good())
-    {
-        uint8_t final_count = static_cast<uint8_t>(count > 0 ? count : block_length );
-        output_file.write(&final_count, sizeof(final_count));
-    }
-    else
-    {
-        // TODO:
-        //perror(nullptr);
-    }
+    // TODO: error handle.
 
 #endif
 

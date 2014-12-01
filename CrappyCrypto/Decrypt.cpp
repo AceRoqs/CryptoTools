@@ -32,37 +32,51 @@ static int decrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* o
     key_vector_from_string(key_vector, sizeof(key_vector), key_string);
 
     // Decrypt file in electronic codebook (ECB) mode.
-    uint8_t next_block[block_length];
-    input_file.read(next_block, block_length);
+    uint8_t current_block[block_length];
+    input_file.read(current_block, block_length);
     auto current_block_length = static_cast<size_t>(input_file.gcount());
-    if(current_block_length == block_length)
+    while(current_block_length == block_length)
     {
-        uint8_t current_block[block_length];
-        memcpy(current_block, next_block, block_length);
+        decrypt(current_block, key_vector);
+
+        uint8_t next_block[block_length];
         input_file.read(next_block, block_length);
         auto next_block_length = static_cast<size_t>(input_file.gcount());
 
-        while((current_block_length > 0) && !input_file.bad() && !output_file.bad())
+        unsigned int write_length = block_length;
+        if(next_block_length != block_length)
         {
-            decrypt(current_block, key_vector);
-            if(next_block_length == block_length)
+            if(next_block_length != 0)
             {
-                output_file.write(current_block, block_length);
-
-                current_block_length = next_block_length;
-                memcpy(current_block, next_block, block_length);
-                input_file.read(next_block, block_length);
-                next_block_length = static_cast<size_t>(input_file.gcount());
+                return 1;   // Invalid input.
             }
-            else
+
+            uint8_t padding = current_block[block_length - 1];
+            if((padding == 0) || (padding > block_length))
             {
-                if(next_block_length > 0)
+                return 1;   // Invalid input.
+            }
+
+            write_length -= padding;
+
+            // Validate all bytes of padding.
+            for(unsigned int ix = 0; ix < padding; ++ix)
+            {
+                if(current_block[write_length + ix] != padding)
                 {
-                    output_file.write(current_block, next_block[0] <= block_length ? next_block[0] : 0);
+                    return 1;   // Invalid input.
                 }
-                break;
             }
         }
+
+        output_file.write(current_block, write_length);
+
+        memcpy(current_block, next_block, block_length);
+        current_block_length = next_block_length;
+    }
+    if(current_block_length != 0)
+    {
+        return 1;   // Invalid input.
     }
 
     return 0;
