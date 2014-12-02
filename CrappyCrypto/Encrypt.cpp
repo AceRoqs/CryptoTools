@@ -9,25 +9,12 @@ namespace CrappyCrypto
 namespace Skipjack
 {
 
-#if 0
-static int get_file_size(FILE* file)
-{
-    int current_position = ftell(file);
-
-    fseek(file, 0, SEEK_END);
-    int file_size = ftell(file);
-
-    fseek(file, current_position, SEEK_SET);
-
-    return file_size;
-}
-
+// TODO: overflow?
 template <typename Ty>
 Ty round_up(Ty number, Ty multiple) /* noexcept */
 {
     return ((number + multiple - 1) / multiple) * multiple;
 }
-#endif
 
 static int encrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_file_name, _In_z_ const char* key_string)
 {
@@ -56,6 +43,7 @@ decrypt.cpp/encrypt.cpp : extract function
 Move out of lib into driver functions? - Depends on how the final version looks.
 Remove readme/makefile.  Update readme.md.
 Noexcept added where it makes sense.
+Revisit overflow.
 #endif
 
 #if 1
@@ -63,24 +51,33 @@ Noexcept added where it makes sense.
     uint8_t key_vector[key_length];
     key_vector_from_string(key_vector, sizeof(key_vector), key_string);
 
-    // Encrypt file in electronic codebook (ECB) mode.
-    while(input_file.good() && output_file.good())
+    uint8_t padding = 0;
+    const size_t chunk_length = block_length * 8192;
+    std::vector<uint8_t> chunk(chunk_length);
+    do
     {
-        uint8_t block[block_length];
-        input_file.read(block, block_length);
-
-        auto read_length = static_cast<size_t>(input_file.gcount());
-        if(read_length != block_length)
+        input_file.read(&chunk[0], chunk.size());
+        auto valid_length = static_cast<size_t>(input_file.gcount());
+        if(valid_length < chunk.size())
         {
+            padding = static_cast<uint8_t>(round_up<size_t>(valid_length, block_length) - valid_length);
+            padding = padding == 0 ? block_length : padding;
+
             // Pad blocks per Schneier.
-            std::fill(block + read_length, block + block_length, static_cast<uint8_t>(block_length - read_length));
+            std::fill(&chunk[valid_length], &chunk[valid_length + padding], padding);
+            valid_length += padding;
         }
 
-        encrypt(block, key_vector);
-        output_file.write(block, block_length);
-    }
+        // Encrypt in electronic codebook (ECB) mode.
+        for(size_t ix = 0; ix < chunk.size(); ix += block_length)
+        {
+            encrypt(&chunk[ix], key_vector);
+        }
 
-    // TODO: error handle.
+        output_file.write(&chunk[0], valid_length);
+    } while(padding == 0);
+
+    // TODO: error handle, check reads/writes.
 
 #endif
 
