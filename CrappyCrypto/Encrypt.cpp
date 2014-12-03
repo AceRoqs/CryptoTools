@@ -9,13 +9,6 @@ namespace CrappyCrypto
 namespace Skipjack
 {
 
-// TODO: overflow?
-template <typename Ty>
-Ty round_up(Ty number, Ty multiple) /* noexcept */
-{
-    return ((number + multiple - 1) / multiple) * multiple;
-}
-
 static int encrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_file_name, _In_z_ const char* key_string)
 {
     // Open input file.
@@ -43,7 +36,6 @@ decrypt.cpp/encrypt.cpp : extract function
 Move out of lib into driver functions? - Depends on how the final version looks.
 Remove readme/makefile.  Update readme.md.
 Noexcept added where it makes sense.
-Revisit overflow.
 #endif
 
 #if 1
@@ -60,8 +52,7 @@ Revisit overflow.
         auto valid_length = static_cast<size_t>(input_file.gcount());
         if(valid_length < chunk.size())
         {
-            padding = static_cast<uint8_t>(round_up<size_t>(valid_length, block_length) - valid_length);
-            padding = padding == 0 ? block_length : padding;
+            padding = block_length - valid_length % block_length;
 
             // Pad blocks per Schneier.
             std::fill(&chunk[valid_length], &chunk[valid_length + padding], padding);
