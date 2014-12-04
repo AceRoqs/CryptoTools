@@ -60,7 +60,7 @@ Noexcept added where it makes sense.
         }
 
         // Encrypt in electronic codebook (ECB) mode.
-        for(size_t ix = 0; ix < chunk.size(); ix += block_length)
+        for(size_t ix = 0; ix < valid_length; ix += block_length)
         {
             encrypt(&chunk[ix], key_vector);
         }
