@@ -9,6 +9,16 @@ int main(int argc, _In_count_(argc) char** argv)
         return 0;
     }
 
-    return CrappyCrypto::Skipjack::encrypt_file(argv[1], argv[2], argv[3]);
+    try
+    {
+        CrappyCrypto::Skipjack::encrypt_file(argv[1], argv[2], argv[3]);
+    }
+    catch(const std::exception& ex)
+    {
+        fprintf(stderr, "%s\n", ex.what());
+        return 1;
+    }
+
+    return 0;
 }
 

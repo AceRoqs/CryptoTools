@@ -18,37 +18,27 @@ static void encrypt_using_electronic_codebook_mode(_In_count_(plaintext_length) 
     }
 }
 
-int encrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_file_name, _In_z_ const char* key_string)
+void encrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_file_name, _In_z_ const char* key_string)
 {
     // Open input file.
     std::basic_ifstream<uint8_t> input_file(input_file_name, std::ios::binary);
     if(!input_file.good())
     {
-        fprintf(stderr, "Error opening %s\n", input_file_name);
-        return 1;
+        throw std::exception((std::string("Error opening ") + input_file_name).c_str());
     }
 
     // Open output file.
     std::basic_ofstream<uint8_t> output_file(output_file_name, std::ios::binary);
     if(!output_file.good())
     {
-        fprintf(stderr, "Error opening %s\n", output_file_name);
-        return 1;
+        throw std::exception((std::string("Error opening ") + output_file_name).c_str());
     }
-
-#if 0
-TODO:
-Take pointers instead of files (decrypt)
-Fix decrypt error handling and error reporting across the board.
-decrypt.cpp: extract function
-Remove readme/makefile.  Update readme.md.
-Noexcept added where it makes sense.
-#endif
 
     // Build key.
     uint8_t key_vector[key_length];
     key_vector_from_string(key_vector, sizeof(key_vector), key_string);
 
+    // Encrypt file in chunks that are multiples of the block size.
     uint8_t padding = 0;
     const size_t chunk_length = block_length * 8192;
     std::vector<uint8_t> chunk(chunk_length);
@@ -68,11 +58,16 @@ Noexcept added where it makes sense.
         encrypt_using_electronic_codebook_mode(chunk.data(), valid_length, key_vector);
 
         output_file.write(&chunk[0], valid_length);
-    } while(padding == 0);
+    } while((padding == 0) && input_file.good() && output_file.good());
 
-    // TODO: error handle, check reads/writes.
-
-    return 0;
+    if(input_file.fail() && !input_file.eof())
+    {
+        throw std::exception("Error reading input file");
+    }
+    else if(output_file.fail())
+    {
+        throw std::exception("Error writing output file");
+    }
 }
 
 }
