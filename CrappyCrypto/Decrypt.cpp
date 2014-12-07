@@ -9,7 +9,7 @@ namespace CrappyCrypto
 namespace Skipjack
 {
 
-static int decrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_file_name, _In_z_ const char* key_string)
+int decrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_file_name, _In_z_ const char* key_string)
 {
     // Open input file.
     std::basic_ifstream<uint8_t> input_file(input_file_name, std::ios::binary);
@@ -80,17 +80,6 @@ static int decrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* o
     }
 
     return 0;
-}
-
-int decrypt_main(int argc, _In_count_(argc) char** argv)
-{
-    if(argc != 4)
-    {
-        fprintf(stderr, "Usage: %s infile outfile key", argv[0]);
-        return 0;
-    }
-
-    return decrypt_file(argv[1], argv[2], argv[3]);
 }
 
 }

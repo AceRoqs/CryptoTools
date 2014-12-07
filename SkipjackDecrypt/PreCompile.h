@@ -1,4 +1,4 @@
 #pragma once
 
-#include <sal.h>
+#include <cstdio>
 
