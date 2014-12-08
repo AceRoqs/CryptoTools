@@ -9,22 +9,20 @@ namespace CrappyCrypto
 namespace Skipjack
 {
 
-int decrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_file_name, _In_z_ const char* key_string)
+void decrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_file_name, _In_z_ const char* key_string)
 {
     // Open input file.
     std::basic_ifstream<uint8_t> input_file(input_file_name, std::ios::binary);
     if(!input_file.good())
     {
-        fprintf(stderr, "Error opening %s\n", input_file_name);
-        return 1;
+        throw std::exception((std::string("Error opening ") + input_file_name).c_str());
     }
 
     // Open output file.
     std::basic_ofstream<uint8_t> output_file(output_file_name, std::ios::binary);
     if(!output_file.good())
     {
-        fprintf(stderr, "Error opening %s\n", output_file_name);
-        return 1;
+        throw std::exception((std::string("Error opening ") + output_file_name).c_str());
     }
 
     // Build key.
@@ -48,13 +46,13 @@ int decrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_f
         {
             if(next_block_length != 0)
             {
-                return 1;   // Invalid input.
+                throw std::exception("Invalid input in ciphertext");
             }
 
             uint8_t padding = current_block[block_length - 1];
             if((padding == 0) || (padding > block_length))
             {
-                return 1;   // Invalid input.
+                throw std::exception("Invalid input in ciphertext");
             }
 
             write_length -= padding;
@@ -64,7 +62,7 @@ int decrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_f
             {
                 if(current_block[write_length + ix] != padding)
                 {
-                    return 1;   // Invalid input.
+                    throw std::exception("Invalid input in ciphertext");
                 }
             }
         }
@@ -74,12 +72,11 @@ int decrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_f
         memcpy(current_block, next_block, block_length);
         current_block_length = next_block_length;
     }
+
     if(current_block_length != 0)
     {
-        return 1;   // Invalid input.
+        throw std::exception("Invalid input in ciphertext");
     }
-
-    return 0;
 }
 
 }
