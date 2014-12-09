@@ -9,7 +9,7 @@ namespace CrappyCrypto
 namespace Skipjack
 {
 
-static void encrypt_using_electronic_codebook_mode(_In_count_(plaintext_length) uint8_t* plaintext, size_t plaintext_length, const uint8_t* key_vector)
+static void encrypt_using_electronic_codebook_mode(_In_count_(plaintext_length) uint8_t* plaintext, size_t plaintext_length, const uint8_t* key_vector) NOEXCEPT
 {
     // Encrypt in electronic codebook (ECB) mode.
     for(size_t offset = 0; offset < plaintext_length; offset += block_length)

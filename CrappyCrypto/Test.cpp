@@ -8,7 +8,7 @@ namespace CrappyCrypto
 namespace Skipjack
 {
 
-static void display_vector(_In_count_(length) const uint8_t* vector, size_t length)
+static void display_vector(_In_count_(length) const uint8_t* vector, size_t length) NOEXCEPT
 {
     for(size_t ix = 0; ix < length; ++ix)
     {
@@ -17,7 +17,7 @@ static void display_vector(_In_count_(length) const uint8_t* vector, size_t leng
     printf("\n");
 }
 
-static void display_count_and_vector(unsigned int counter, _In_count_(length) const uint8_t* vector, size_t length)
+static void display_count_and_vector(unsigned int counter, _In_count_(length) const uint8_t* vector, size_t length) NOEXCEPT
 {
     printf("%u: ", counter);
     display_vector(vector, length);
