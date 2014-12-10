@@ -2,6 +2,7 @@
 *.suo
 *.user
 *.opensdf
-Debug.*
-Release.*
+ARM.*
+Win32.*
+x64.*
 ipch/*

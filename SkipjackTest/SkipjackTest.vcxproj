@@ -45,8 +45,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <OutDir>$(SolutionDir)$(Configuration).$(Platform).binaries\</OutDir>
-    <IntDir>$(SolutionDir)$(Configuration).$(Platform).objects\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)$(Platform).$(Configuration).binaries\</OutDir>
+    <IntDir>$(SolutionDir)$(Platform).$(Configuration).objects\$(ProjectName)\</IntDir>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
