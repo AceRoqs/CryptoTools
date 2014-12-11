@@ -37,7 +37,7 @@ void output_test_vectors()
         0x33, 0x22, 0x11, 0x00, 0xdd, 0xcc, 0xbb, 0xaa
     };
     uint8_t test_vector_copy[sizeof(test_vector)];
-    memcpy(test_vector_copy, test_vector, sizeof(test_vector));
+    std::copy(test_vector, test_vector + sizeof(test_vector), test_vector_copy);
 
     printf("Skipjack test vectors\n\n");
 
