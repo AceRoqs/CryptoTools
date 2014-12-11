@@ -12,7 +12,7 @@ namespace Skipjack
 static void encrypt_using_electronic_codebook_mode(_In_count_(plaintext_length) uint8_t* plaintext, size_t plaintext_length, const uint8_t* key_vector) NOEXCEPT
 {
     // Encrypt in electronic codebook (ECB) mode.
-    for(size_t offset = 0; offset < plaintext_length; offset += block_length)
+    for(size_t offset = 0; offset < plaintext_length; offset += block_size)
     {
         encrypt(plaintext + offset, key_vector);
     }
@@ -35,12 +35,12 @@ void encrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_
     }
 
     // Build key.
-    uint8_t key_vector[key_length];
+    uint8_t key_vector[key_size];
     key_vector_from_string(key_vector, sizeof(key_vector), key_string);
 
     // Encrypt file in chunks that are multiples of the block size.
-    const size_t chunk_length = block_length * 8192;
-    std::vector<uint8_t> chunk(chunk_length);
+    const size_t chunk_size = block_size * 8192;
+    std::vector<uint8_t> chunk(chunk_size);
 
     uint8_t padding = 0;
     while((padding == 0) && input_file.good() && output_file.good())
@@ -49,7 +49,7 @@ void encrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_
         auto valid_length = static_cast<size_t>(input_file.gcount());
         if(valid_length < chunk.size())
         {
-            padding = block_length - (valid_length % block_length);
+            padding = block_size - (valid_length % block_size);
 
             // Pad blocks per Schneier.
             std::fill(&chunk[valid_length], &chunk[valid_length + padding], padding);
