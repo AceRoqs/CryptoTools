@@ -64,11 +64,7 @@ void decrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_
     uint8_t key_vector[key_length];
     key_vector_from_string(key_vector, sizeof(key_vector), key_string);
 
-#if 0
-TODO:
-Decrypt in chunks.  Extract functions that make sense.
-Remove readme/makefile.  Update readme.md.
-#endif
+    // TODO: Decrypt in chunks.  Extract functions that make sense.
 
     // Decrypt file in electronic codebook (ECB) mode.
     uint8_t current_block[block_length];

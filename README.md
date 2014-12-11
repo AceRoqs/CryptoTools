@@ -6,8 +6,8 @@ modern attacks. I have had security training in the past, have spent a number of
 models and fixing security issues, and have studied cryptography since 1991. I am quite confident in
 not being confident.
 
-The [Skipjack](http://en.wikipedia.org/wiki/Skipjack_\(cipher\)) code was first written in 1998.
-Surprisingly, it built without errors in Visual Studio 2010. Over time, I will modernize the code
-to my current practices.
+I first wrote the [Skipjack](http://en.wikipedia.org/wiki/Skipjack_\(cipher\)) code in 1998.
+Surprisingly, it built without errors in Visual Studio 2010. I have since tried to modernize it
+to modern C++ in VS2013.
 
 Toby Jones \([www.turbohex.com](http://www.turbohex.com), [ace.roqs.net](http://ace.roqs.net)\)
