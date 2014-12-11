@@ -39,16 +39,17 @@ void encrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_
     key_vector_from_string(key_vector, sizeof(key_vector), key_string);
 
     // Encrypt file in chunks that are multiples of the block size.
-    uint8_t padding = 0;
     const size_t chunk_length = block_length * 8192;
     std::vector<uint8_t> chunk(chunk_length);
-    do
+
+    uint8_t padding = 0;
+    while((padding == 0) && input_file.good() && output_file.good())
     {
         input_file.read(&chunk[0], chunk.size());
         auto valid_length = static_cast<size_t>(input_file.gcount());
         if(valid_length < chunk.size())
         {
-            padding = block_length - valid_length % block_length;
+            padding = block_length - (valid_length % block_length);
 
             // Pad blocks per Schneier.
             std::fill(&chunk[valid_length], &chunk[valid_length + padding], padding);
@@ -58,7 +59,7 @@ void encrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_
         encrypt_using_electronic_codebook_mode(chunk.data(), valid_length, key_vector);
 
         output_file.write(&chunk[0], valid_length);
-    } while((padding == 0) && input_file.good() && output_file.good());
+    }
 
     if(input_file.fail() && !input_file.eof())
     {
