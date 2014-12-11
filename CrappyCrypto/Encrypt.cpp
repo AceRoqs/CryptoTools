@@ -45,7 +45,7 @@ void encrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_
     uint8_t padding = 0;
     while((padding == 0) && input_file.good() && output_file.good())
     {
-        input_file.read(&chunk[0], chunk.size());
+        input_file.read(chunk.data(), chunk.size());
         auto valid_length = static_cast<size_t>(input_file.gcount());
         if(valid_length < chunk.size())
         {
@@ -58,7 +58,7 @@ void encrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_
 
         encrypt_using_electronic_codebook_mode(chunk.data(), valid_length, key_vector);
 
-        output_file.write(&chunk[0], valid_length);
+        output_file.write(chunk.data(), valid_length);
     }
 
     if(input_file.fail() && !input_file.eof())
