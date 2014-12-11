@@ -23,12 +23,8 @@ static void display_count_and_vector(unsigned int counter, _In_count_(length) co
     display_vector(vector, length);
 }
 
-int test_main(int argc, _In_count_(argc) char** argv)
+void output_test_vectors()
 {
-    // Unreferenced parameters.
-    (argc);
-    (argv);
-
     // Test vectors taken from the Skipjack specification at:
     // http://csrc.nist.gov/groups/ST/toolkit/documents/skipjack/skipjack.pdf
     const uint8_t key_vector[] =
@@ -82,8 +78,6 @@ int test_main(int argc, _In_count_(argc) char** argv)
     decrypt(test_vector_copy, key_vector);
     printf("\nPlaintext reverse: ");
     display_vector(test_vector_copy, sizeof(test_vector_copy));
-
-    return 0;
 }
 
 }
