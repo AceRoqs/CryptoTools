@@ -9,24 +9,16 @@ namespace CrappyCrypto
 namespace Skipjack
 {
 
-static size_t read_block(std::basic_ifstream<uint8_t>& input_file, _Out_writes_(block_size) uint8_t* block)
+static void decrypt_using_electronic_codebook_mode(_Inout_count_(plaintext_length) uint8_t* plaintext, size_t plaintext_length, _In_count_(key_size) const uint8_t* key_vector) NOEXCEPT
 {
-    input_file.read(block, block_size);
-    if(input_file.fail() && !input_file.eof())
+    // Decrypt in electronic codebook (ECB) mode.
+    for(size_t offset = 0; offset < plaintext_length; offset += block_size)
     {
-        throw std::exception("Error reading input file");
+        decrypt(plaintext + offset, key_vector);
     }
-
-    auto block_length = static_cast<size_t>(input_file.gcount());
-    if((block_length != block_size) && (block_length != 0))
-    {
-        throw std::exception("Invalid input in ciphertext");
-    }
-
-    return block_length;
 }
 
-static void validate_padding(_In_count_(block_size) const uint8_t* current_block, uint8_t padding)
+static void validate_padding(_In_count_(chunk_length) const uint8_t* chunk, size_t chunk_length, uint8_t padding)
 {
     if((padding == 0) || (padding > block_size))
     {
@@ -36,11 +28,39 @@ static void validate_padding(_In_count_(block_size) const uint8_t* current_block
     // Validate all bytes of padding.
     for(unsigned int ix = 0; ix < padding; ++ix)
     {
-        if(current_block[block_size - padding + ix] != padding)
+        if(chunk[chunk_length - padding + ix] != padding)
         {
             throw std::exception("Invalid input in ciphertext");
         }
     }
+}
+
+static void write_chunk(std::basic_ofstream<uint8_t>& output_file, _In_count_(chunk_length) const uint8_t* chunk, size_t chunk_length, bool add_padding)
+{
+    if(add_padding)
+    {
+        uint8_t padding = chunk[chunk_length - 1];
+        validate_padding(chunk, chunk_length, padding);
+
+        chunk_length -= padding;
+    }
+
+    output_file.write(chunk, chunk_length);
+}
+
+static size_t read_chunk(std::basic_ifstream<uint8_t>& input_file, _Out_writes_(chunk_size) uint8_t* chunk, size_t chunk_size)
+{
+    input_file.read(chunk, chunk_size);
+
+    auto chunk_length = static_cast<size_t>(input_file.gcount());
+
+    // Validate length is multiple of block length (or zero).
+    if((chunk_length % block_size) != 0)
+    {
+        throw std::exception("Invalid input in ciphertext");
+    }
+
+    return chunk_length;
 }
 
 void decrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_file_name, _In_z_ const char* key_string)
@@ -63,39 +83,35 @@ void decrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_
     uint8_t key_vector[key_size];
     key_vector_from_string(key_vector, sizeof(key_vector), key_string);
 
-    // TODO: Decrypt in chunks.  Extract functions that make sense.
+    // Decrypt file in chunks that are multiples of the block size.
+    const size_t chunk_size = block_size * 8192;
+    std::vector<uint8_t> current_chunk(chunk_size);
+    std::vector<uint8_t> next_chunk(chunk_size);
 
-    // Decrypt file in electronic codebook (ECB) mode.
-    uint8_t current_block[block_size];
-    auto current_block_length = read_block(input_file, current_block);
-    if(current_block_length != block_size)
+    auto current_valid_length = read_chunk(input_file, current_chunk.data(), current_chunk.size());
+    while((current_valid_length > 0) && output_file.good())
     {
-        throw std::exception("Invalid input in ciphertext");
+        size_t next_valid_length = 0;
+        if(current_valid_length == current_chunk.size())
+        {
+            next_valid_length = read_chunk(input_file, next_chunk.data(), next_chunk.size());
+        }
+
+        decrypt_using_electronic_codebook_mode(current_chunk.data(), current_valid_length, key_vector);
+
+        write_chunk(output_file, current_chunk.data(), current_valid_length, (next_valid_length == 0));
+
+        std::swap(current_chunk, next_chunk);
+        current_valid_length = next_valid_length;
     }
-    while(current_block_length == block_size)
+
+    if(input_file.fail() && !input_file.eof())
     {
-        decrypt(current_block, key_vector);
-
-        uint8_t next_block[block_size];
-        auto next_block_length = read_block(input_file, next_block);
-
-        unsigned int write_length = block_size;
-        if(next_block_length == 0)
-        {
-            uint8_t padding = current_block[block_size - 1];
-            validate_padding(current_block, padding);
-
-            write_length -= padding;
-        }
-
-        output_file.write(current_block, write_length);
-        if(output_file.fail())
-        {
-            throw std::exception("Error writing output file");
-        }
-
-        std::copy(next_block, next_block + block_size, current_block);
-        current_block_length = next_block_length;
+        throw std::exception("Error reading input file");
+    }
+    else if(output_file.fail())
+    {
+        throw std::exception("Error writing output file");
     }
 }
 

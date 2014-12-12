@@ -9,13 +9,27 @@ namespace CrappyCrypto
 namespace Skipjack
 {
 
-static void encrypt_using_electronic_codebook_mode(_In_count_(plaintext_length) uint8_t* plaintext, size_t plaintext_length, const uint8_t* key_vector) NOEXCEPT
+static void encrypt_using_electronic_codebook_mode(_Inout_count_(plaintext_length) uint8_t* plaintext, size_t plaintext_length, _In_count_(key_size) const uint8_t* key_vector) NOEXCEPT
 {
     // Encrypt in electronic codebook (ECB) mode.
     for(size_t offset = 0; offset < plaintext_length; offset += block_size)
     {
         encrypt(plaintext + offset, key_vector);
     }
+}
+
+static size_t pad_plaintext_if_needed(_Inout_updates_(plaintext_size) uint8_t* plaintext, size_t plaintext_size, size_t valid_length)
+{
+    if(valid_length < plaintext_size)
+    {
+        uint8_t padding = block_size - (valid_length % block_size);
+
+        // Pad blocks per Schneier.
+        std::fill(&plaintext[valid_length], &plaintext[valid_length + padding], padding);
+        valid_length += padding;
+    }
+
+    return valid_length;
 }
 
 void encrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_file_name, _In_z_ const char* key_string)
@@ -42,19 +56,13 @@ void encrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_
     const size_t chunk_size = block_size * 8192;
     std::vector<uint8_t> chunk(chunk_size);
 
-    uint8_t padding = 0;
-    while((padding == 0) && input_file.good() && output_file.good())
+    size_t read_length = chunk.size();
+    while((read_length == chunk.size()) && output_file.good())
     {
         input_file.read(chunk.data(), chunk.size());
-        auto valid_length = static_cast<size_t>(input_file.gcount());
-        if(valid_length < chunk.size())
-        {
-            padding = block_size - (valid_length % block_size);
+        read_length = static_cast<size_t>(input_file.gcount());
 
-            // Pad blocks per Schneier.
-            std::fill(&chunk[valid_length], &chunk[valid_length + padding], padding);
-            valid_length += padding;
-        }
+        const auto valid_length = pad_plaintext_if_needed(chunk.data(), chunk.size(), read_length);
 
         encrypt_using_electronic_codebook_mode(chunk.data(), valid_length, key_vector);
 
