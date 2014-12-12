@@ -11,6 +11,8 @@ namespace Skipjack
 
 static void decrypt_using_electronic_codebook_mode(_Inout_updates_all_(plaintext_length) uint8_t* plaintext, size_t plaintext_length, _In_reads_(key_size) const uint8_t* key_vector) NOEXCEPT
 {
+    assert((plaintext_length % block_size) == 0);
+
     // Decrypt in electronic codebook (ECB) mode.
     for(size_t offset = 0; offset < plaintext_length; offset += block_size)
     {
@@ -18,8 +20,10 @@ static void decrypt_using_electronic_codebook_mode(_Inout_updates_all_(plaintext
     }
 }
 
-static void validate_padding(_In_reads_(chunk_length) const uint8_t* chunk, size_t chunk_length, uint8_t padding)
+static void validate_padding(_In_reads_(plaintext_length) const uint8_t* plaintext, size_t plaintext_length, uint8_t padding)
 {
+    assert(plaintext_length >= block_size);
+
     if((padding == 0) || (padding > block_size))
     {
         throw std::exception("Invalid input in ciphertext");
@@ -28,7 +32,7 @@ static void validate_padding(_In_reads_(chunk_length) const uint8_t* chunk, size
     // Validate all bytes of padding.
     for(unsigned int ix = 0; ix < padding; ++ix)
     {
-        if(chunk[chunk_length - padding + ix] != padding)
+        if(plaintext[plaintext_length - padding + ix] != padding)
         {
             throw std::exception("Invalid input in ciphertext");
         }
@@ -52,7 +56,7 @@ static size_t read_chunk(std::basic_ifstream<uint8_t>& input_file, _Out_writes_(
 {
     input_file.read(chunk, chunk_size);
 
-    auto chunk_length = static_cast<size_t>(input_file.gcount());
+    const auto chunk_length = static_cast<size_t>(input_file.gcount());
 
     // Validate length is multiple of block length (or zero).
     if((chunk_length % block_size) != 0)

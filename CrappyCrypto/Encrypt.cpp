@@ -11,6 +11,8 @@ namespace Skipjack
 
 static void encrypt_using_electronic_codebook_mode(_Inout_updates_all_(plaintext_length) uint8_t* plaintext, size_t plaintext_length, _In_reads_(key_size) const uint8_t* key_vector) NOEXCEPT
 {
+    assert((plaintext_length % block_size) == 0);
+
     // Encrypt in electronic codebook (ECB) mode.
     for(size_t offset = 0; offset < plaintext_length; offset += block_size)
     {
@@ -18,18 +20,24 @@ static void encrypt_using_electronic_codebook_mode(_Inout_updates_all_(plaintext
     }
 }
 
-static size_t pad_plaintext_if_needed(_Inout_updates_(plaintext_size) uint8_t* plaintext, size_t plaintext_size, size_t valid_length)
+// plaintext_size is the full size of the buffer, which is the amount that can be written.
+// read_length is the amount readable, which is <= plaintext_size.
+static size_t pad_plaintext_if_needed(_Inout_updates_(plaintext_size) uint8_t* plaintext, size_t plaintext_size, size_t read_length)
 {
-    if(valid_length < plaintext_size)
+    assert((plaintext_size % block_size) == 0);
+    assert(read_length <= plaintext_size);
+
+    // Pad up to the nearest block_size.
+    if(read_length < plaintext_size)
     {
-        uint8_t padding = block_size - (valid_length % block_size);
+        const uint8_t padding = block_size - (read_length % block_size);
 
         // Pad blocks per Schneier.
-        std::fill(&plaintext[valid_length], &plaintext[valid_length + padding], padding);
-        valid_length += padding;
+        std::fill(&plaintext[read_length], &plaintext[read_length + padding], padding);
+        read_length += padding;
     }
 
-    return valid_length;
+    return read_length;
 }
 
 void encrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_file_name, _In_z_ const char* key_string)
