@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include "Decrypt.h"
 
-int main(int argc, _In_count_(argc) char** argv)
+int main(int argc, _In_reads_(argc) char** argv)
 {
     if(argc != 4)
     {

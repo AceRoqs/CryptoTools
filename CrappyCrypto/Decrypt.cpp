@@ -9,7 +9,7 @@ namespace CrappyCrypto
 namespace Skipjack
 {
 
-static void decrypt_using_electronic_codebook_mode(_Inout_count_(plaintext_length) uint8_t* plaintext, size_t plaintext_length, _In_count_(key_size) const uint8_t* key_vector) NOEXCEPT
+static void decrypt_using_electronic_codebook_mode(_Inout_updates_all_(plaintext_length) uint8_t* plaintext, size_t plaintext_length, _In_reads_(key_size) const uint8_t* key_vector) NOEXCEPT
 {
     // Decrypt in electronic codebook (ECB) mode.
     for(size_t offset = 0; offset < plaintext_length; offset += block_size)
@@ -18,7 +18,7 @@ static void decrypt_using_electronic_codebook_mode(_Inout_count_(plaintext_lengt
     }
 }
 
-static void validate_padding(_In_count_(chunk_length) const uint8_t* chunk, size_t chunk_length, uint8_t padding)
+static void validate_padding(_In_reads_(chunk_length) const uint8_t* chunk, size_t chunk_length, uint8_t padding)
 {
     if((padding == 0) || (padding > block_size))
     {
@@ -35,7 +35,7 @@ static void validate_padding(_In_count_(chunk_length) const uint8_t* chunk, size
     }
 }
 
-static void write_chunk(std::basic_ofstream<uint8_t>& output_file, _In_count_(chunk_length) const uint8_t* chunk, size_t chunk_length, bool add_padding)
+static void write_chunk(std::basic_ofstream<uint8_t>& output_file, _In_reads_(chunk_length) const uint8_t* chunk, size_t chunk_length, bool add_padding)
 {
     if(add_padding)
     {
