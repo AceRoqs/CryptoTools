@@ -36,6 +36,9 @@
     <ClInclude Include="Decrypt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PreCPP11.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Decrypt.cpp">

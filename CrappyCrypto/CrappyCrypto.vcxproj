@@ -99,6 +99,7 @@
     <ClInclude Include="Endian.h" />
     <ClInclude Include="Keys.h" />
     <ClInclude Include="PreCompile.h" />
+    <ClInclude Include="PreCPP11.h" />
     <ClInclude Include="Skipjack.h" />
     <ClInclude Include="Test.h" />
   </ItemGroup>
