@@ -35,9 +35,9 @@ static void validate_padding(_In_reads_(chunk_length) const uint8_t* chunk, size
     }
 }
 
-static void write_chunk(std::basic_ofstream<uint8_t>& output_file, _In_reads_(chunk_length) const uint8_t* chunk, size_t chunk_length, bool add_padding)
+static void write_chunk(std::basic_ofstream<uint8_t>& output_file, _In_reads_(chunk_length) const uint8_t* chunk, size_t chunk_length, bool strip_padding)
 {
-    if(add_padding)
+    if(strip_padding)
     {
         uint8_t padding = chunk[chunk_length - 1];
         validate_padding(chunk, chunk_length, padding);
