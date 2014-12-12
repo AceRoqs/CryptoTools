@@ -91,11 +91,7 @@ void decrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_
     auto current_valid_length = read_chunk(input_file, current_chunk.data(), current_chunk.size());
     while((current_valid_length > 0) && output_file.good())
     {
-        size_t next_valid_length = 0;
-        if(current_valid_length == current_chunk.size())
-        {
-            next_valid_length = read_chunk(input_file, next_chunk.data(), next_chunk.size());
-        }
+        const size_t next_valid_length = read_chunk(input_file, next_chunk.data(), next_chunk.size());
 
         decrypt_using_electronic_codebook_mode(current_chunk.data(), current_valid_length, key_vector);
 
