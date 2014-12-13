@@ -51,15 +51,15 @@
     <CodeAnalysisLogFile Condition="'$(CodeAnalysisLogFile)'==''">$(CodeAnalysisOutputBaseName).CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <CodeAnalysisSucceededFile Condition="'$(CodeAnalysisSucceededFile)'==''">$(CodeAnalysisOutputBaseName).lastcodeanalysissucceeded</CodeAnalysisSucceededFile>
   </PropertyGroup>
-  <ImportGroup Label="PropertySheets">
-    <Import Project="..\CrappyCrypto.props" />
-  </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="..\CrappyCrypto.props" />
+  </ImportGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -67,9 +67,11 @@
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeaderFile>PreCompile.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <AdditionalIncludeDirectories>$(CrappyCryptoDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>$(CrappyCryptoLibraries);</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(CrappyCryptoLibDir)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(CrappyCryptoLibraries)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
