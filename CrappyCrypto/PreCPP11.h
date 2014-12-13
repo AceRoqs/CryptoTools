@@ -1,5 +1,4 @@
-#ifndef PRECPP11_H
-#define PRECPP11_H
+#pragma once
 
 // Define C++11 constructs not available in pre-C++11 compilers.
 
@@ -41,7 +40,5 @@
 #define UTF8(x) x
 #else
 #define UTF8(x) u8##x
-#endif
-
 #endif
 
