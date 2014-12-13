@@ -2,14 +2,14 @@
 <Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="UserMacros">
     <CrappyCryptoDir>$(SolutionDir)CrappyCrypto\</CrappyCryptoDir>
-    <CrappyCryptoLibDir>$(SolutionDir)$(Platform).$(Configuration).binaries\</CrappyCryptoLibDir>
+    <CrappyCryptoLibDir>$(OutDir)</CrappyCryptoLibDir>
+    <CrappyCryptoLibraries>CrappyCrypto.lib</CrappyCryptoLibraries>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>$(CrappyCryptoDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>CrappyCrypto.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(CrappyCryptoLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
