@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
+    <DefaultLanguage>en-US</DefaultLanguage>
     <ProjectGuid>{7294FE2A-FAAE-4A1C-8BA5-61290DA97EFF}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>SkipjackEncrypt</RootNamespace>

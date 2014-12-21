@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
+    <DefaultLanguage>en-US</DefaultLanguage>
     <ProjectGuid>{1E16586F-27FF-4E12-9FF0-2BB38ED610EA}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>SkipjackTest</RootNamespace>
