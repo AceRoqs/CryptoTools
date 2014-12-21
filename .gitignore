@@ -1,9 +1,9 @@
-*.sdf
-*.suo
-*.user
-*.opensdf
-ARM.*
-Win32.*
-x64.*
-ipch/*
+/*.sdf
+/*.suo
+/*.user
+/*.opensdf
+/ARM.*
+/Win32.*
+/x64.*
+/ipch
 
