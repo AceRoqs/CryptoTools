@@ -1,6 +1,6 @@
+*.user
 /*.sdf
 /*.suo
-/*.user
 /*.opensdf
 /ARM.*
 /Win32.*
