@@ -32,6 +32,11 @@ void output_test_vectors()
         0x00, 0x99, 0x88, 0x77, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11
     };
 
+    const uint8_t expected_ciphertext[] =
+    {
+        0x25, 0x87, 0xca, 0xe2, 0x7a, 0x12, 0xd3, 0x00
+    };
+
     uint8_t test_vector[] =
     {
         0x33, 0x22, 0x11, 0x00, 0xdd, 0xcc, 0xbb, 0xaa
@@ -74,6 +79,8 @@ void output_test_vectors()
     encrypt(test_vector_copy, key_vector);
     printf("\nCiphertext output: ");
     display_vector(test_vector_copy, sizeof(test_vector_copy));
+    printf("Expected:          ");
+    display_vector(expected_ciphertext, sizeof(expected_ciphertext));
 
     decrypt(test_vector_copy, key_vector);
     printf("\nPlaintext reverse: ");
