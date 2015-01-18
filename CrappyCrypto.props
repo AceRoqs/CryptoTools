@@ -5,4 +5,15 @@
     <CrappyCryptoLibDir>$(OutDir)</CrappyCryptoLibDir>
     <CrappyCryptoLibraries>CrappyCrypto.lib</CrappyCryptoLibraries>
   </PropertyGroup>
+  <PropertyGroup />
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(CrappyCryptoDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(CrappyCryptoLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(CrappyCryptoLibraries);%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup />
 </Project>
