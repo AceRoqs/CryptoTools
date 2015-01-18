@@ -14,10 +14,16 @@
     <CodeAnalysisSucceededFile>$(CodeAnalysisOutputBaseName).lastcodeanalysissucceeded</CodeAnalysisSucceededFile>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(ConfigurationType)'=='Application'">
-    <ClCompile>
+    <ClCompile Condition="'$(ConsoleApp)'=='true'">
+      <PreprocessorDefinitions>_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Condition="'$(ConsoleApp)'=='false'">
       <PreprocessorDefinitions>_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-    <Link>
+    <Link Condition="'$(ConsoleApp)'=='true'">
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <Link Condition="'$(ConsoleApp)'=='false'">
       <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>

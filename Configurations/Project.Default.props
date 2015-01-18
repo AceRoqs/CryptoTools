@@ -21,6 +21,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
     <ConfigurationsDir>$(SolutionDir)Configurations\</ConfigurationsDir>
+    <ConsoleApp>false</ConsoleApp>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
