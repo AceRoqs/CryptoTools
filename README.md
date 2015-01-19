@@ -10,4 +10,6 @@ I first wrote the [Skipjack](http://en.wikipedia.org/wiki/Skipjack_\(cipher\)) c
 Surprisingly, it built without errors in Visual Studio 2010. I have since tried to modernize it
 to modern C++ in VS2013.
 
+_CrappyCrypto_ has a dependency on the _PortableRuntime_ library.
+
 Toby Jones \([www.turbohex.com](http://www.turbohex.com), [ace.roqs.net](http://ace.roqs.net)\)

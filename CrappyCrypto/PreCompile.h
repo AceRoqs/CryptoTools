@@ -6,5 +6,6 @@
 #include <memory>
 #include <vector>
 
-#include "PreCPP11.h"
+// PreCPP11.h, being a non-system header, always goes last.
+#include <PortableRuntime/PreCPP11.h>
 
