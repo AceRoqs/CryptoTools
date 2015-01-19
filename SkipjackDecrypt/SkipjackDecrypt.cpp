@@ -1,5 +1,5 @@
 #include "PreCompile.h"
-#include "Decrypt.h"
+#include <CrappyCrypto/Decrypt.h>
 
 int main(int argc, _In_reads_(argc) char** argv)
 {
