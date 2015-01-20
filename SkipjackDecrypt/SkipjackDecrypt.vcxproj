@@ -39,6 +39,7 @@
   <ImportGroup Label="ExtensionSettings" />
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ConfigurationsDir)Project2.Default.props" />
+    <Import Project="$(ConfigurationsDir)\PortableRuntime.props" />
     <Import Project="..\CrappyCrypto.props" />
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>

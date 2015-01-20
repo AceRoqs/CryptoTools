@@ -50,14 +50,12 @@
   <ItemGroup>
     <ClInclude Include="Decrypt.h" />
     <ClInclude Include="Encrypt.h" />
-    <ClInclude Include="Endian.h" />
     <ClInclude Include="Keys.h" />
     <ClInclude Include="PreCompile.h" />
     <ClInclude Include="Skipjack.h" />
     <ClInclude Include="Test.h" />
     <ClCompile Include="Decrypt.cpp" />
     <ClCompile Include="Encrypt.cpp" />
-    <ClCompile Include="Endian.cpp" />
     <ClCompile Include="Keys.cpp" />
     <ClCompile Include="PreCompile.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>

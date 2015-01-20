@@ -11,9 +11,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Endian.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PreCompile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -47,9 +44,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Endian.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Keys.cpp">
