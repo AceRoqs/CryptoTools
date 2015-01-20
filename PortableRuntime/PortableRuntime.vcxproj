@@ -50,10 +50,12 @@
   <ItemDefinitionGroup />
   <ItemGroup>
     <ClInclude Include="CheckException.h" />
+    <ClInclude Include="Endian.h" />
     <ClInclude Include="PreCompile.h" />
     <ClInclude Include="PreCPP11.h" />
     <ClInclude Include="Tracing.h" />
     <ClInclude Include="Unicode.h" />
+    <ClCompile Include="Endian.cpp" />
     <ClCompile Include="PreCompile.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

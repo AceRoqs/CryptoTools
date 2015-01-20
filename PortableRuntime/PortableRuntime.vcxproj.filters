@@ -20,6 +20,9 @@
     <ClCompile Include="Tracing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Endian.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -35,6 +38,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Tracing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Endian.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
