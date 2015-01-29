@@ -12,7 +12,7 @@ to modern C++ in VS2013.
 
 Caveat: This code is portable, but due to variances in how arguments are passed to `main()` in C++, encoding
 matters.  For example, by default, file names are passed as ANSI (in the current code page) to `main()` in
-Windows, and passed directly to `fopen`.  Linux will use UTF-8 by default.  In general this will do what is
+Windows, and passed directly to `fopen()`.  Linux will use UTF-8 by default.  In general this will do what is
 expected.  However, keys are different.  Since _CrappyCrypto_ operates directly on the `argv` data,
 non-ASCII keys will cause problems.  For example, on Windows, the Euro '€' will be passed as a two byte
 ANSI character to `main()`, and the key built from that.  On Linux, the UTF-8 encoding of U+20AC is passed,
