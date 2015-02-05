@@ -5,7 +5,7 @@ int main(int argc, _In_reads_(argc) char** argv)
 {
     if(argc != 4)
     {
-        fprintf(stderr, "Usage: %s infile outfile key", argv[0]);
+        std::fprintf(stderr, "Usage: %s infile outfile key", argv[0]);
         return 0;
     }
 
@@ -15,7 +15,7 @@ int main(int argc, _In_reads_(argc) char** argv)
     }
     catch(const std::exception& ex)
     {
-        fprintf(stderr, "%s\n", ex.what());
+        std::fprintf(stderr, "%s\n", ex.what());
         return 1;
     }
 }

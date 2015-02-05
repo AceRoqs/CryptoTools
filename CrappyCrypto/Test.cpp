@@ -12,14 +12,14 @@ static void display_vector(_In_reads_(length) const uint8_t* vector, size_t leng
 {
     for(size_t ix = 0; ix < length; ++ix)
     {
-        printf("%02x ", vector[ix]);
+        std::printf("%02x ", vector[ix]);
     }
-    printf("\n");
+    std::printf("\n");
 }
 
 static void display_count_and_vector(unsigned int counter, _In_reads_(length) const uint8_t* vector, size_t length) NOEXCEPT
 {
-    printf("%u: ", counter);
+    std::printf("%u: ", counter);
     display_vector(vector, length);
 }
 
@@ -44,14 +44,14 @@ void output_test_vectors()
     uint8_t test_vector_copy[sizeof(test_vector)];
     std::copy(test_vector, test_vector + sizeof(test_vector), test_vector_copy);
 
-    printf("Skipjack test vectors\n\n");
+    std::printf("Skipjack test vectors\n\n");
 
-    printf("plaintext: ");
+    std::printf("plaintext: ");
     display_vector(test_vector, sizeof(test_vector));
 
-    printf("key:       ");
+    std::printf("key:       ");
     display_vector(key_vector, sizeof(key_vector));
-    printf("\n");
+    std::printf("\n");
 
     display_count_and_vector(0, test_vector, sizeof(test_vector));
     uint16_t counter;
@@ -77,13 +77,13 @@ void output_test_vectors()
     }
 
     encrypt(test_vector_copy, key_vector);
-    printf("\nCiphertext output: ");
+    std::printf("\nCiphertext output: ");
     display_vector(test_vector_copy, sizeof(test_vector_copy));
-    printf("Expected:          ");
+    std::printf("Expected:          ");
     display_vector(expected_ciphertext, sizeof(expected_ciphertext));
 
     decrypt(test_vector_copy, key_vector);
-    printf("\nPlaintext reverse: ");
+    std::printf("\nPlaintext reverse: ");
     display_vector(test_vector_copy, sizeof(test_vector_copy));
 }
 
