@@ -2,6 +2,7 @@
 #include "Decrypt.h"        // Pick up forward declarations to ensure correctness.
 #include "Skipjack.h"
 #include "Keys.h"
+#include <PortableRuntime/CheckException.h>
 
 namespace CrappyCrypto
 {
@@ -24,18 +25,13 @@ static void validate_padding(_In_reads_(plaintext_length) const uint8_t* plainte
 {
     assert(plaintext_length >= block_size);
 
-    if((padding == 0) || (padding > block_size))
-    {
-        throw std::exception("Invalid input in ciphertext");
-    }
+    PortableRuntime::check_exception((padding != 0) && (padding <= block_size), "Invalid input in ciphertext");
 
     // Validate all bytes of padding.
     for(unsigned int ix = 0; ix < padding; ++ix)
     {
-        if(plaintext[plaintext_length - padding + ix] != padding)
-        {
-            throw std::exception("Invalid input in ciphertext");
-        }
+        PortableRuntime::check_exception(plaintext[plaintext_length - padding + ix] == padding,
+                                         "Invalid input in ciphertext");
     }
 }
 
@@ -59,10 +55,7 @@ static size_t read_chunk(std::basic_ifstream<uint8_t>& input_file, _Out_writes_(
     const auto chunk_length = static_cast<size_t>(input_file.gcount());
 
     // Validate length is multiple of block length (or zero).
-    if((chunk_length % block_size) != 0)
-    {
-        throw std::exception("Invalid input in ciphertext");
-    }
+    PortableRuntime::check_exception((chunk_length % block_size) == 0, "Invalid input in ciphertext");
 
     return chunk_length;
 }
@@ -71,17 +64,11 @@ void decrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_
 {
     // Open input file.
     std::basic_ifstream<uint8_t> input_file(input_file_name, std::ios::binary);
-    if(!input_file.good())
-    {
-        throw std::exception((std::string("Error opening ") + input_file_name).c_str());
-    }
+    PortableRuntime::check_exception(input_file.good(), (std::string("Error opening ") + input_file_name).c_str());
 
     // Open output file.
     std::basic_ofstream<uint8_t> output_file(output_file_name, std::ios::binary);
-    if(!output_file.good())
-    {
-        throw std::exception((std::string("Error opening ") + output_file_name).c_str());
-    }
+    PortableRuntime::check_exception(output_file.good(), (std::string("Error opening ") + output_file_name).c_str());
 
     // Build key.
     uint8_t key_vector[key_size];
@@ -105,14 +92,8 @@ void decrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_
         current_valid_length = next_valid_length;
     }
 
-    if(input_file.fail() && !input_file.eof())
-    {
-        throw std::exception("Error reading input file");
-    }
-    else if(output_file.fail())
-    {
-        throw std::exception("Error writing output file");
-    }
+    PortableRuntime::check_exception(!input_file.fail() || input_file.eof(), "Error reading input file");
+    PortableRuntime::check_exception(!output_file.fail(), "Error writing output file");
 }
 
 }

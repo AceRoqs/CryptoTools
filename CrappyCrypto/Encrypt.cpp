@@ -2,6 +2,7 @@
 #include "Encrypt.h"        // Pick up forward declarations to ensure correctness.
 #include "Skipjack.h"
 #include "Keys.h"
+#include <PortableRuntime/CheckException.h>
 
 namespace CrappyCrypto
 {
@@ -44,17 +45,11 @@ void encrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_
 {
     // Open input file.
     std::basic_ifstream<uint8_t> input_file(input_file_name, std::ios::binary);
-    if(!input_file.good())
-    {
-        throw std::exception((std::string("Error opening ") + input_file_name).c_str());
-    }
+    PortableRuntime::check_exception(input_file.good(), (std::string("Error opening ") + input_file_name).c_str());
 
     // Open output file.
     std::basic_ofstream<uint8_t> output_file(output_file_name, std::ios::binary);
-    if(!output_file.good())
-    {
-        throw std::exception((std::string("Error opening ") + output_file_name).c_str());
-    }
+    PortableRuntime::check_exception(output_file.good(), (std::string("Error opening ") + output_file_name).c_str());
 
     // Build key.
     uint8_t key_vector[key_size];
@@ -77,14 +72,8 @@ void encrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_
         output_file.write(chunk.data(), valid_length);
     }
 
-    if(input_file.fail() && !input_file.eof())
-    {
-        throw std::exception("Error reading input file");
-    }
-    else if(output_file.fail())
-    {
-        throw std::exception("Error writing output file");
-    }
+    PortableRuntime::check_exception(!input_file.fail() || input_file.eof(), "Error writing input file");
+    PortableRuntime::check_exception(!output_file.fail(), "Error writing output file");
 }
 
 }
