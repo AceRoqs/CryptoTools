@@ -9,6 +9,14 @@ inline void check_exception(bool result)
 {
     if(!result)
     {
+#if defined(_MSC_VER) && !defined(NDEBUG)
+        // Work around MSVC issue where the abort() message box is displayed instead of the assert messagebox.
+        // This makes the abort/retry/ignore of the dialog not work for the "ignore" case.  Since the abort dialog is called
+        // even for console apps where blocking for a GUI response is not ideal, just mimic the behavior as it is no worse.
+        // This also has the nice side effect of printing error information to the debugger window.
+        _set_error_mode(_OUT_TO_MSGBOX);
+#endif
+        // Force break.
         assert(false);
         throw std::exception();
     }
@@ -19,6 +27,14 @@ inline void check_exception(bool result, const char* message)
 {
     if(!result)
     {
+#if defined(_MSC_VER) && !defined(NDEBUG)
+        // Work around MSVC issue where the abort() message box is displayed instead of the assert messagebox.
+        // This makes the abort/retry/ignore of the dialog not work for the "ignore" case.  Since the abort dialog is called
+        // even for console apps where blocking for a GUI response is not ideal, just mimic the behavior as it is no worse.
+        // This also has the nice side effect of printing error information to the debugger window.
+        _set_error_mode(_OUT_TO_MSGBOX);
+#endif
+        // Force break.
         assert(false);
         throw std::exception(message);
     }
