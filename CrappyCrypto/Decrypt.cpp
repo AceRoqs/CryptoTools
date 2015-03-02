@@ -25,13 +25,13 @@ static void validate_padding(_In_reads_(plaintext_length) const uint8_t* plainte
 {
     assert(plaintext_length >= block_size);
 
-    PortableRuntime::check_exception((padding != 0) && (padding <= block_size), "Invalid input in ciphertext");
+    PortableRuntime::check_exception((padding != 0) && (padding <= block_size), "Invalid input in ciphertext.");
 
     // Validate all bytes of padding.
     for(unsigned int ix = 0; ix < padding; ++ix)
     {
         PortableRuntime::check_exception(plaintext[plaintext_length - padding + ix] == padding,
-                                         "Invalid input in ciphertext");
+                                         "Invalid input in ciphertext.");
     }
 }
 
@@ -55,7 +55,7 @@ static size_t read_chunk(std::basic_ifstream<uint8_t>& input_file, _Out_writes_(
     const auto chunk_length = static_cast<size_t>(input_file.gcount());
 
     // Validate length is multiple of block length (or zero).
-    PortableRuntime::check_exception((chunk_length % block_size) == 0, "Invalid input in ciphertext");
+    PortableRuntime::check_exception((chunk_length % block_size) == 0, "Invalid input in ciphertext.");
 
     return chunk_length;
 }
@@ -64,11 +64,11 @@ void decrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_
 {
     // Open input file.
     std::basic_ifstream<uint8_t> input_file(input_file_name, std::ios::binary);
-    PortableRuntime::check_exception(input_file.good(), (std::string("Error opening ") + input_file_name).c_str());
+    PortableRuntime::check_exception(input_file.good(), (std::string("Error opening: ") + input_file_name).c_str());
 
     // Open output file.
     std::basic_ofstream<uint8_t> output_file(output_file_name, std::ios::binary);
-    PortableRuntime::check_exception(output_file.good(), (std::string("Error opening ") + output_file_name).c_str());
+    PortableRuntime::check_exception(output_file.good(), (std::string("Error opening: ") + output_file_name).c_str());
 
     // Build key.
     uint8_t key_vector[key_size];
@@ -92,8 +92,8 @@ void decrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_
         current_valid_length = next_valid_length;
     }
 
-    PortableRuntime::check_exception(!input_file.fail() || input_file.eof(), "Error reading input file");
-    PortableRuntime::check_exception(!output_file.fail(), "Error writing output file");
+    PortableRuntime::check_exception(!input_file.fail() || input_file.eof(), "Error reading input file.");
+    PortableRuntime::check_exception(!output_file.fail(), "Error writing output file.");
 }
 
 }
