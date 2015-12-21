@@ -1,13 +1,7 @@
-# Resource compiler artifacts.
-*.aps
-
-# Project file artifacts.
-*.user
-
 # Solution file artifacts.
-/*.sdf
-/*.suo
 /*.opensdf
+/*.sdf
+.vs
 
 # Output folders.
 /ARM.*
