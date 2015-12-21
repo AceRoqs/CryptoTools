@@ -3,7 +3,7 @@
 namespace PortableRuntime
 {
 
-typedef void(*Output_dprintf)(_In_z_ const char* format) NOEXCEPT;
+typedef void(*Output_dprintf)(_In_z_ const char* format) /* noexcept */;
 
 void dprintf(_In_z_ const char* format, ...) NOEXCEPT;
 
