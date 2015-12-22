@@ -1,6 +1,7 @@
 # Solution file artifacts.
 /*.opensdf
 /*.sdf
+/*.VC.opendb
 .vs
 
 # Output folders.
