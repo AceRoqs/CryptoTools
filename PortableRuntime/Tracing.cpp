@@ -4,14 +4,14 @@
 namespace PortableRuntime
 {
 
-static void null_dprintf(_In_z_ const char* format) NOEXCEPT
+static void null_dprintf(_In_z_ const char* format) noexcept
 {
     (format);   // Unreferenced parameter.
 }
 
 static Output_dprintf output_dprintf = null_dprintf;
 
-void dprintf(_In_z_ const char* format, ...) NOEXCEPT
+void dprintf(_In_z_ const char* format, ...) noexcept
 {
 #ifndef NDEBUG
     char print_buffer[1024];

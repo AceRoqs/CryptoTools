@@ -27,7 +27,7 @@ namespace PortableRuntime
 {
 
 // Change byte order from big to little or little to big.
-static uint16_t uint16_swap(uint16_t value) NOEXCEPT
+static uint16_t uint16_swap(uint16_t value) noexcept
 {
 #ifdef _MSC_VER
     return _byteswap_ushort(value);
@@ -36,7 +36,7 @@ static uint16_t uint16_swap(uint16_t value) NOEXCEPT
 #endif
 }
 
-static uint32_t uint32_swap(uint32_t value) NOEXCEPT
+static uint32_t uint32_swap(uint32_t value) noexcept
 {
 #ifdef _MSC_VER
     return _byteswap_ulong(value);
@@ -46,7 +46,7 @@ static uint32_t uint32_swap(uint32_t value) NOEXCEPT
 }
 
 // Change byte order from big/little to native format.
-uint16_t lswap16(uint16_t value) NOEXCEPT
+uint16_t lswap16(uint16_t value) noexcept
 {
 #ifdef BIG_ENDIAN
     return uint16_swap(value);
@@ -55,7 +55,7 @@ uint16_t lswap16(uint16_t value) NOEXCEPT
 #endif
 }
 
-uint16_t bswap16(uint16_t value) NOEXCEPT
+uint16_t bswap16(uint16_t value) noexcept
 {
 #ifdef BIG_ENDIAN
     return value;
@@ -64,7 +64,7 @@ uint16_t bswap16(uint16_t value) NOEXCEPT
 #endif
 }
 
-uint32_t lswap32(uint32_t value) NOEXCEPT
+uint32_t lswap32(uint32_t value) noexcept
 {
 #ifdef BIG_ENDIAN
     return uint32_swap(value);
@@ -73,7 +73,7 @@ uint32_t lswap32(uint32_t value) NOEXCEPT
 #endif
 }
 
-uint32_t bswap32(uint32_t value) NOEXCEPT
+uint32_t bswap32(uint32_t value) noexcept
 {
 #ifdef BIG_ENDIAN
     return value;
