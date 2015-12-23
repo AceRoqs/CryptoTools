@@ -10,7 +10,7 @@ namespace CrappyCrypto
 namespace Skipjack
 {
 
-static void decrypt_using_electronic_codebook_mode(_Inout_updates_all_(plaintext_length) uint8_t* plaintext, size_t plaintext_length, _In_reads_(key_size) const uint8_t* key_vector) NOEXCEPT
+static void decrypt_using_electronic_codebook_mode(_Inout_updates_all_(plaintext_length) uint8_t* plaintext, size_t plaintext_length, _In_reads_(key_size) const uint8_t* key_vector) noexcept
 {
     assert((plaintext_length % block_size) == 0);
 
