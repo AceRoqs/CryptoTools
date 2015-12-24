@@ -5,7 +5,7 @@ int main(int argc, _In_reads_(argc) char** argv)
 {
     if(argc != 4)
     {
-        std::fprintf(stderr, "Usage: %s infile outfile key", argv[0]);
+        std::fprintf(stderr, "Usage: %s infile outfile keyfile", argv[0]);
         return 0;
     }
 
@@ -15,8 +15,11 @@ int main(int argc, _In_reads_(argc) char** argv)
     }
     catch(const std::exception& ex)
     {
+        // TODO: Under MSVC, fprintf expects ANSI, not UTF-8.
         std::fprintf(stderr, "%s\n", ex.what());
         return 1;
     }
+
+    return 0;
 }
 

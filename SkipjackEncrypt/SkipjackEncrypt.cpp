@@ -5,7 +5,7 @@ int main(int argc, _In_reads_(argc) char** argv)
 {
     if(argc != 4)
     {
-        std::fprintf(stderr, "Usage: SkipjackEncrypt.exe infile outfile key");
+        std::fprintf(stderr, "Usage: %s infile outfile keyfile", argv[0]);
         return 0;
     }
 

@@ -41,7 +41,7 @@ static size_t pad_plaintext_if_needed(_Inout_updates_(plaintext_size) uint8_t* p
     return read_length;
 }
 
-void encrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_file_name, _In_z_ const char* key_string)
+void encrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_file_name, _In_z_ const char* key_file_name)
 {
     // Open input file.
     std::basic_ifstream<uint8_t> input_file(input_file_name, std::ios::binary);
@@ -51,9 +51,13 @@ void encrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_
     std::basic_ofstream<uint8_t> output_file(output_file_name, std::ios::binary);
     PortableRuntime::check_exception(output_file.good(), (std::string("Error opening: ") + output_file_name).c_str());
 
+    // Open key file.
+    std::basic_ifstream<uint8_t> key_file(key_file_name, std::ios::binary);
+    PortableRuntime::check_exception(key_file.good(), (std::string("Error opening: ") + key_file_name).c_str());
+
     // Build key.
     uint8_t key_vector[key_size];
-    key_vector_from_string(key_vector, sizeof(key_vector), key_string);
+    key_vector_from_key_file(key_vector, sizeof(key_vector), key_file);
 
     // Encrypt file in chunks that are multiples of the block size.
     const size_t chunk_size = block_size * 8192;
