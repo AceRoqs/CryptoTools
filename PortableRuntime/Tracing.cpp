@@ -1,5 +1,5 @@
 #include "PreCompile.h"
-#include "Tracing.h"
+#include "Tracing.h"        // Pick up forward declarations to ensure correctness.
 
 namespace PortableRuntime
 {
