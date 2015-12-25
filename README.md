@@ -1,4 +1,4 @@
-These are tools I've written to practice breaking ciphers.
+﻿These are tools I've written to practice breaking ciphers.
 
 _CrappyCrypto_ contains my own versions of cryptographic algorithms that I have written to attack.
 They are not intentionally insecure, but I am not confident in stating that they are hardened against
@@ -8,7 +8,7 @@ not being confident.
 
 I first wrote the [Skipjack](http://en.wikipedia.org/wiki/Skipjack_\(cipher\)) code in 1998.
 Surprisingly, it built without errors in Visual Studio 2010. I have since tried to modernize it
-to modern C++ in VS2013.
+to modern C++ in VS2015.
 
 Caveat: This code is portable, but due to variances in how arguments are passed to `main()` in C++, encoding
 matters.  For example, by default, file names are passed as ANSI (in the current code page) to `main()` in
