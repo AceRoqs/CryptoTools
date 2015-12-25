@@ -26,7 +26,7 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <Import Project="$(SolutionDir)Configurations\Project.Default.props" />
+  <Import Project="$(SolutionDir)..\Configurations\Project.Default.props" />
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1E16586F-27FF-4E12-9FF0-2BB38ED610EA}</ProjectGuid>
     <RootNamespace>SkipjackTest</RootNamespace>

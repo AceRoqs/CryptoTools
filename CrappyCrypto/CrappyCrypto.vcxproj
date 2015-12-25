@@ -26,7 +26,7 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <Import Project="$(SolutionDir)Configurations\Project.Default.props" />
+  <Import Project="$(SolutionDir)..\Configurations\Project.Default.props" />
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FDFC995E-C13A-406C-890C-028085AE3088}</ProjectGuid>
     <RootNamespace>CrappyCrypto</RootNamespace>

@@ -1,13 +1,7 @@
 # Solution file artifacts.
-/*.opensdf
 /*.sdf
 /*.VC.opendb
 .vs
-
-# Output folders.
-/ARM.*
-/Win32.*
-/x64.*
 
 # Intellisense artifacts.
 /ipch
