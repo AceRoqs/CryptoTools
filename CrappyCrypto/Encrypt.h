@@ -1,12 +1,14 @@
 #pragma once
 
+#include "Skipjack.h"
+
 namespace CrappyCrypto
 {
 
 namespace Skipjack
 {
 
-void encrypt_file(_In_z_ const char* input_file_name, _In_z_ const char* output_file_name, _In_z_ const char* key_file_name);
+void encrypt_fstream(std::basic_ifstream<uint8_t>& input_file, std::basic_ofstream<uint8_t>& output_file, _In_ uint8_t key_vector[key_size]);
 
 }
 
