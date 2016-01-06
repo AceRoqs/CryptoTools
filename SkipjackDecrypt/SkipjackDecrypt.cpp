@@ -13,19 +13,22 @@ void decrypt_file(_In_z_ const wchar_t* input_file_name, _In_z_ const wchar_t* o
 
 int wmain(int argc, _In_reads_(argc) wchar_t** argv)
 {
-    // Set wprintf output to UTF-8 in Windows console.
-    _setmode(_fileno(stdout), _O_U8TEXT);
-    _setmode(_fileno(stderr), _O_U8TEXT);
-
-    if(argc != 4)
-    {
-        std::fwprintf(stderr, L"Usage: %s infile outfile keyfile", argv[0]);
-        return 0;
-    }
-
     try
     {
-        CrappyCrypto::decrypt_file(argv[1], argv[2], argv[3]);
+        // Set wprintf output to UTF-8 in Windows console.
+        // check_exception ensures against the case that the CRT invalid parameter handler
+        // routine is set by a global constructor.
+        PortableRuntime::check_exception(_setmode(_fileno(stdout), _O_U8TEXT) != -1, "Failed to set UTF-8 output mode.");
+        PortableRuntime::check_exception(_setmode(_fileno(stderr), _O_U8TEXT) != -1, "Failed to set UTF-8 output mode.");
+
+        if(argc == 4)
+        {
+            CrappyCrypto::decrypt_file(argv[1], argv[2], argv[3]);
+        }
+        else
+        {
+            std::fwprintf(stderr, L"Usage: %s infile outfile keyfile", argv[0]);
+        }
     }
     catch(const std::exception& ex)
     {
