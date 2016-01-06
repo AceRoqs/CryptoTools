@@ -18,8 +18,8 @@ int wmain(int argc, _In_reads_(argc) wchar_t** argv)
         // Set wprintf output to UTF-8 in Windows console.
         // check_exception ensures against the case that the CRT invalid parameter handler
         // routine is set by a global constructor.
-        PortableRuntime::check_exception(_setmode(_fileno(stdout), _O_U8TEXT) != -1, "Failed to set UTF-8 output mode.");
-        PortableRuntime::check_exception(_setmode(_fileno(stderr), _O_U8TEXT) != -1, "Failed to set UTF-8 output mode.");
+        PortableRuntime::check_exception(_setmode(_fileno(stdout), _O_U8TEXT) != -1, u8"Failed to set UTF-8 output mode.");
+        PortableRuntime::check_exception(_setmode(_fileno(stderr), _O_U8TEXT) != -1, u8"Failed to set UTF-8 output mode.");
 
         if(argc == 4)
         {
