@@ -25,13 +25,13 @@ static void validate_padding(_In_reads_(plaintext_length) const uint8_t* plainte
 {
     assert(plaintext_length >= block_size);
 
-    PortableRuntime::check_exception((padding != 0) && (padding <= block_size), "Invalid input in ciphertext.");
+    CHECK_EXCEPTION((padding != 0) && (padding <= block_size), "Invalid input in ciphertext.");
 
     // Validate all bytes of padding.
     for(unsigned int ix = 0; ix < padding; ++ix)
     {
-        PortableRuntime::check_exception(plaintext[plaintext_length - padding + ix] == padding,
-                                         "Invalid input in ciphertext.");
+        CHECK_EXCEPTION(plaintext[plaintext_length - padding + ix] == padding,
+                        "Invalid input in ciphertext.");
     }
 }
 
@@ -55,7 +55,7 @@ static size_t read_chunk(std::basic_ifstream<uint8_t>& input_file, _Out_writes_(
     const auto chunk_length = static_cast<size_t>(input_file.gcount());
 
     // Validate length is multiple of block length (or zero).
-    PortableRuntime::check_exception((chunk_length % block_size) == 0, "Invalid input in ciphertext.");
+    CHECK_EXCEPTION((chunk_length % block_size) == 0, "Invalid input in ciphertext.");
 
     return chunk_length;
 }
@@ -80,8 +80,8 @@ void decrypt_fstream(std::basic_ifstream<uint8_t>& input_file, std::basic_ofstre
         current_valid_length = next_valid_length;
     }
 
-    PortableRuntime::check_exception(!input_file.fail() || input_file.eof(), "Error reading input file.");
-    PortableRuntime::check_exception(!output_file.fail(), "Error writing output file.");
+    CHECK_EXCEPTION(!input_file.fail() || input_file.eof(), "Error reading input file.");
+    CHECK_EXCEPTION(!output_file.fail(), "Error writing output file.");
 }
 
 }

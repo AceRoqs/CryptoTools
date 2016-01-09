@@ -16,10 +16,10 @@ int wmain(int argc, _In_reads_(argc) wchar_t** argv)
     try
     {
         // Set wprintf output to UTF-8 in Windows console.
-        // check_exception ensures against the case that the CRT invalid parameter handler
+        // CHECK_EXCEPTION ensures against the case that the CRT invalid parameter handler
         // routine is set by a global constructor.
-        PortableRuntime::check_exception(_setmode(_fileno(stdout), _O_U8TEXT) != -1, u8"Failed to set UTF-8 output mode.");
-        PortableRuntime::check_exception(_setmode(_fileno(stderr), _O_U8TEXT) != -1, u8"Failed to set UTF-8 output mode.");
+        CHECK_EXCEPTION(_setmode(_fileno(stdout), _O_U8TEXT) != -1, u8"Failed to set UTF-8 output mode.");
+        CHECK_EXCEPTION(_setmode(_fileno(stderr), _O_U8TEXT) != -1, u8"Failed to set UTF-8 output mode.");
 
         if(argc == 4)
         {
@@ -48,15 +48,15 @@ void encrypt_file(_In_z_ const wchar_t* input_file_name, _In_z_ const wchar_t* o
 
     // Open input file.
     std::basic_ifstream<uint8_t> input_file(input_file_name, std::ios::binary);
-    check_exception(input_file.good(), (u8"Error opening: " + utf8_from_utf16(input_file_name)).c_str());
+    CHECK_EXCEPTION(input_file.good(), (u8"Error opening: " + utf8_from_utf16(input_file_name)).c_str());
 
     // Open output file.
     std::basic_ofstream<uint8_t> output_file(output_file_name, std::ios::binary);
-    check_exception(output_file.good(), (u8"Error opening: " + utf8_from_utf16(output_file_name)).c_str());
+    CHECK_EXCEPTION(output_file.good(), (u8"Error opening: " + utf8_from_utf16(output_file_name)).c_str());
 
     // Open key file.
     std::basic_ifstream<uint8_t> key_file(key_file_name, std::ios::binary);
-    check_exception(key_file.good(), (u8"Error opening: " + utf8_from_utf16(key_file_name)).c_str());
+    CHECK_EXCEPTION(key_file.good(), (u8"Error opening: " + utf8_from_utf16(key_file_name)).c_str());
 
     // Build key.
     uint8_t key_vector[CrappyCrypto::Skipjack::key_size];

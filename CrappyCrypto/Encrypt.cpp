@@ -59,8 +59,8 @@ void encrypt_fstream(std::basic_ifstream<uint8_t>& input_file, std::basic_ofstre
         output_file.write(chunk.data(), valid_length);
     }
 
-    PortableRuntime::check_exception(!input_file.fail() || input_file.eof(), "Error writing input file.");
-    PortableRuntime::check_exception(!output_file.fail(), "Error writing output file.");
+    CHECK_EXCEPTION(!input_file.fail() || input_file.eof(), "Error writing input file.");
+    CHECK_EXCEPTION(!output_file.fail(), "Error writing output file.");
 }
 
 }
