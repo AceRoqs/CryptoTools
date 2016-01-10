@@ -4,8 +4,8 @@
 int main(int argc, _In_reads_(argc) char** argv)
 {
     // Unreferenced parameters.
-    (argc);
-    (argv);
+    (void)(argc);
+    (void)(argv);
 
     CrappyCrypto::Skipjack::output_test_vectors();
 
