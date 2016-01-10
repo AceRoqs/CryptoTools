@@ -1,8 +1,10 @@
 #include "PreCompile.h"
 #include <CrappyCrypto/Decrypt.h>
 #include <CrappyCrypto/Keys.h>
+#include <PortableRuntime/Tracing.h>
 #include <PortableRuntime/CheckException.h>
 #include <PortableRuntime/Unicode.h>
+#include <WindowsCommon/DebuggerTracing.h>
 
 namespace CrappyCrypto
 {
@@ -15,6 +17,8 @@ int wmain(int argc, _In_reads_(argc) wchar_t** argv)
 {
     try
     {
+        PortableRuntime::set_dprintf(WindowsCommon::debugger_dprintf);
+
         // Set wprintf output to UTF-8 in Windows console.
         // CHECK_EXCEPTION ensures against the case that the CRT invalid parameter handler
         // routine is set by a global constructor.

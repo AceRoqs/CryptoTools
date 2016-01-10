@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 14.0.23107.0
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CrappyCrypto", "..\CryptoTools\CrappyCrypto\CrappyCrypto.vcxproj", "{FDFC995E-C13A-406C-890C-028085AE3088}"
 EndProject
@@ -15,15 +15,22 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkipjackEncrypt", "..\Crypt
 	ProjectSection(ProjectDependencies) = postProject
 		{FDFC995E-C13A-406C-890C-028085AE3088} = {FDFC995E-C13A-406C-890C-028085AE3088}
 		{0D716D67-7339-4780-9764-F48808DB8DAE} = {0D716D67-7339-4780-9764-F48808DB8DAE}
+		{F87DF4F3-6744-4DFF-BDCF-1CB9AAA654D1} = {F87DF4F3-6744-4DFF-BDCF-1CB9AAA654D1}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkipjackDecrypt", "..\CryptoTools\SkipjackDecrypt\SkipjackDecrypt.vcxproj", "{F2B94523-5A71-4C52-B060-868C1CC51691}"
 	ProjectSection(ProjectDependencies) = postProject
 		{FDFC995E-C13A-406C-890C-028085AE3088} = {FDFC995E-C13A-406C-890C-028085AE3088}
 		{0D716D67-7339-4780-9764-F48808DB8DAE} = {0D716D67-7339-4780-9764-F48808DB8DAE}
+		{F87DF4F3-6744-4DFF-BDCF-1CB9AAA654D1} = {F87DF4F3-6744-4DFF-BDCF-1CB9AAA654D1}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PortableRuntime", "..\PortableRuntime\PortableRuntime.vcxproj", "{0D716D67-7339-4780-9764-F48808DB8DAE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WindowsCommon", "..\WindowsCommon\WindowsCommon.vcxproj", "{F87DF4F3-6744-4DFF-BDCF-1CB9AAA654D1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0D716D67-7339-4780-9764-F48808DB8DAE} = {0D716D67-7339-4780-9764-F48808DB8DAE}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,6 +102,16 @@ Global
 		{0D716D67-7339-4780-9764-F48808DB8DAE}.Release|Win32.Build.0 = Release|Win32
 		{0D716D67-7339-4780-9764-F48808DB8DAE}.Release|x64.ActiveCfg = Release|x64
 		{0D716D67-7339-4780-9764-F48808DB8DAE}.Release|x64.Build.0 = Release|x64
+		{F87DF4F3-6744-4DFF-BDCF-1CB9AAA654D1}.Debug|ARM.ActiveCfg = Debug|Win32
+		{F87DF4F3-6744-4DFF-BDCF-1CB9AAA654D1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F87DF4F3-6744-4DFF-BDCF-1CB9AAA654D1}.Debug|Win32.Build.0 = Debug|Win32
+		{F87DF4F3-6744-4DFF-BDCF-1CB9AAA654D1}.Debug|x64.ActiveCfg = Debug|x64
+		{F87DF4F3-6744-4DFF-BDCF-1CB9AAA654D1}.Debug|x64.Build.0 = Debug|x64
+		{F87DF4F3-6744-4DFF-BDCF-1CB9AAA654D1}.Release|ARM.ActiveCfg = Release|Win32
+		{F87DF4F3-6744-4DFF-BDCF-1CB9AAA654D1}.Release|Win32.ActiveCfg = Release|Win32
+		{F87DF4F3-6744-4DFF-BDCF-1CB9AAA654D1}.Release|Win32.Build.0 = Release|Win32
+		{F87DF4F3-6744-4DFF-BDCF-1CB9AAA654D1}.Release|x64.ActiveCfg = Release|x64
+		{F87DF4F3-6744-4DFF-BDCF-1CB9AAA654D1}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
