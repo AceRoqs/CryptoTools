@@ -48,15 +48,15 @@ void encrypt_file(_In_z_ const wchar_t* input_file_name, _In_z_ const wchar_t* o
 
     // Open input file.
     std::basic_ifstream<uint8_t> input_file(input_file_name, std::ios::binary);
-    CHECK_EXCEPTION(input_file.good(), (u8"Error opening: " + utf8_from_utf16(input_file_name)).c_str());
+    CHECK_EXCEPTION(input_file.good(), u8"Error opening: " + utf8_from_utf16(input_file_name));
 
     // Open output file.
     std::basic_ofstream<uint8_t> output_file(output_file_name, std::ios::binary);
-    CHECK_EXCEPTION(output_file.good(), (u8"Error opening: " + utf8_from_utf16(output_file_name)).c_str());
+    CHECK_EXCEPTION(output_file.good(), u8"Error opening: " + utf8_from_utf16(output_file_name));
 
     // Open key file.
     std::basic_ifstream<uint8_t> key_file(key_file_name, std::ios::binary);
-    CHECK_EXCEPTION(key_file.good(), (u8"Error opening: " + utf8_from_utf16(key_file_name)).c_str());
+    CHECK_EXCEPTION(key_file.good(), u8"Error opening: " + utf8_from_utf16(key_file_name));
 
     // Build key.
     uint8_t key_vector[CrappyCrypto::Skipjack::key_size];
