@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <exception>
 #include <fstream>
+#include <memory>
 
 #ifdef _MSC_VER
 
