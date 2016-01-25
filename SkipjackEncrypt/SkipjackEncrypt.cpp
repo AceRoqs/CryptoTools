@@ -31,7 +31,7 @@ int wmain(int argc, _In_reads_(argc) wchar_t** argv)
         }
         else
         {
-            std::fwprintf(stderr, L"Usage: %s infile outfile keyfile", argv[0]);
+            std::fwprintf(stderr, L"Usage: %s infile outfile keyfile\n", argv[0]);
         }
     }
     catch(const std::exception& ex)
