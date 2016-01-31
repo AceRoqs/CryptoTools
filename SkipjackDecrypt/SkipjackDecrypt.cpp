@@ -1,10 +1,10 @@
 #include "PreCompile.h"
 #include <CrappyCrypto/Decrypt.h>
 #include <CrappyCrypto/Keys.h>
+#include <WindowsCommon/DebuggerTracing.h>
 #include <PortableRuntime/Tracing.h>
 #include <PortableRuntime/CheckException.h>
 #include <PortableRuntime/Unicode.h>
-#include <WindowsCommon/DebuggerTracing.h>
 
 namespace CrappyCrypto
 {
@@ -15,6 +15,9 @@ void decrypt_file(_In_z_ const wchar_t* input_file_name, _In_z_ const wchar_t* o
 
 int wmain(int argc, _In_reads_(argc) wchar_t** argv)
 {
+    // ERRORLEVEL zero is the success code.
+    int error_level = 0;
+
     try
     {
         PortableRuntime::set_dprintf(WindowsCommon::debugger_dprintf);
@@ -32,15 +35,16 @@ int wmain(int argc, _In_reads_(argc) wchar_t** argv)
         else
         {
             std::fwprintf(stderr, L"Usage: %s infile outfile keyfile\n", argv[0]);
+            error_level = 1;
         }
     }
     catch(const std::exception& ex)
     {
         std::fwprintf(stderr, L"%s\n", PortableRuntime::utf16_from_utf8(ex.what()).c_str());
-        return 1;
+        error_level = 1;
     }
 
-    return 0;
+    return error_level;
 }
 
 namespace CrappyCrypto
