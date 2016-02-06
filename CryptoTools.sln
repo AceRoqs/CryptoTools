@@ -32,6 +32,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WindowsCommon", "..\Windows
 		{0D716D67-7339-4780-9764-F48808DB8DAE} = {0D716D67-7339-4780-9764-F48808DB8DAE}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cryptopals", "Cryptopals\Cryptopals.vcxproj", "{A9A0437E-A0FE-4B6D-817F-86BA45501FE1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FDFC995E-C13A-406C-890C-028085AE3088} = {FDFC995E-C13A-406C-890C-028085AE3088}
+		{0D716D67-7339-4780-9764-F48808DB8DAE} = {0D716D67-7339-4780-9764-F48808DB8DAE}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -112,6 +118,18 @@ Global
 		{F87DF4F3-6744-4DFF-BDCF-1CB9AAA654D1}.Release|Win32.Build.0 = Release|Win32
 		{F87DF4F3-6744-4DFF-BDCF-1CB9AAA654D1}.Release|x64.ActiveCfg = Release|x64
 		{F87DF4F3-6744-4DFF-BDCF-1CB9AAA654D1}.Release|x64.Build.0 = Release|x64
+		{A9A0437E-A0FE-4B6D-817F-86BA45501FE1}.Debug|ARM.ActiveCfg = Debug|ARM
+		{A9A0437E-A0FE-4B6D-817F-86BA45501FE1}.Debug|ARM.Build.0 = Debug|ARM
+		{A9A0437E-A0FE-4B6D-817F-86BA45501FE1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A9A0437E-A0FE-4B6D-817F-86BA45501FE1}.Debug|Win32.Build.0 = Debug|Win32
+		{A9A0437E-A0FE-4B6D-817F-86BA45501FE1}.Debug|x64.ActiveCfg = Debug|x64
+		{A9A0437E-A0FE-4B6D-817F-86BA45501FE1}.Debug|x64.Build.0 = Debug|x64
+		{A9A0437E-A0FE-4B6D-817F-86BA45501FE1}.Release|ARM.ActiveCfg = Release|ARM
+		{A9A0437E-A0FE-4B6D-817F-86BA45501FE1}.Release|ARM.Build.0 = Release|ARM
+		{A9A0437E-A0FE-4B6D-817F-86BA45501FE1}.Release|Win32.ActiveCfg = Release|Win32
+		{A9A0437E-A0FE-4B6D-817F-86BA45501FE1}.Release|Win32.Build.0 = Release|Win32
+		{A9A0437E-A0FE-4B6D-817F-86BA45501FE1}.Release|x64.ActiveCfg = Release|x64
+		{A9A0437E-A0FE-4B6D-817F-86BA45501FE1}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

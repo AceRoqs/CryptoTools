@@ -1,7 +1,8 @@
-#include "pch.h"
-#include "base64.h"
+#include "PreCompile.h"
+#include <CrappyCrypto/Base64.h>
 //#include <memory.h> // memcpy/memset.
 
+// TODO: It would make sense to move this code to a test framework style.
 // clang++ -std=c++11 -stdlib=libc++ main.cpp && ./a.out
 // TODO: aligned vs unaligned versions of base64.
 // TODO: std::transform instead of for loop over array.
@@ -9,6 +10,7 @@
 
 // TODO: public include path needs to be in a props file
 // TODO: OutDir needs to include both Config and Platform
+
 
 std::vector<uint8_t> Xor_sum_vectors(const std::vector<uint8_t>& input1, const std::vector<uint8_t>& input2)
 {
