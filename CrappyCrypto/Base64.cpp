@@ -1,5 +1,6 @@
-#include "pch.h"
-#include "base64.h"
+#include "PreCompile.h"
+#include "Base64.h"         // Pick up forward declarations to ensure correctness.
+#include <PortableRuntime/CheckException.h>
 
 static const char base64_map[] =
 {
@@ -107,13 +108,10 @@ static uint8_t Bits_from_base64_char(char ch)
     {
         value = 62;
     }
-    else if(ch == '/')
-    {
-        value = 63;
-    }
     else
     {
-        throw std::exception("Not a valid base64 character.");
+        CHECK_EXCEPTION(ch == '/', u8"Invalid base64 character.");
+        value = 63;
     }
 
     return value;
@@ -155,10 +153,7 @@ std::vector<uint8_t> Vector_from_base64(const std::vector<uint8_t>& input)
     static_assert(sizeof(base64_map) == 64, "base64_map must be 64 entries long.");
     static_assert(sizeof(Base64_block) == 3, "Base64_block must be 3 bytes long.");
 
-    if((input.size() == 0) || (input.size() % 4) != 0)
-    {
-        throw std::exception("base64 input size must non-zero and be a multiple of four.");
-    }
+    CHECK_EXCEPTION((input.size() == 0) || (input.size() % 4) != 0, u8"Base64 input size must non-zero and be a multiple of four.");
 
     std::vector<uint8_t> output;
     output.reserve(Array_size_from_base64_size(input.size()));

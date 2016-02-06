@@ -49,12 +49,14 @@
   </PropertyGroup>
   <ItemDefinitionGroup />
   <ItemGroup>
+    <ClInclude Include="Base64.h" />
     <ClInclude Include="Decrypt.h" />
     <ClInclude Include="Encrypt.h" />
     <ClInclude Include="Keys.h" />
     <ClInclude Include="PreCompile.h" />
     <ClInclude Include="Skipjack.h" />
     <ClInclude Include="Test.h" />
+    <ClCompile Include="Base64.cpp" />
     <ClCompile Include="Decrypt.cpp" />
     <ClCompile Include="Encrypt.cpp" />
     <ClCompile Include="Keys.cpp" />
