@@ -153,7 +153,7 @@ std::vector<uint8_t> Vector_from_base64(const std::vector<uint8_t>& input)
     static_assert(sizeof(base64_map) == 64, "base64_map must be 64 entries long.");
     static_assert(sizeof(Base64_block) == 3, "Base64_block must be 3 bytes long.");
 
-    CHECK_EXCEPTION((input.size() == 0) || (input.size() % 4) != 0, u8"Base64 input size must non-zero and be a multiple of four.");
+    CHECK_EXCEPTION((input.size() != 0) && (input.size() % 4) == 0, u8"Base64 input size must non-zero and be a multiple of four.");
 
     std::vector<uint8_t> output;
     output.reserve(Array_size_from_base64_size(input.size()));

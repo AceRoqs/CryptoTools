@@ -1,5 +1,7 @@
 #include "PreCompile.h"
 #include <CrappyCrypto/Base64.h>
+#include <PortableRuntime/CheckException.h>
+#include <PortableRuntime/Unicode.h>
 //#include <memory.h> // memcpy/memset.
 
 // TODO: It would make sense to move this code to a test framework style.
@@ -289,9 +291,6 @@ unsigned int Hamming_distance(const std::vector<uint8_t>& buffer1, const std::ve
 
 void Challenge1()
 {
-    using std::cout;
-    using std::endl;
-
     static const uint8_t challenge1_string[] =
     {
         0x49, 0x27, 0x6d, 0x20, 0x6b, 0x69, 0x6c, 0x6c,
@@ -309,31 +308,25 @@ void Challenge1()
         "SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hybw=="
     };
 
-    cout << "Challenge 1: Convert hex to base64 and back." << endl;
+    std::wprintf(L"Challenge 1: Convert hex to base64 and back.\n");
 
     // Validate permutations of unaligned strings.
     for(auto ix = 0u; ix < sizeof(encodings) / sizeof(encodings[0]); ++ix)
     {
-        const auto initial_vector = Initialize_vector_with_array(challenge1_string, sizeof(challenge1_string) - ix);
-        const auto expected_encoding = Initialize_vector_with_array(encodings[ix], sizeof(encodings[ix]) - 1);
+        const std::vector<uint8_t> initial_vector(challenge1_string, challenge1_string + sizeof(challenge1_string) - ix);
+        const std::vector<uint8_t> expected_encoding(encodings[ix], encodings[ix] + sizeof(encodings[ix]) - 1);
 
         const auto encode_production = Base64_from_vector(initial_vector);
         const auto decode_production = Vector_from_base64(encode_production);
 
-        cout << "Input:  " << Hex_string_from_buffer(initial_vector) << endl;
-        cout << "Encode: " << Hex_string_from_buffer(encode_production) << endl;
-        cout << "Decode: " << Hex_string_from_buffer(decode_production) << endl;
+        std::wprintf(L"Input:  %s\n", PortableRuntime::utf16_from_utf8(Hex_string_from_buffer(initial_vector)).c_str());
+        std::wprintf(L"Encode: %s\n", PortableRuntime::utf16_from_utf8(Hex_string_from_buffer(encode_production)).c_str());
+        std::wprintf(L"Decode: %s\n", PortableRuntime::utf16_from_utf8(Hex_string_from_buffer(decode_production)).c_str());
 
-        if((encode_production == expected_encoding) && (decode_production == initial_vector))
-        {
-            cout << "Success." << endl;
-        }
-        else
-        {
-            cout << "FAILED." << endl;
-        }
+        CHECK_EXCEPTION((encode_production == expected_encoding), u8"Unexpected encoded production.");
+        CHECK_EXCEPTION((decode_production == initial_vector), u8"Unexpected decoded production.");
 
-        cout << endl;
+        std::wprintf(L"\n");
     }
 }
 
@@ -775,7 +768,7 @@ int main()
 {
     try
     {
-        //Challenge1();
+        Challenge1();
         //Challenge2();
         //Challenge3();
         //Challenge4();
