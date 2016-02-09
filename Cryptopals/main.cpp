@@ -332,9 +332,6 @@ void Challenge1()
 
 void Challenge2()
 {
-    using std::cout;
-    using std::endl;
-
     static const uint8_t challenge2_buffer1[] =
     {
         0x1c, 0x01, 0x11, 0x00, 0x1f, 0x01, 0x01, 0x00, 0x06,
@@ -353,29 +350,22 @@ void Challenge2()
         0x6f, 0x6e, 0x27, 0x74, 0x20, 0x70, 0x6c, 0x61, 0x79
     };
 
-    cout << "Challenge 2: Write a function that takes two equal-length buffers and produces their XOR sum." << endl;
+    std::wprintf(L"Challenge 2: Write a function that takes two equal-length buffers and produces their XOR sum.\n");
 
-    const auto buffer1 = Initialize_vector_with_array(challenge2_buffer1, sizeof(challenge2_buffer1));
-    const auto buffer2 = Initialize_vector_with_array(challenge2_buffer2, sizeof(challenge2_buffer2));
-    const auto expected_result = Initialize_vector_with_array(challenge2_result, sizeof(challenge2_result));
+    const std::vector<uint8_t> buffer1(challenge2_buffer1, challenge2_buffer1 + sizeof(challenge2_buffer1));
+    const std::vector<uint8_t> buffer2(challenge2_buffer2, challenge2_buffer2 + sizeof(challenge2_buffer2));
+    const std::vector<uint8_t> expected_result(challenge2_result, challenge2_result + sizeof(challenge2_result));
 
     const auto xor_sum = Xor_sum_vectors(buffer1, buffer2);
 
-    cout << "Buffer 1:        " << Hex_string_from_buffer(buffer1) << endl;
-    cout << "Buffer 2:        " << Hex_string_from_buffer(buffer2) << endl;
-    cout << "Expected result: " << Hex_string_from_buffer(expected_result) << endl;
-    cout << "Xor sum:         " << Hex_string_from_buffer(xor_sum) << endl;
+    std::wprintf(L"Buffer 1:        %s\n", PortableRuntime::utf16_from_utf8(Hex_string_from_buffer(buffer1)).c_str());
+    std::wprintf(L"Buffer 2:        %s\n", PortableRuntime::utf16_from_utf8(Hex_string_from_buffer(buffer2)).c_str());
+    std::wprintf(L"Expected result: %s\n", PortableRuntime::utf16_from_utf8(Hex_string_from_buffer(expected_result)).c_str());
+    std::wprintf(L"Xor sum:         %s\n", PortableRuntime::utf16_from_utf8(Hex_string_from_buffer(xor_sum)).c_str());
 
-    if(xor_sum == expected_result)
-    {
-        cout << "Success." << endl;
-    }
-    else
-    {
-        cout << "FAILED." << endl;
-    }
+    CHECK_EXCEPTION(xor_sum == expected_result, u8"Unexpected XOR sum.");
 
-    cout << endl;
+    std::wprintf(L"\n");
 }
 
 void Challenge3()
@@ -769,7 +759,7 @@ int main()
     try
     {
         Challenge1();
-        //Challenge2();
+        Challenge2();
         //Challenge3();
         //Challenge4();
         //Challenge5();
