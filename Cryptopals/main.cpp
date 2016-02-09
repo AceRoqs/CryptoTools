@@ -201,7 +201,7 @@ std::vector<Ty> Initialize_vector_with_array(const Ty* arr, size_t count)
     return output;
 }
 
-std::pair<unsigned int, uint8_t> Find_single_xor_key(const std::vector<uint8_t>& buffer1, bool debug = false)
+std::pair<unsigned int, uint8_t> Find_single_byte_xor_key(const std::vector<uint8_t>& buffer1, bool debug = false)
 {
     auto best_score = 0u;
     uint8_t best_key = 0;
@@ -291,7 +291,7 @@ unsigned int Hamming_distance(const std::vector<uint8_t>& buffer1, const std::ve
 
 void Challenge1()
 {
-    static const uint8_t challenge1_string[] =
+    static const uint8_t challenge1_buffer[] =
     {
         0x49, 0x27, 0x6d, 0x20, 0x6b, 0x69, 0x6c, 0x6c,
         0x69, 0x6e, 0x67, 0x20, 0x79, 0x6f, 0x75, 0x72,
@@ -313,7 +313,7 @@ void Challenge1()
     // Validate permutations of unaligned strings.
     for(auto ix = 0u; ix < sizeof(encodings) / sizeof(encodings[0]); ++ix)
     {
-        const std::vector<uint8_t> initial_vector(challenge1_string, challenge1_string + sizeof(challenge1_string) - ix);
+        const std::vector<uint8_t> initial_vector(challenge1_buffer, challenge1_buffer + sizeof(challenge1_buffer) - ix);
         const std::vector<uint8_t> expected_encoding(encodings[ix], encodings[ix] + sizeof(encodings[ix]) - 1);
 
         const auto encode_production = Base64_from_vector(initial_vector);
@@ -370,10 +370,7 @@ void Challenge2()
 
 void Challenge3()
 {
-    using std::cout;
-    using std::endl;
-
-    static const uint8_t challenge3_string[] =
+    static const uint8_t challenge3_buffer[] =
     {
         0x1b, 0x37, 0x37, 0x33, 0x31, 0x36, 0x3f, 0x78,
         0x15, 0x1b, 0x7f, 0x2b, 0x78, 0x34, 0x31, 0x33,
@@ -382,50 +379,25 @@ void Challenge3()
         0x37, 0x36
     };
 
-    cout << "Challenge 3: Single-character XOR Cipher." << endl;
+    std::wprintf(L"Challenge 3: Single-character XOR Cipher.\n");
 
-    const auto buffer1 = Initialize_vector_with_array(challenge3_string, sizeof(challenge3_string));
-#if 0
-    auto best_score = 0u;
-    uint8_t best_key = 0;
+    const std::vector<uint8_t> buffer1(challenge3_buffer, challenge3_buffer + sizeof(challenge3_buffer));
+    const auto key = Find_single_byte_xor_key(buffer1);
+    const auto best_score = key.first;
+    const auto best_key = key.second;
 
-    uint8_t key = 0;
-    for(auto ix = 0; ix < 256; ++ix)
-    {
-        const auto key_vector = Initialize_vector_with_array(&key, 1);
-        const auto xor_sum = Xor_sum_vectors(buffer1, key_vector);
+    const std::vector<uint8_t> buffer2(&best_key, &best_key + 1);
+    const auto vec = Xor_sum_vectors(buffer1, buffer2);
+    const auto str = String_from_vector(vec);
 
-        auto score = Score(xor_sum);
-        if(score > best_score)
-        {
-            best_score = score;
-            best_key = key;
-        }
-        ++key;
-    }
-#endif
-    auto key = Find_single_xor_key(buffer1);
-    auto best_score = key.first;
-    auto best_key = key.second;
+    std::wprintf(L"Test vector:   %s\n", PortableRuntime::utf16_from_utf8(Hex_string_from_buffer(buffer1)).c_str());
+    std::wprintf(L"Best score:    %d\n", best_score);
+    std::wprintf(L"Best key:      0x%02x\n", best_key);
+    std::wprintf(L"Result string: %s\n", PortableRuntime::utf16_from_utf8(str).c_str());
 
-    auto vec = Xor_sum_vectors(buffer1, Initialize_vector_with_array(&best_key, 1));
-    auto str = String_from_vector(vec);
+    CHECK_EXCEPTION(str == u8"Cooking MC's like a pound of bacon", u8"Found wrong key.");
 
-    cout << "Test vector:   " << Hex_string_from_buffer(buffer1) << endl;
-    cout << "Best score: " << best_score << endl;
-    cout << "Best key: " << std::hex << std::setfill('0') << std::setw(2) << static_cast<int>(best_key) << endl;
-    cout << "Result string: " << str << endl;
-
-    if(str == "Cooking MC's like a pound of bacon")
-    {
-        cout << "Success." << endl;
-    }
-    else
-    {
-        cout << "FAILED." << endl;
-    }
-
-    cout << endl;
+    std::wprintf(L"\n");
 }
 
 void Challenge4()
@@ -682,11 +654,11 @@ best_key_size = 29;
         // "Terminator X: Bring the noise" <- 29 characters.
 //if(ix == 22) _asm int 3; // 'b' returned instead of 'e'.
         std::pair<unsigned int, uint8_t> key_score;
-        //auto key_score = Find_single_xor_key(latch_vector, true);
+        //auto key_score = Find_single_byte_xor_key(latch_vector, true);
 if(ix == 22)
-key_score = Find_single_xor_key(latch_vector, true);
+key_score = Find_single_byte_xor_key(latch_vector, true);
 else
-key_score = Find_single_xor_key(latch_vector);
+key_score = Find_single_byte_xor_key(latch_vector);
         key[ix] = key_score.second;
         auto key_vector = Initialize_vector_with_array(&key_score.second, 1);
         auto latch_plain = Xor_sum_vectors(latch_vector, key_vector);
@@ -760,7 +732,7 @@ int main()
     {
         Challenge1();
         Challenge2();
-        //Challenge3();
+        Challenge3();
         //Challenge4();
         //Challenge5();
         Challenge6();
