@@ -56,6 +56,7 @@
     <ClInclude Include="PreCompile.h" />
     <ClInclude Include="Skipjack.h" />
     <ClInclude Include="Test.h" />
+    <ClCompile Include="AES.cpp" />
     <ClCompile Include="Base64.cpp" />
     <ClCompile Include="Decrypt.cpp" />
     <ClCompile Include="Encrypt.cpp" />
