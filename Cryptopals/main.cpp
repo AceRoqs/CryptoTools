@@ -718,6 +718,9 @@ void Challenge8()
 
 int main()
 {
+    // ERRORLEVEL zero is the success code.
+    int error_level = 0;
+
     try
     {
         Challenge1();
@@ -731,9 +734,10 @@ int main()
     }
     catch(const std::exception& ex)
     {
-        std::cerr << "\r\n Exception: " << ex.what() << std::endl;
+        std::fwprintf(stderr, L"\n%s\n", PortableRuntime::utf16_from_utf8(ex.what()).c_str());
+        error_level = 1;
     }
 
-    return 0;
+    return error_level;
 }
 
