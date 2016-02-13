@@ -408,10 +408,7 @@ void Challenge4()
     cout << "Challenge 4: Detect single-character XOR." << endl;
 
     std::ifstream fs("3132713.txt");
-    if(fs.fail())
-    {
-        throw std::exception("Fail opening file.");
-    }
+    CHECK_EXCEPTION(!fs.fail(), u8"Could not open 3132713.txt.");
 
     auto best_score = 0u;
     uint8_t best_index = 0;
@@ -503,14 +500,7 @@ void Challenge4()
     cout << "Best key: " << std::hex << std::setfill('0') << std::setw(2) << static_cast<int>(best_index) << endl;
     cout << "Result string: " << str << endl;
 
-    if(str == "Now that the party is jumping\n")
-    {
-        cout << "Success." << endl;
-    }
-    else
-    {
-         cout << "FAILED." << endl;
-    }
+    CHECK_EXCEPTION(str == u8"Now that the party is jumping\n", u8"Found wrong key.");
 
     cout << endl;
 }
@@ -733,15 +723,15 @@ int main()
         Challenge1();
         Challenge2();
         Challenge3();
-        //Challenge4();
+        Challenge4();
         //Challenge5();
         Challenge6();
         //Challenge7();
         //Challenge8();
     }
-    catch(const std::exception& exception)
+    catch(const std::exception& ex)
     {
-        std::cerr << "\r\n Exception: " << exception.what() << std::endl;
+        std::cerr << "\r\n Exception: " << ex.what() << std::endl;
     }
 
     return 0;
