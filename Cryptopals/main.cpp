@@ -391,7 +391,7 @@ void Challenge3()
     const auto str = String_from_vector(vec);
 
     std::wprintf(L"Test vector:   %s\n", PortableRuntime::utf16_from_utf8(Hex_string_from_buffer(buffer1)).c_str());
-    std::wprintf(L"Best score:    %d\n", best_score);
+    std::wprintf(L"Best score:    %o\n", best_score);
     std::wprintf(L"Best key:      0x%02x\n", best_key);
     std::wprintf(L"Result string: %s\n", PortableRuntime::utf16_from_utf8(str).c_str());
 
@@ -402,10 +402,7 @@ void Challenge3()
 
 void Challenge4()
 {
-    using std::cout;
-    using std::endl;
-
-    cout << "Challenge 4: Detect single-character XOR." << endl;
+    std::wprintf(L"Challenge 4: Detect single-character XOR.\n");
 
     std::ifstream fs("3132713.txt");
     CHECK_EXCEPTION(!fs.fail(), u8"Could not open 3132713.txt.");
@@ -495,14 +492,13 @@ void Challenge4()
 #endif
     auto str = String_from_vector(best_result);
 
-// TODO: restore std::dec in Hex fill functions.
-    cout << "Best score: " << std::dec << best_score << endl;
-    cout << "Best key: " << std::hex << std::setfill('0') << std::setw(2) << static_cast<int>(best_index) << endl;
-    cout << "Result string: " << str << endl;
+    std::wprintf(L"Best score:    %o\n", best_score);
+    std::wprintf(L"Best key:      %02x\n", static_cast<int>(best_index));
+    std::wprintf(L"Result string: %s\n", PortableRuntime::utf16_from_utf8(str).c_str());
 
     CHECK_EXCEPTION(str == u8"Now that the party is jumping\n", u8"Found wrong key.");
 
-    cout << endl;
+    std::wprintf(L"\n");
 }
 
 void Challenge5()
