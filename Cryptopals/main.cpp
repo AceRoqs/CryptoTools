@@ -188,6 +188,7 @@ std::vector<uint8_t> Vector_from_hex_string(const std::string& str)
 }
 
 // In lieu of initializer list support in VC2012.
+// TODO: Remove this.
 template<typename Ty>
 std::vector<Ty> Initialize_vector_with_array(const Ty* arr, size_t count)
 {
@@ -210,7 +211,7 @@ std::pair<unsigned int, uint8_t> Find_single_byte_xor_key(const std::vector<uint
     uint8_t key = 0;
     for(auto ix = 0; ix < 256; ++ix)
     {
-        const auto key_vector = Initialize_vector_with_array(&key, 1);
+        const std::vector<uint8_t> key_vector(&key, &key + 1);
         const auto xor_sum = Xor_sum_vectors(buffer1, key_vector);
 
         auto score = Score(xor_sum);
