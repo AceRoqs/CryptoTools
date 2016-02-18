@@ -2,6 +2,7 @@
 #include <CrappyCrypto/Base64.h>
 #include <PortableRuntime/CheckException.h>
 #include <PortableRuntime/Unicode.h>
+#include <PortableRuntime/Tracing.h>
 //#include <memory.h> // memcpy/memset.
 
 // TODO: It would make sense to move this code to a test framework style.
@@ -201,7 +202,7 @@ std::vector<Ty> Initialize_vector_with_array(const Ty* arr, size_t count)
     return output;
 }
 
-std::pair<unsigned int, uint8_t> Find_single_byte_xor_key(const std::vector<uint8_t>& buffer1, bool debug = false)
+std::pair<unsigned int, uint8_t> Find_single_byte_xor_key(const std::vector<uint8_t>& buffer1)
 {
     auto best_score = 0u;
     uint8_t best_key = 0;
@@ -213,10 +214,7 @@ std::pair<unsigned int, uint8_t> Find_single_byte_xor_key(const std::vector<uint
         const auto xor_sum = Xor_sum_vectors(buffer1, key_vector);
 
         auto score = Score(xor_sum);
-        if(debug)
-        {
-            std::cout << "Key: " << ix << ", score: " << score << std::endl;
-        }
+        PortableRuntime::dprintf("Key: %d, score: %o\n", ix, score);
         if(score > best_score)
         {
             best_score = score;
@@ -225,10 +223,7 @@ std::pair<unsigned int, uint8_t> Find_single_byte_xor_key(const std::vector<uint
         ++key;
     }
 
-    if(debug)
-    {
-        std::cout << "Best key: " << best_key << "\r\nBest_score: " << best_score << std::endl;
-    }
+    PortableRuntime::dprintf("Best key: %o\nBest score: %o\n", static_cast<unsigned int>(best_key), best_score);
 
     // TODO: why are types necessary here?
     return std::pair<unsigned int, uint8_t>(best_score, best_key);
@@ -640,9 +635,9 @@ best_key_size = 29;
         // "Terminator X: Bring the noise" <- 29 characters.
 //if(ix == 22) _asm int 3; // 'b' returned instead of 'e'.
         std::pair<unsigned int, uint8_t> key_score;
-        //auto key_score = Find_single_byte_xor_key(latch_vector, true);
+        //auto key_score = Find_single_byte_xor_key(latch_vector);
 if(ix == 22)
-key_score = Find_single_byte_xor_key(latch_vector, true);
+key_score = Find_single_byte_xor_key(latch_vector);
 else
 key_score = Find_single_byte_xor_key(latch_vector);
         key[ix] = key_score.second;
