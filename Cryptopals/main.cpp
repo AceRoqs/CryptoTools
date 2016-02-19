@@ -215,7 +215,7 @@ std::pair<unsigned int, uint8_t> Find_single_byte_xor_key(const std::vector<uint
         const auto xor_sum = Xor_sum_vectors(buffer1, key_vector);
 
         auto score = Score(xor_sum);
-        PortableRuntime::dprintf("Key: %d, score: %o\n", ix, score);
+        PortableRuntime::dprintf("Key: %d, score: %u\n", ix, score);
         if(score > best_score)
         {
             best_score = score;
@@ -224,7 +224,7 @@ std::pair<unsigned int, uint8_t> Find_single_byte_xor_key(const std::vector<uint
         ++key;
     }
 
-    PortableRuntime::dprintf("Best key: %o\nBest score: %o\n", static_cast<unsigned int>(best_key), best_score);
+    PortableRuntime::dprintf("Best key: %u\nBest score: %u\n", static_cast<unsigned int>(best_key), best_score);
 
     // TODO: why are types necessary here?
     return std::pair<unsigned int, uint8_t>(best_score, best_key);
@@ -387,7 +387,7 @@ void Challenge3()
     const auto str = String_from_vector(vec);
 
     std::wprintf(L"Test vector:   %s\n", PortableRuntime::utf16_from_utf8(Hex_string_from_buffer(buffer1)).c_str());
-    std::wprintf(L"Best score:    %o\n", best_score);
+    std::wprintf(L"Best score:    %d\n", best_score);
     std::wprintf(L"Best key:      0x%02x\n", best_key);
     std::wprintf(L"Result string: %s\n", PortableRuntime::utf16_from_utf8(str).c_str());
 
@@ -488,7 +488,7 @@ void Challenge4()
 #endif
     auto str = String_from_vector(best_result);
 
-    std::wprintf(L"Best score:    %o\n", best_score);
+    std::wprintf(L"Best score:    %d\n", best_score);
     std::wprintf(L"Best key:      %02x\n", static_cast<int>(best_index));
     std::wprintf(L"Result string: %s\n", PortableRuntime::utf16_from_utf8(str).c_str());
 
