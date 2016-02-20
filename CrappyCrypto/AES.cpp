@@ -1,10 +1,16 @@
 #include "PreCompile.h"
 
+namespace CrappyCrypto
+{
+
 namespace AES
 {
 
+// Per FIPS-197 page 7, Nb is the number of columns comprising the State.  Nb is always 4.
+// Nb is the block size in 32-bit words.
 const unsigned int Nb = 4;
 
+// Per FIPS-197 page 16.
 static const uint8_t AES_SBox[] =
 {
     0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76,
@@ -25,6 +31,7 @@ static const uint8_t AES_SBox[] =
     0x8c, 0xa1, 0x89, 0x0d, 0xbf, 0xe6, 0x42, 0x68, 0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16
 };
 
+// Per FIPS-197 page 22.
 static const uint8_t AES_Invert_SBox[] =
 {
     0x52, 0x09, 0x6a, 0xd5, 0x30, 0x36, 0xa5, 0x38, 0xbf, 0x40, 0xa3, 0x9e, 0x81, 0xf3, 0xd7, 0xfb,
@@ -112,6 +119,7 @@ void AES_mix_columns(std::vector<uint8_t>& state)
     A = B = C = D = 0;
 }
 
+// input is 16 bytes.
 template<int AES_key_size>
 std::vector<uint8_t> AES_cipher(const std::vector<uint8_t>& input, const std::vector<uint8_t>& key_schedule)
 {
@@ -227,5 +235,7 @@ std::vector<uint8_t> AES_key_expansion(const std::vector<uint8_t>& key)
 // end while
 // end
 #endif
-}
+} // AES
+
+} // CrappyCrypto
 
