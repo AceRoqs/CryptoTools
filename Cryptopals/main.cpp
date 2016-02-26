@@ -387,7 +387,7 @@ void Challenge3()
     const auto str = String_from_vector(vec);
 
     std::wprintf(L"Test vector:   %s\n", PortableRuntime::utf16_from_utf8(Hex_string_from_buffer(buffer1)).c_str());
-    std::wprintf(L"Best score:    %d\n", best_score);
+    std::wprintf(L"Best score:    %u\n", best_score);
     std::wprintf(L"Best key:      0x%02x\n", best_key);
     std::wprintf(L"Result string: %s\n", PortableRuntime::utf16_from_utf8(str).c_str());
 
@@ -488,7 +488,7 @@ void Challenge4()
 #endif
     auto str = String_from_vector(best_result);
 
-    std::wprintf(L"Best score:    %d\n", best_score);
+    std::wprintf(L"Best score:    %u\n", best_score);
     std::wprintf(L"Best key:      %02x\n", static_cast<int>(best_index));
     std::wprintf(L"Result string: %s\n", PortableRuntime::utf16_from_utf8(str).c_str());
 
