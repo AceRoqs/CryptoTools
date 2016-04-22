@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
-MinimumVisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 14.0.25123.0
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CrappyCrypto", "..\CryptoTools\CrappyCrypto\CrappyCrypto.vcxproj", "{FDFC995E-C13A-406C-890C-028085AE3088}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkipjackTest", "..\CryptoTools\SkipjackTest\SkipjackTest.vcxproj", "{1E16586F-27FF-4E12-9FF0-2BB38ED610EA}"
