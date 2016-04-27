@@ -15,6 +15,11 @@ void decrypt_file(_In_z_ const wchar_t* input_file_name, _In_z_ const wchar_t* o
 
 int wmain(int argc, _In_reads_(argc) wchar_t** argv)
 {
+    constexpr auto arg_program_name     = 0;
+    constexpr auto arg_input_file_name  = 1;
+    constexpr auto arg_output_file_name = 2;
+    constexpr auto arg_key_file_name    = 3;
+
     // ERRORLEVEL zero is the success code.
     int error_level = 0;
 
@@ -30,11 +35,11 @@ int wmain(int argc, _In_reads_(argc) wchar_t** argv)
 
         if(argc == 4)
         {
-            CrappyCrypto::decrypt_file(argv[1], argv[2], argv[3]);
+            CrappyCrypto::decrypt_file(argv[arg_input_file_name], argv[arg_output_file_name], argv[arg_key_file_name]);
         }
         else
         {
-            std::fwprintf(stderr, L"Usage: %s infile outfile keyfile\n", argv[0]);
+            std::fwprintf(stderr, L"Usage: %s infile outfile keyfile\n", argv[arg_program_name]);
             error_level = 1;
         }
     }
