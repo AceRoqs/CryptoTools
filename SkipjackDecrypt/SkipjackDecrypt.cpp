@@ -55,7 +55,8 @@ int wmain(int argc, _In_reads_(argc) wchar_t** argv)
 namespace CrappyCrypto
 {
 
-void decrypt_file(_In_z_ const wchar_t* input_file_name, _In_z_ const wchar_t* output_file_name, _In_z_ const wchar_t* key_file_name)
+_Use_decl_annotations_
+void decrypt_file(const wchar_t* input_file_name, const wchar_t* output_file_name, const wchar_t* key_file_name)
 {
     using namespace PortableRuntime;
 
