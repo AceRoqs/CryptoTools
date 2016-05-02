@@ -6,10 +6,31 @@
 #include <PortableRuntime/CheckException.h>
 #include <PortableRuntime/Unicode.h>
 
-namespace CrappyCrypto
+namespace SkipjackDecrypt
 {
 
-void decrypt_file(_In_z_ const wchar_t* input_file_name, _In_z_ const wchar_t* output_file_name, _In_z_ const wchar_t* key_file_name);
+void decrypt_file(_In_z_ const wchar_t* input_file_name, _In_z_ const wchar_t* output_file_name, _In_z_ const wchar_t* key_file_name)
+{
+    using namespace PortableRuntime;
+
+    // Open input file.
+    std::basic_ifstream<uint8_t> input_file(input_file_name, std::ios::binary);
+    CHECK_EXCEPTION(input_file.good(), u8"Error opening: " + utf8_from_utf16(input_file_name));
+
+    // Open output file.
+    std::basic_ofstream<uint8_t> output_file(output_file_name, std::ios::binary);
+    CHECK_EXCEPTION(output_file.good(), u8"Error opening: " + utf8_from_utf16(output_file_name));
+
+    // Open key file.
+    std::basic_ifstream<uint8_t> key_file(key_file_name, std::ios::binary);
+    CHECK_EXCEPTION(key_file.good(), u8"Error opening: " + utf8_from_utf16(key_file_name));
+
+    // Build key.
+    uint8_t key_vector[CrappyCrypto::Skipjack::key_size];
+    CrappyCrypto::key_vector_from_key_file(key_vector, sizeof(key_vector), key_file);
+
+    CrappyCrypto::Skipjack::decrypt_fstream(input_file, output_file, key_vector);
+}
 
 }
 
@@ -35,7 +56,7 @@ int wmain(int argc, _In_reads_(argc) wchar_t** argv)
 
         if(argc == 4)
         {
-            CrappyCrypto::decrypt_file(argv[arg_input_file_name], argv[arg_output_file_name], argv[arg_key_file_name]);
+            SkipjackDecrypt::decrypt_file(argv[arg_input_file_name], argv[arg_output_file_name], argv[arg_key_file_name]);
         }
         else
         {
@@ -50,33 +71,6 @@ int wmain(int argc, _In_reads_(argc) wchar_t** argv)
     }
 
     return error_level;
-}
-
-namespace CrappyCrypto
-{
-
-_Use_decl_annotations_
-void decrypt_file(const wchar_t* input_file_name, const wchar_t* output_file_name, const wchar_t* key_file_name)
-{
-    using namespace PortableRuntime;
-
-    // Open input file.
-    std::basic_ifstream<uint8_t> input_file(input_file_name, std::ios::binary);
-    CHECK_EXCEPTION(input_file.good(), u8"Error opening: " + utf8_from_utf16(input_file_name));
-
-    // Open output file.
-    std::basic_ofstream<uint8_t> output_file(output_file_name, std::ios::binary);
-    CHECK_EXCEPTION(output_file.good(), u8"Error opening: " + utf8_from_utf16(output_file_name));
-
-    // Open key file.
-    std::basic_ifstream<uint8_t> key_file(key_file_name, std::ios::binary);
-    CHECK_EXCEPTION(key_file.good(), u8"Error opening: " + utf8_from_utf16(key_file_name));
-
-    // Build key.
-    uint8_t key_vector[CrappyCrypto::Skipjack::key_size];
-    CrappyCrypto::key_vector_from_key_file(key_vector, sizeof(key_vector), key_file);
-
-    CrappyCrypto::Skipjack::decrypt_fstream(input_file, output_file, key_vector);
 }
 
 }
