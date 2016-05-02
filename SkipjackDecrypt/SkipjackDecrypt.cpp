@@ -73,5 +73,3 @@ int wmain(int argc, _In_reads_(argc) wchar_t** argv)
     return error_level;
 }
 
-}
-
