@@ -8,7 +8,7 @@ namespace CrappyCrypto
 namespace Skipjack
 {
 
-void encrypt_fstream(std::basic_ifstream<uint8_t>& input_file, std::basic_ofstream<uint8_t>& output_file, _In_ uint8_t key_vector[key_size]);
+void encrypt_istream(std::basic_istream<uint8_t>& input_stream, std::basic_ostream<uint8_t>& output_stream, _In_ uint8_t key_vector[key_size]);
 
 }
 

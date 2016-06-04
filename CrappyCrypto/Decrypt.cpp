@@ -35,7 +35,7 @@ static void validate_padding(_In_reads_(plaintext_length) const uint8_t* plainte
     }
 }
 
-static void write_chunk(std::basic_ofstream<uint8_t>& output_file, _In_reads_(chunk_length) const uint8_t* chunk, size_t chunk_length, bool strip_padding)
+static void write_chunk(std::basic_ostream<uint8_t>& output_stream, _In_reads_(chunk_length) const uint8_t* chunk, size_t chunk_length, bool strip_padding)
 {
     if(strip_padding)
     {
@@ -45,14 +45,14 @@ static void write_chunk(std::basic_ofstream<uint8_t>& output_file, _In_reads_(ch
         chunk_length -= padding;
     }
 
-    output_file.write(chunk, chunk_length);
+    output_stream.write(chunk, chunk_length);
 }
 
-static size_t read_chunk(std::basic_ifstream<uint8_t>& input_file, _Out_writes_(chunk_size) uint8_t* chunk, size_t chunk_size)
+static size_t read_chunk(std::basic_istream<uint8_t>& input_stream, _Out_writes_(chunk_size) uint8_t* chunk, size_t chunk_size)
 {
-    input_file.read(chunk, chunk_size);
+    input_stream.read(chunk, chunk_size);
 
-    const auto chunk_length = static_cast<size_t>(input_file.gcount());
+    const auto chunk_length = static_cast<size_t>(input_stream.gcount());
 
     // Validate length is multiple of block length (or zero).
     CHECK_EXCEPTION((chunk_length % block_size) == 0, "Invalid input in ciphertext.");
@@ -60,28 +60,28 @@ static size_t read_chunk(std::basic_ifstream<uint8_t>& input_file, _Out_writes_(
     return chunk_length;
 }
 
-void decrypt_fstream(std::basic_ifstream<uint8_t>& input_file, std::basic_ofstream<uint8_t>& output_file, _In_ uint8_t key_vector[key_size])
+void decrypt_istream(std::basic_istream<uint8_t>& input_stream, std::basic_ostream<uint8_t>& output_stream, _In_ uint8_t key_vector[key_size])
 {
     // Decrypt file in chunks that are multiples of the block size.
     const size_t chunk_size = block_size * 8192;
     std::vector<uint8_t> current_chunk(chunk_size);
     std::vector<uint8_t> next_chunk(chunk_size);
 
-    auto current_valid_length = read_chunk(input_file, current_chunk.data(), current_chunk.size());
-    while((current_valid_length > 0) && output_file.good())
+    auto current_valid_length = read_chunk(input_stream, current_chunk.data(), current_chunk.size());
+    while((current_valid_length > 0) && output_stream.good())
     {
-        const size_t next_valid_length = read_chunk(input_file, next_chunk.data(), next_chunk.size());
+        const size_t next_valid_length = read_chunk(input_stream, next_chunk.data(), next_chunk.size());
 
         decrypt_using_electronic_codebook_mode(current_chunk.data(), current_valid_length, key_vector);
 
-        write_chunk(output_file, current_chunk.data(), current_valid_length, (next_valid_length == 0));
+        write_chunk(output_stream, current_chunk.data(), current_valid_length, (next_valid_length == 0));
 
         std::swap(current_chunk, next_chunk);
         current_valid_length = next_valid_length;
     }
 
-    CHECK_EXCEPTION(!input_file.fail() || input_file.eof(), "Error reading input file.");
-    CHECK_EXCEPTION(!output_file.fail(), "Error writing output file.");
+    CHECK_EXCEPTION(!input_stream.fail() || input_stream.eof(), "Error reading input file.");
+    CHECK_EXCEPTION(!output_stream.fail(), "Error writing output file.");
 }
 
 }
