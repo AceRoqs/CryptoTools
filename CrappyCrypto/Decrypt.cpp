@@ -35,7 +35,7 @@ static void validate_padding(_In_reads_(plaintext_length) const uint8_t* plainte
     }
 }
 
-static void write_chunk(std::basic_ostream<uint8_t>& output_stream, _In_reads_(chunk_length) const uint8_t* chunk, size_t chunk_length, bool strip_padding)
+static void write_chunk(std::ostream& output_stream, _In_reads_(chunk_length) const uint8_t* chunk, size_t chunk_length, bool strip_padding)
 {
     if(strip_padding)
     {
@@ -45,12 +45,12 @@ static void write_chunk(std::basic_ostream<uint8_t>& output_stream, _In_reads_(c
         chunk_length -= padding;
     }
 
-    output_stream.write(chunk, chunk_length);
+    output_stream.write(reinterpret_cast<const char*>(chunk), chunk_length);
 }
 
-static size_t read_chunk(std::basic_istream<uint8_t>& input_stream, _Out_writes_(chunk_size) uint8_t* chunk, size_t chunk_size)
+static size_t read_chunk(std::istream& input_stream, _Out_writes_(chunk_size) uint8_t* chunk, size_t chunk_size)
 {
-    input_stream.read(chunk, chunk_size);
+    input_stream.read(reinterpret_cast<char*>(chunk), chunk_size);
 
     const auto chunk_length = static_cast<size_t>(input_stream.gcount());
 
@@ -60,7 +60,7 @@ static size_t read_chunk(std::basic_istream<uint8_t>& input_stream, _Out_writes_
     return chunk_length;
 }
 
-void decrypt_istream(std::basic_istream<uint8_t>& input_stream, std::basic_ostream<uint8_t>& output_stream, _In_ uint8_t key_vector[key_size])
+void decrypt_istream(std::istream& input_stream, std::ostream& output_stream, _In_ uint8_t key_vector[key_size])
 {
     // Decrypt file in chunks that are multiples of the block size.
     const size_t chunk_size = block_size * 8192;

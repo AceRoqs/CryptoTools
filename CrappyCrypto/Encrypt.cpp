@@ -40,7 +40,7 @@ static size_t pad_plaintext_if_needed(_Inout_updates_(plaintext_size) uint8_t* p
     return read_length;
 }
 
-void encrypt_istream(std::basic_istream<uint8_t>& input_stream, std::basic_ostream<uint8_t>& output_stream, _In_ uint8_t key_vector[key_size])
+void encrypt_istream(std::istream& input_stream, std::ostream& output_stream, _In_ uint8_t key_vector[key_size])
 {
     // Encrypt file in chunks that are multiples of the block size.
     const size_t chunk_size = block_size * 8192;
@@ -49,14 +49,14 @@ void encrypt_istream(std::basic_istream<uint8_t>& input_stream, std::basic_ostre
     size_t read_length = chunk.size();
     while((read_length == chunk.size()) && output_stream.good())
     {
-        input_stream.read(chunk.data(), chunk.size());
+        input_stream.read(reinterpret_cast<char*>(chunk.data()), chunk.size());
         read_length = static_cast<size_t>(input_stream.gcount());
 
         const auto valid_length = pad_plaintext_if_needed(chunk.data(), chunk.size(), read_length);
 
         encrypt_using_electronic_codebook_mode(chunk.data(), valid_length, key_vector);
 
-        output_stream.write(chunk.data(), valid_length);
+        output_stream.write(reinterpret_cast<const char*>(chunk.data()), valid_length);
     }
 
     CHECK_EXCEPTION(!input_stream.fail() || input_stream.eof(), "Error reading input file.");
