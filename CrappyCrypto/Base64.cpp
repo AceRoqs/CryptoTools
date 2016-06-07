@@ -117,7 +117,7 @@ static uint8_t Bits_from_base64_char(char ch)
     return value;
 }
 
-// https://en.wikipedia.org/wiki/Base64.
+// https://en.wikipedia.org/wiki/Base64
 std::vector<uint8_t> Base64_from_vector(const std::vector<uint8_t>& input)
 {
     std::vector<uint8_t> output;
