@@ -43,7 +43,7 @@ static size_t pad_plaintext_if_needed(_Inout_updates_(plaintext_size) uint8_t* p
 void encrypt_istream(std::istream& input_stream, std::ostream& output_stream, _In_ uint8_t key_vector[key_size])
 {
     // Encrypt file in chunks that are multiples of the block size.
-    const size_t chunk_size = block_size * 8192;
+    constexpr size_t chunk_size = block_size * 8192;
     std::vector<uint8_t> chunk(chunk_size);
 
     size_t read_length = chunk.size();

@@ -63,7 +63,7 @@ static size_t read_chunk(std::istream& input_stream, _Out_writes_(chunk_size) ui
 void decrypt_istream(std::istream& input_stream, std::ostream& output_stream, _In_ uint8_t key_vector[key_size])
 {
     // Decrypt file in chunks that are multiples of the block size.
-    const size_t chunk_size = block_size * 8192;
+    constexpr size_t chunk_size = block_size * 8192;
     std::vector<uint8_t> current_chunk(chunk_size);
     std::vector<uint8_t> next_chunk(chunk_size);
 

@@ -27,12 +27,12 @@ void output_test_vectors()
 {
     // Test vectors taken from the Skipjack specification at:
     // http://csrc.nist.gov/groups/ST/toolkit/documents/skipjack/skipjack.pdf
-    const uint8_t key_vector[] =
+    constexpr uint8_t key_vector[] =
     {
         0x00, 0x99, 0x88, 0x77, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11
     };
 
-    const uint8_t expected_ciphertext[] =
+    constexpr uint8_t expected_ciphertext[] =
     {
         0x25, 0x87, 0xca, 0xe2, 0x7a, 0x12, 0xd3, 0x00
     };

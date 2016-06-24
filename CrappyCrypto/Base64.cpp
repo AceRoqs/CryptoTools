@@ -2,7 +2,7 @@
 #include "Base64.h"         // Pick up forward declarations to ensure correctness.
 #include <PortableRuntime/CheckException.h>
 
-static const char base64_map[] =
+static constexpr char base64_map[] =
 {
     'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
     'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
@@ -126,7 +126,7 @@ std::vector<uint8_t> Base64_from_vector(const std::vector<uint8_t>& input)
     auto input_iter = input.cbegin();
     while(input_iter != input.cend())
     {
-        Base64_block block = {};
+        Base64_block block {};
         for(auto block_iter = std::begin(block.bytes); (block_iter != std::end(block.bytes)) && (input_iter != input.cend());)
         {
             *block_iter++ = *input_iter++;

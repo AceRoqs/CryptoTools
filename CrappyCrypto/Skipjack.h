@@ -6,9 +6,9 @@ namespace CrappyCrypto
 namespace Skipjack
 {
 
-const unsigned int key_size = 10;
-const unsigned int block_size = 8;
-const unsigned int iterations_per_rule = 8;
+constexpr unsigned int key_size = 10;
+constexpr unsigned int block_size = 8;
+constexpr unsigned int iterations_per_rule = 8;
 
 void encrypt(_Inout_updates_all_(block_size) uint8_t* block, _In_reads_(key_size) const uint8_t* key) noexcept;
 void decrypt(_Inout_updates_all_(block_size) uint8_t* block, _In_reads_(key_size) const uint8_t* key) noexcept;

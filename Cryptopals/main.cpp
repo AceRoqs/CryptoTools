@@ -498,10 +498,10 @@ void Challenge5()
     using std::cout;
     using std::endl;
 
-    static const uint8_t challenge5_plain[] = "Burning 'em, if you ain't quick and nimble\n"
-                                              "I go crazy when I hear a cymbal";
-    static const uint8_t challenge5_key[] = "ICE";
-    static const uint8_t challenge5_cipher[] =
+    static constexpr uint8_t challenge5_plain[] = "Burning 'em, if you ain't quick and nimble\n"
+                                                  "I go crazy when I hear a cymbal";
+    static constexpr uint8_t challenge5_key[] = "ICE";
+    static constexpr uint8_t challenge5_cipher[] =
     {
         0x0b, 0x36, 0x37, 0x27, 0x2a, 0x2b, 0x2e, 0x63, 0x62, 0x2c, 0x2e, 0x69, 0x69, 0x2a, 0x23, 0x69,
         0x3a, 0x2a, 0x3c, 0x63, 0x24, 0x20, 0x2d, 0x62, 0x3d, 0x63, 0x34, 0x3c, 0x2a, 0x26, 0x22, 0x63,
@@ -544,8 +544,8 @@ void Challenge6()
 
 #ifndef NDEBUG
     {
-        static const uint8_t text1[] = "this is a test";
-        static const uint8_t text2[] = "wokka wokka!!!";
+        static constexpr uint8_t text1[] = "this is a test";
+        static constexpr uint8_t text2[] = "wokka wokka!!!";
         auto vec1 = Initialize_vector_with_array(text1, sizeof(text1) - 1);
         auto vec2 = Initialize_vector_with_array(text2, sizeof(text2) - 1);
         assert(Hamming_distance(vec1, vec2) == 37);
@@ -571,7 +571,7 @@ void Challenge6()
     const auto vec = Vector_from_base64(base64_vector);
 
     auto best_key_size = 2u;
-    auto best_normalized_hamming_distance = 8.f;
+    auto best_normalized_hamming_distance = 8.0f;
 
     // TODO: break this into a function(s).
     for(auto key_size = 2u; key_size <= 40; ++key_size)
