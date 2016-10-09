@@ -58,8 +58,12 @@
     <ClInclude Include="Test.h" />
     <ClCompile Include="AES.cpp" />
     <ClCompile Include="Base64.cpp" />
-    <ClCompile Include="Decrypt.cpp" />
-    <ClCompile Include="Encrypt.cpp" />
+    <ClCompile Include="Decrypt.cpp">
+      <ControlFlowGuard Condition="'$(Configuration)'=='Release'">Guard</ControlFlowGuard>
+    </ClCompile>
+    <ClCompile Include="Encrypt.cpp">
+      <ControlFlowGuard Condition="'$(Configuration)'=='Release'">Guard</ControlFlowGuard>
+    </ClCompile>
     <ClCompile Include="Keys.cpp" />
     <ClCompile Include="PreCompile.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
