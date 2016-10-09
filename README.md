@@ -6,6 +6,12 @@ modern attacks. I have had security training in the past, have spent a number of
 models and fixing security issues, and have studied cryptography since 1991. I am quite confident in
 not being confident.
 
+There are some obvious problems with the implementation. First, ECB is the only mode supported, and
+there is no direct support for nonces. Both of those issues are damning in terms of actual usage. There
+are probably timing attacks that can be done, since there are array lookups that are key-dependent. Lastly,
+from a hardening standpoint, the heap buffers are not zeroed on free, and no attempt is made to prevent
+hardware register spillage to the stack.
+
 I first wrote the [Skipjack](http://en.wikipedia.org/wiki/Skipjack_\(cipher\)) code in 1998.
 Surprisingly, it built without errors in Visual Studio 2010. I have since tried to modernize it
 to modern C++ in VS2015.
