@@ -1,9 +1,7 @@
 #include "PreCompile.h"
 #include <CrappyCrypto/Encrypt.h>
 #include <CrappyCrypto/Keys.h>
-#include <PortableRuntime/Tracing.h>
 #include <PortableRuntime/CheckException.h>
-#include <PortableRuntime/Unicode.h>
 
 namespace SkipjackEncrypt
 {
