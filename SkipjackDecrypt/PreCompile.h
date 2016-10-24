@@ -14,3 +14,5 @@
 
 #endif
 
+#include <PortableRuntime/StaticAnalysis.h>
+
