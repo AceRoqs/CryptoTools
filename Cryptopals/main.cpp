@@ -553,10 +553,7 @@ void Challenge6()
 #endif
 
     std::ifstream fs("3132752.txt");
-    if(fs.fail())
-    {
-        throw std::exception("Fail opening file.");
-    }
+    CHECK_EXCEPTION(!fs.fail(), u8"Fail opening file.");
 
     std::string base64_string;
     while(!fs.eof())
