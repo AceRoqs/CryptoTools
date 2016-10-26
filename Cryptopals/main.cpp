@@ -124,10 +124,11 @@ uint8_t Value_from_hex_character(char character)
     {
         nibble = character - 'A' + 10;
     }
-
-    CHECK_EXCEPTION((character >= 'a') && (character <= 'f'), std::string(1, character) + u8" is not a valid hex value.");
-
-    nibble = character - 'a' + 10;
+    else
+    {
+        CHECK_EXCEPTION((character >= 'a') && (character <= 'f'), std::string(1, character) + u8" is not a valid hex value.");
+        nibble = character - 'a' + 10;
+    }
 
     return nibble;
 }
