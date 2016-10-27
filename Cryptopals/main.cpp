@@ -720,7 +720,7 @@ int main()
     }
     catch(const std::exception& ex)
     {
-        std::fwprintf(stderr, L"\n%s\n", PortableRuntime::utf16_from_utf8(ex.what()).c_str());
+        std::fprintf(stderr, u8"\n%s\n", ex.what());
         error_level = 1;
     }
 

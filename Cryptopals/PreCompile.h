@@ -9,3 +9,5 @@
 #include <sstream>
 #include <vector>
 
+#include <PortableRuntime/StaticAnalysis.h>
+
